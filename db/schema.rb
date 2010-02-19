@@ -9,12 +9,20 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20091027143515) do
+ActiveRecord::Schema.define(:version => 20100218152704) do
 
   create_table "links", :force => true do |t|
     t.string   "url"
     t.date     "post_date"
     t.integer  "tweet_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "original"
+  end
+
+  create_table "relations", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "tag_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
