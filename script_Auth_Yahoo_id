@@ -1,0 +1,6 @@
+secret = "d8882abeadb73a8d5a17800a4ff948580132d7f9"
+key ="dj0yJmk9aTVMYU90Y0lYY2F1JmQ9WVdrOVFucHlaV1JPTXpnbWNHbzlNVGt3TkRBME1EQTJNZy0tJnM9Y29uc3VtZXJzZWNyZXQmeD0wYg--"
+require "delicious/api"
+api = Delicious::API.new(key,secret)
+#oauth_verified
+#teewh4

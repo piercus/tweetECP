@@ -1,0 +1,15 @@
+class CreateUsers < ActiveRecord::Migration
+  def self.up
+    create_table :users do |t|
+      t.column     :nfollowers,    :integer
+			t.column     :nfollowing,    :integer
+			t.column     :name,          :string
+			t.column     :twitter_id,    :integer
+      t.timestamps
+    end
+  end
+
+  def self.down
+    drop_table :users
+  end
+end

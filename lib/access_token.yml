@@ -1,0 +1,31 @@
+--- !ruby/object:OAuth::Delicious::AccessToken 
+access_token: !ruby/object:OAuth::AccessToken 
+  consumer: !ruby/object:OAuth::Consumer 
+    key: dj0yJmk9aTVMYU90Y0lYY2F1JmQ9WVdrOVFucHlaV1JPTXpnbWNHbzlNVGt3TkRBME1EQTJNZy0tJnM9Y29uc3VtZXJzZWNyZXQmeD0wYg--
+    options: 
+      :http_method: :get
+      :oauth_version: "1.0"
+      :site: http://api.del.icio.us
+      :request_token_path: /oauth/v2/get_request_token
+      :access_token_path: /oauth/v2/get_token
+      :authorize_path: /oauth/v2/request_auth
+      :proxy: 
+      :scheme: :header
+      :realm: yahooapis.com
+      :signature_method: HMAC-SHA1
+    secret: d8882abeadb73a8d5a17800a4ff948580132d7f9
+  params: 
+    :oauth_authorization_expires_in: "880994351"
+    oauth_token_secret: e5c665de5b6f8c12c1112e3aad4aafa9ce375422
+    :oauth_token_secret: e5c665de5b6f8c12c1112e3aad4aafa9ce375422
+    :xoauth_yahoo_guid: EK3SN4ZR7E3XXB3Q7DZY25RL6U
+    :oauth_session_handle: AH80fEtg4oc0FPgBxmmKArhzAZOLaag487jZjXmJxGUmXHo2.SQ-
+    oauth_expires_in: "3600"
+    :oauth_token: A=UmsrTnT3oloSvLyjm6TNspWDIX.6J3rYEX.bdm3ROGKhpj0UuVrwRn89vQmIFMbl.Hmdsrs4mmtxhqh921qedg9IxLJ15NzulWhljV4lYQXrVjY7lY9_exIZSyuwdwf0ZXtf656C55nxRDb1f__BbX6N19G2Gml.VNY0cJNeKWzEq14qonp3Z1cbwnXOLNLlzMP_Y.6JvlY_m_3hlNF__htMSJ.NhhX7EX.G2YVPGKRSXJB33ZL3.rvE0uViw63YZtxt3DwBrE0bBJTc8dZNTaud9UK0CTkiF2pMr1.2KpvpRAEfwWQERpwetuC56hsjnPFRyeSkvQg97kIqOp.Qx1jm0Lc4Ma5bMRzPlwg4FjOY.jrfBSt7.FN6dkGKmh27kocEEGGQYwpYzhkryUS3OmnjTfT5nRwxviPpXdITcpTL7LQzXJpLQ2ML4j3A9pZ7Hxx4MxIoW29XQVEX5fM9CxaxG0QP6iGyZe.coaWh9mT4S1_.5s0Mx178.XtSmvQ1l5N3mwlEmRn_P95Q1g.VT6WosVAABCHLUFZYOj_ixj_5eK1NNRDxczvI3MebnZvUKPOSAZ6fq.R5BnBlaGbjFT9y0W3JTtsKZbuo762CaDsFH1vGvkAzksqmy4lPjRyRV_QtPHngQsaMTqz7MNkVfwgyTQ91O.HgAel0eYA57KglH1n0Fuhb4.rZvVPZFN91r9cDjgfyf..lNL556lGAdVRez6KMicbZuh.n9mAdRCOToH4-
+    oauth_session_handle: AH80fEtg4oc0FPgBxmmKArhzAZOLaag487jZjXmJxGUmXHo2.SQ-
+    oauth_token: A=UmsrTnT3oloSvLyjm6TNspWDIX.6J3rYEX.bdm3ROGKhpj0UuVrwRn89vQmIFMbl.Hmdsrs4mmtxhqh921qedg9IxLJ15NzulWhljV4lYQXrVjY7lY9_exIZSyuwdwf0ZXtf656C55nxRDb1f__BbX6N19G2Gml.VNY0cJNeKWzEq14qonp3Z1cbwnXOLNLlzMP_Y.6JvlY_m_3hlNF__htMSJ.NhhX7EX.G2YVPGKRSXJB33ZL3.rvE0uViw63YZtxt3DwBrE0bBJTc8dZNTaud9UK0CTkiF2pMr1.2KpvpRAEfwWQERpwetuC56hsjnPFRyeSkvQg97kIqOp.Qx1jm0Lc4Ma5bMRzPlwg4FjOY.jrfBSt7.FN6dkGKmh27kocEEGGQYwpYzhkryUS3OmnjTfT5nRwxviPpXdITcpTL7LQzXJpLQ2ML4j3A9pZ7Hxx4MxIoW29XQVEX5fM9CxaxG0QP6iGyZe.coaWh9mT4S1_.5s0Mx178.XtSmvQ1l5N3mwlEmRn_P95Q1g.VT6WosVAABCHLUFZYOj_ixj_5eK1NNRDxczvI3MebnZvUKPOSAZ6fq.R5BnBlaGbjFT9y0W3JTtsKZbuo762CaDsFH1vGvkAzksqmy4lPjRyRV_QtPHngQsaMTqz7MNkVfwgyTQ91O.HgAel0eYA57KglH1n0Fuhb4.rZvVPZFN91r9cDjgfyf..lNL556lGAdVRez6KMicbZuh.n9mAdRCOToH4-
+    oauth_authorization_expires_in: "880994351"
+    :oauth_expires_in: "3600"
+    xoauth_yahoo_guid: EK3SN4ZR7E3XXB3Q7DZY25RL6U
+  secret: e5c665de5b6f8c12c1112e3aad4aafa9ce375422
+  token: A=UmsrTnT3oloSvLyjm6TNspWDIX.6J3rYEX.bdm3ROGKhpj0UuVrwRn89vQmIFMbl.Hmdsrs4mmtxhqh921qedg9IxLJ15NzulWhljV4lYQXrVjY7lY9_exIZSyuwdwf0ZXtf656C55nxRDb1f__BbX6N19G2Gml.VNY0cJNeKWzEq14qonp3Z1cbwnXOLNLlzMP_Y.6JvlY_m_3hlNF__htMSJ.NhhX7EX.G2YVPGKRSXJB33ZL3.rvE0uViw63YZtxt3DwBrE0bBJTc8dZNTaud9UK0CTkiF2pMr1.2KpvpRAEfwWQERpwetuC56hsjnPFRyeSkvQg97kIqOp.Qx1jm0Lc4Ma5bMRzPlwg4FjOY.jrfBSt7.FN6dkGKmh27kocEEGGQYwpYzhkryUS3OmnjTfT5nRwxviPpXdITcpTL7LQzXJpLQ2ML4j3A9pZ7Hxx4MxIoW29XQVEX5fM9CxaxG0QP6iGyZe.coaWh9mT4S1_.5s0Mx178.XtSmvQ1l5N3mwlEmRn_P95Q1g.VT6WosVAABCHLUFZYOj_ixj_5eK1NNRDxczvI3MebnZvUKPOSAZ6fq.R5BnBlaGbjFT9y0W3JTtsKZbuo762CaDsFH1vGvkAzksqmy4lPjRyRV_QtPHngQsaMTqz7MNkVfwgyTQ91O.HgAel0eYA57KglH1n0Fuhb4.rZvVPZFN91r9cDjgfyf..lNL556lGAdVRez6KMicbZuh.n9mAdRCOToH4-
