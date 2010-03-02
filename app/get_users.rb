@@ -4,17 +4,18 @@ class GetUsers < ActiveRecord::Base
   # users = ['loic']
 
   def self.get_more_users(user)
-    u = Twitter.user(user)
+	u =    #u = Twitter.user(user)
     puts u.inspect            # Ok, ca me renvoie les infos relatives au user que j'indique dans l'appel a la fct plus bas
-    fws = []
     fws = u.followers         # LE PROBLEME EST ICI, je ne sais pas si u.followers me renvoie qqchose et quel est son format
-    puts fws.inspect          # => 'nil'
-    users = [user]
-    users << fws              # je rajoute les followers au user initial. 
-    return users
+    puts fws.inspect          # => 'nil'              
+	# je rajoute les followers au user initial. 
+    user.followers
+	
+	return fws
   end
   
-  users = get_more_users('scobleizer')
+  users = get_more_users( User.set_user(
+'scobleizer')
     
   # User.set_users(users)
 

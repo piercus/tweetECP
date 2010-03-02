@@ -9,7 +9,10 @@ class User < ActiveRecord::Base
 		# La fonction user_timeline est disponible à partir de l'API REST mais pas à partir de l'API "twitter", j'ai refait la fonction à la main 
 		HTTParty.get('http://twitter.com/statuses/user_timeline.json', :query => query)
   	end
-	
+    def followers
+		HTTParty.get('http://api.twitter.com/1/statuses/followers.json', :query => {:user_id => twitter_id })
+
+	end	
 	def get_tweets
 	  	# G:Comment détecter les tweets déja récupérés ?
 	  	# P:On utilise le twitter_id qui est fourni par twitter et on vérifie son unicité 
@@ -28,17 +31,21 @@ class User < ActiveRecord::Base
 		relations.collect{|r| {:label => r.label, :weight => r.weight} }
 	end
 
-      
-	def self.set_users(users)
-		require 'twitter'
-		users.each{|u|
-			twitter_user =  Twitter.user(u)
+    def self.set_user(u)
+	  	twitter_user =  Twitter.user(u)
 			user = User.find(:first, :conditions => ["screen_name = ?",twitter_user.screen_name])
 			if !user
-				user = User.create!( :screen_name => twit_user.screen_name ,:name => twit_user.name , :twitter_id => twit_user.id, :nfollowers => twit_user.followers_count, :nfollowing => twit_user.friends_count)
+				user = User.create!( :screen_name => twitter_user.screen_name ,:name => twitter_user.name , :twitter_id => twitter_user.id, :nfollowers => twitter_user.followers_count, :nfollowing => twitter_user.friends_count)
 			end
 			# On récupère les tweets par l'API Twitter
 			user.get_tweets
+			return user
+
+	end
+	def self.set_users(users)
+		require 'twitter'
+		users.each{|u|
+			self.set_user(u)
 		}
 	end
       

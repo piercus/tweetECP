@@ -2582,3 +2582,196 @@ Migrating to CreateRelations (20100218152704)
   [4;35;1mSQL (1.3ms)[0m   [0mSHOW FIELDS FROM `users`[0m
   [4;36;1mSQL (1.3ms)[0m   [0;1mdescribe `users`[0m
   [4;35;1mSQL (1.0ms)[0m   [0mSHOW KEYS FROM `users`[0m
+  [4;36;1mSQL (53.4ms)[0m   [0;1mSET NAMES 'utf8'[0m
+  [4;35;1mSQL (19.5ms)[0m   [0mSET SQL_AUTO_IS_NULL=0[0m
+  [4;36;1mUser Load (129.7ms)[0m   [0;1mSELECT * FROM `users` WHERE (screen_name = 'Scobleizer') LIMIT 1[0m
+  [4;35;1mSQL (35.3ms)[0m   [0mSHOW TABLES[0m
+  [4;36;1mUser Columns (66.8ms)[0m   [0;1mSHOW FIELDS FROM `users`[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET NAMES 'utf8'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET SQL_AUTO_IS_NULL=0[0m
+  [4;36;1mSQL (0.4ms)[0m   [0;1mSHOW TABLES[0m
+  [4;35;1mSQL (23.4ms)[0m   [0mSELECT version FROM schema_migrations[0m
+Migrating to CreateTweets (20091026111020)
+Migrating to AddColumnTwitterId (20091026122418)
+Migrating to AddColumnTwitterId2 (20091026122734)
+Migrating to CreateUsers (20091026164950)
+Migrating to CreateTags (20091026165048)
+Migrating to CreateLinks (20091026165056)
+Migrating to AddColumnScreenName (20091027143515)
+Migrating to AddOriginalLink (20100218142639)
+Migrating to AddOriginalToLink (20100218142812)
+Migrating to CreateRelations (20100218152704)
+  [4;36;1mSQL (0.5ms)[0m   [0;1mSHOW TABLES[0m
+  [4;35;1mSQL (0.2ms)[0m   [0mSELECT version FROM schema_migrations[0m
+  [4;36;1mSQL (0.4ms)[0m   [0;1mSHOW TABLES[0m
+  [4;35;1mSQL (12.9ms)[0m   [0mSHOW FIELDS FROM `links`[0m
+  [4;36;1mSQL (1.3ms)[0m   [0;1mdescribe `links`[0m
+  [4;35;1mSQL (0.4ms)[0m   [0mSHOW KEYS FROM `links`[0m
+  [4;36;1mSQL (2.0ms)[0m   [0;1mSHOW FIELDS FROM `relations`[0m
+  [4;35;1mSQL (1.1ms)[0m   [0mdescribe `relations`[0m
+  [4;36;1mSQL (0.5ms)[0m   [0;1mSHOW KEYS FROM `relations`[0m
+  [4;35;1mSQL (2.3ms)[0m   [0mSHOW FIELDS FROM `tags`[0m
+  [4;36;1mSQL (2.6ms)[0m   [0;1mdescribe `tags`[0m
+  [4;35;1mSQL (0.7ms)[0m   [0mSHOW KEYS FROM `tags`[0m
+  [4;36;1mSQL (2.2ms)[0m   [0;1mSHOW FIELDS FROM `tweets`[0m
+  [4;35;1mSQL (1.5ms)[0m   [0mdescribe `tweets`[0m
+  [4;36;1mSQL (0.3ms)[0m   [0;1mSHOW KEYS FROM `tweets`[0m
+  [4;35;1mSQL (1.2ms)[0m   [0mSHOW FIELDS FROM `users`[0m
+  [4;36;1mSQL (1.2ms)[0m   [0;1mdescribe `users`[0m
+  [4;35;1mSQL (0.7ms)[0m   [0mSHOW KEYS FROM `users`[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET NAMES 'utf8'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET SQL_AUTO_IS_NULL=0[0m
+  [4;36;1mSQL (0.4ms)[0m   [0;1mSHOW TABLES[0m
+  [4;35;1mSQL (50.1ms)[0m   [0mDROP TABLE `links`[0m
+  [4;36;1mSQL (120.5ms)[0m   [0;1mCREATE TABLE `links` (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `url` varchar(255), `post_date` date, `tweet_id` int(11), `created_at` datetime, `updated_at` datetime, `original` varchar(255)) ENGINE=InnoDB[0m
+  [4;35;1mSQL (0.5ms)[0m   [0mSHOW TABLES[0m
+  [4;36;1mSQL (1.0ms)[0m   [0;1mDROP TABLE `relations`[0m
+  [4;35;1mSQL (218.4ms)[0m   [0mCREATE TABLE `relations` (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `user_id` int(11), `tag_id` int(11), `created_at` datetime, `updated_at` datetime) ENGINE=InnoDB[0m
+  [4;36;1mSQL (0.5ms)[0m   [0;1mSHOW TABLES[0m
+  [4;35;1mSQL (1.2ms)[0m   [0mDROP TABLE `tags`[0m
+  [4;36;1mSQL (119.1ms)[0m   [0;1mCREATE TABLE `tags` (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `word` varchar(255), `created_at` datetime, `updated_at` datetime) ENGINE=InnoDB[0m
+  [4;35;1mSQL (0.5ms)[0m   [0mSHOW TABLES[0m
+  [4;36;1mSQL (0.9ms)[0m   [0;1mDROP TABLE `tweets`[0m
+  [4;35;1mSQL (103.1ms)[0m   [0mCREATE TABLE `tweets` (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `text` varchar(255), `user_id` varchar(255), `t_date` date, `created_at` datetime, `updated_at` datetime, `twitter_id` int(11)) ENGINE=InnoDB[0m
+  [4;36;1mSQL (0.4ms)[0m   [0;1mSHOW TABLES[0m
+  [4;35;1mSQL (1.1ms)[0m   [0mDROP TABLE `users`[0m
+  [4;36;1mSQL (112.6ms)[0m   [0;1mCREATE TABLE `users` (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `nfollowers` int(11), `nfollowing` int(11), `name` varchar(255), `twitter_id` int(11), `created_at` datetime, `updated_at` datetime, `screen_name` varchar(255)) ENGINE=InnoDB[0m
+  [4;35;1mSQL (0.4ms)[0m   [0mSHOW TABLES[0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1mSELECT version FROM `schema_migrations`[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET NAMES 'utf8'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET SQL_AUTO_IS_NULL=0[0m
+  [4;36;1mUser Load (0.4ms)[0m   [0;1mSELECT * FROM `users` WHERE (screen_name = 'Scobleizer') LIMIT 1[0m
+  [4;35;1mSQL (0.4ms)[0m   [0mSHOW TABLES[0m
+  [4;36;1mUser Columns (0.9ms)[0m   [0;1mSHOW FIELDS FROM `users`[0m
+  [4;35;1mUser Load (0.3ms)[0m   [0mSELECT * FROM `users` WHERE (screen_name = 'Scobleizer') LIMIT 1[0m
+  [4;36;1mSQL (0.5ms)[0m   [0;1mSHOW TABLES[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET NAMES 'utf8'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET SQL_AUTO_IS_NULL=0[0m
+  [4;36;1mUser Load (0.3ms)[0m   [0;1mSELECT * FROM `users` WHERE (screen_name = 'Scobleizer') LIMIT 1[0m
+  [4;35;1mSQL (361.3ms)[0m   [0mSHOW TABLES[0m
+  [4;36;1mUser Columns (1.2ms)[0m   [0;1mSHOW FIELDS FROM `users`[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET NAMES 'utf8'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET SQL_AUTO_IS_NULL=0[0m
+  [4;36;1mUser Load (0.2ms)[0m   [0;1mSELECT * FROM `users` WHERE (screen_name = 'Scobleizer') LIMIT 1[0m
+  [4;35;1mSQL (0.4ms)[0m   [0mSHOW TABLES[0m
+  [4;36;1mUser Columns (1.2ms)[0m   [0;1mSHOW FIELDS FROM `users`[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET NAMES 'utf8'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET SQL_AUTO_IS_NULL=0[0m
+  [4;36;1mUser Load (0.2ms)[0m   [0;1mSELECT * FROM `users` WHERE (screen_name = 'Scobleizer') LIMIT 1[0m
+  [4;35;1mSQL (0.5ms)[0m   [0mSHOW TABLES[0m
+  [4;36;1mUser Columns (4.3ms)[0m   [0;1mSHOW FIELDS FROM `users`[0m
+  [4;35;1mUser Load (0.3ms)[0m   [0mSELECT * FROM `users` WHERE (screen_name = 'Scobleizer') LIMIT 1[0m
+  [4;36;1mSQL (0.4ms)[0m   [0;1mSHOW TABLES[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET NAMES 'utf8'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET SQL_AUTO_IS_NULL=0[0m
+  [4;36;1mUser Load (0.2ms)[0m   [0;1mSELECT * FROM `users` WHERE (screen_name = 'Scobleizer') LIMIT 1[0m
+  [4;35;1mSQL (0.4ms)[0m   [0mSHOW TABLES[0m
+  [4;36;1mUser Columns (1.3ms)[0m   [0;1mSHOW FIELDS FROM `users`[0m
+  [4;35;1mUser Load (0.3ms)[0m   [0mSELECT * FROM `users` WHERE (screen_name = 'Scobleizer') LIMIT 1[0m
+  [4;36;1mSQL (0.4ms)[0m   [0;1mSHOW TABLES[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET NAMES 'utf8'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET SQL_AUTO_IS_NULL=0[0m
+  [4;36;1mUser Load (0.2ms)[0m   [0;1mSELECT * FROM `users` WHERE (screen_name = 'Scobleizer') LIMIT 1[0m
+  [4;35;1mUser Columns (50.4ms)[0m   [0mSHOW FIELDS FROM `users`[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mBEGIN[0m
+  [4;35;1mUser Exists (29.2ms)[0m   [0mSELECT `users`.id FROM `users` WHERE (`users`.`screen_name` = BINARY 'Scobleizer') LIMIT 1[0m
+  [4;36;1mUser Create (12.9ms)[0m   [0;1mINSERT INTO `users` (`nfollowers`, `name`, `created_at`, `nfollowing`, `updated_at`, `twitter_id`, `screen_name`) VALUES(115991, 'Robert Scoble', '2010-03-02 15:06:21', 17831, '2010-03-02 15:06:21', 13348, 'Scobleizer')[0m
+  [4;35;1mSQL (0.4ms)[0m   [0mCOMMIT[0m
+  [4;36;1mTweet Load (21.6ms)[0m   [0;1mSELECT * FROM `tweets` WHERE (twitter_id = 9871607694) LIMIT 1[0m
+  [4;35;1mTweet Columns (0.9ms)[0m   [0mSHOW FIELDS FROM `tweets`[0m
+  [4;36;1mSQL (0.7ms)[0m   [0;1mBEGIN[0m
+  [4;35;1mTweet Exists (0.2ms)[0m   [0mSELECT `tweets`.id FROM `tweets` WHERE (`tweets`.`twitter_id` = 9871607694) LIMIT 1[0m
+  [4;36;1mTweet Create (0.2ms)[0m   [0;1mINSERT INTO `tweets` (`created_at`, `updated_at`, `text`, `t_date`, `user_id`, `twitter_id`) VALUES('2010-03-02 15:06:24', '2010-03-02 15:06:24', '@gregscher will what be an interview on building43? Oh, @cloudera ? Yes.', '2010-03-02', 1, 9871607694)[0m
+  [4;35;1mSQL (0.3ms)[0m   [0mCOMMIT[0m
+  [4;36;1mTweet Load (0.4ms)[0m   [0;1mSELECT * FROM `tweets` WHERE (twitter_id = 9869896919) LIMIT 1[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mBEGIN[0m
+  [4;36;1mTweet Exists (0.2ms)[0m   [0;1mSELECT `tweets`.id FROM `tweets` WHERE (`tweets`.`twitter_id` = 9869896919) LIMIT 1[0m
+  [4;35;1mTweet Create (0.2ms)[0m   [0mINSERT INTO `tweets` (`created_at`, `updated_at`, `text`, `t_date`, `user_id`, `twitter_id`) VALUES('2010-03-02 15:06:24', '2010-03-02 15:06:24', 'Oh, looks like YouTube is having some counter troubles. That said, that was an awesome video. Thanks @mikebutcher for rt\'ing it.', '2010-03-02', 1, 9869896919)[0m
+  [4;36;1mSQL (0.5ms)[0m   [0;1mCOMMIT[0m
+  [4;35;1mTweet Load (0.2ms)[0m   [0mSELECT * FROM `tweets` WHERE (twitter_id = 9869811636) LIMIT 1[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mBEGIN[0m
+  [4;35;1mTweet Exists (0.6ms)[0m   [0mSELECT `tweets`.id FROM `tweets` WHERE (`tweets`.`twitter_id` = 9869811636) LIMIT 1[0m
+  [4;36;1mTweet Create (0.2ms)[0m   [0;1mINSERT INTO `tweets` (`created_at`, `updated_at`, `text`, `t_date`, `user_id`, `twitter_id`) VALUES('2010-03-02 15:06:24', '2010-03-02 15:06:24', 'Wow (I was 301st view, millions to come). RT: @mikebutcher I so needed this *astounding* OK Go! video today http://bit.ly/dyC5Il', '2010-03-02', 1, 9869811636)[0m
+  [4;35;1mSQL (0.3ms)[0m   [0mCOMMIT[0m
+  [4;36;1mLink Columns (1.4ms)[0m   [0;1mSHOW FIELDS FROM `links`[0m
+  [4;35;1mSQL (0.7ms)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mROLLBACK[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mBEGIN[0m
+  [4;36;1mLink Create (0.2ms)[0m   [0;1mINSERT INTO `links` (`tweet_id`, `created_at`, `updated_at`, `url`, `post_date`, `original`) VALUES(3, '2010-03-02 15:06:24', '2010-03-02 15:06:24', 'http://bit.ly/dyC5Il', '2010-03-02', NULL)[0m
+  [4;35;1mSQL (0.3ms)[0m   [0mCOMMIT[0m
+  [4;36;1mTweet Load (0.3ms)[0m   [0;1mSELECT * FROM `tweets` WHERE (twitter_id = 9869051308) LIMIT 1[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mBEGIN[0m
+  [4;36;1mTweet Exists (0.2ms)[0m   [0;1mSELECT `tweets`.id FROM `tweets` WHERE (`tweets`.`twitter_id` = 9869051308) LIMIT 1[0m
+  [4;35;1mTweet Create (0.2ms)[0m   [0mINSERT INTO `tweets` (`created_at`, `updated_at`, `text`, `t_date`, `user_id`, `twitter_id`) VALUES('2010-03-02 15:06:24', '2010-03-02 15:06:24', '@TheMan thanks dude, appreciate the support. Sometimes you just gotta stand up and say \"enough.\"', '2010-03-02', 1, 9869051308)[0m
+  [4;36;1mSQL (0.3ms)[0m   [0;1mCOMMIT[0m
+  [4;35;1mTweet Load (0.2ms)[0m   [0mSELECT * FROM `tweets` WHERE (twitter_id = 9867102157) LIMIT 1[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mBEGIN[0m
+  [4;35;1mTweet Exists (0.1ms)[0m   [0mSELECT `tweets`.id FROM `tweets` WHERE (`tweets`.`twitter_id` = 9867102157) LIMIT 1[0m
+  [4;36;1mTweet Create (0.2ms)[0m   [0;1mINSERT INTO `tweets` (`created_at`, `updated_at`, `text`, `t_date`, `user_id`, `twitter_id`) VALUES('2010-03-02 15:06:24', '2010-03-02 15:06:24', 'Will be at @cloudera in the morning, one of the hottest companies helping businesses deal with huge databases. Big data is huge trend now.', '2010-03-02', 1, 9867102157)[0m
+  [4;35;1mSQL (0.3ms)[0m   [0mCOMMIT[0m
+  [4;36;1mTweet Load (1.8ms)[0m   [0;1mSELECT * FROM `tweets` WHERE (twitter_id = 9866075427) LIMIT 1[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mBEGIN[0m
+  [4;36;1mTweet Exists (0.2ms)[0m   [0;1mSELECT `tweets`.id FROM `tweets` WHERE (`tweets`.`twitter_id` = 9866075427) LIMIT 1[0m
+  [4;35;1mTweet Create (0.4ms)[0m   [0mINSERT INTO `tweets` (`created_at`, `updated_at`, `text`, `t_date`, `user_id`, `twitter_id`) VALUES('2010-03-02 15:06:24', '2010-03-02 15:06:24', 'Hah RT: @putneydm Scoble is a self-promoting blowhard. (Yeah, that\'s why I aim my camera at other people 99% of the time).', '2010-03-02', 1, 9866075427)[0m
+  [4;36;1mSQL (0.3ms)[0m   [0;1mCOMMIT[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mROLLBACK[0m
+  [4;35;1mTweet Load (0.2ms)[0m   [0mSELECT * FROM `tweets` WHERE (twitter_id = 9865802118) LIMIT 1[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mBEGIN[0m
+  [4;35;1mTweet Exists (0.1ms)[0m   [0mSELECT `tweets`.id FROM `tweets` WHERE (`tweets`.`twitter_id` = 9865802118) LIMIT 1[0m
+  [4;36;1mTweet Create (0.2ms)[0m   [0;1mINSERT INTO `tweets` (`created_at`, `updated_at`, `text`, `t_date`, `user_id`, `twitter_id`) VALUES('2010-03-02 15:06:24', '2010-03-02 15:06:24', 'The final word on the @danielbru and @techcrunch affair from @sodio in laptop-for-story affair: http://bit.ly/dAeffW interesting details.', '2010-03-02', 1, 9865802118)[0m
+  [4;35;1mSQL (0.3ms)[0m   [0mCOMMIT[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mROLLBACK[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mBEGIN[0m
+  [4;35;1mLink Create (0.2ms)[0m   [0mINSERT INTO `links` (`tweet_id`, `created_at`, `updated_at`, `url`, `post_date`, `original`) VALUES(7, '2010-03-02 15:06:24', '2010-03-02 15:06:24', 'http://bit.ly/dAeffW', '2010-03-02', NULL)[0m
+  [4;36;1mSQL (0.3ms)[0m   [0;1mCOMMIT[0m
+  [4;35;1mTweet Load (0.3ms)[0m   [0mSELECT * FROM `tweets` WHERE (twitter_id = 9863106024) LIMIT 1[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mBEGIN[0m
+  [4;35;1mTweet Exists (0.2ms)[0m   [0mSELECT `tweets`.id FROM `tweets` WHERE (`tweets`.`twitter_id` = 9863106024) LIMIT 1[0m
+  [4;36;1mTweet Create (0.2ms)[0m   [0;1mINSERT INTO `tweets` (`created_at`, `updated_at`, `text`, `t_date`, `user_id`, `twitter_id`) VALUES('2010-03-02 15:06:24', '2010-03-02 15:06:24', 'If you don\'t know @kk he shot the image of me I use as my avatar and is a prolific photographer in Pacific Northwest.', '2010-03-02', 1, 9863106024)[0m
+  [4;35;1mSQL (0.3ms)[0m   [0mCOMMIT[0m
+  [4;36;1mTweet Load (0.2ms)[0m   [0;1mSELECT * FROM `tweets` WHERE (twitter_id = 9863069623) LIMIT 1[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mBEGIN[0m
+  [4;36;1mTweet Exists (0.2ms)[0m   [0;1mSELECT `tweets`.id FROM `tweets` WHERE (`tweets`.`twitter_id` = 9863069623) LIMIT 1[0m
+  [4;35;1mTweet Create (0.2ms)[0m   [0mINSERT INTO `tweets` (`created_at`, `updated_at`, `text`, `t_date`, `user_id`, `twitter_id`) VALUES('2010-03-02 15:06:24', '2010-03-02 15:06:24', 'Great PHOTO ESSAY from @kk The Good, The Bad & The Gold: Vancouver 2010 Winter Olympics http://bit.ly/9JBANt #tnmh #olympics #van2010', '2010-03-02', 1, 9863069623)[0m
+  [4;36;1mSQL (0.3ms)[0m   [0;1mCOMMIT[0m
+  [4;35;1mSQL (0.2ms)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mROLLBACK[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mBEGIN[0m
+  [4;36;1mLink Create (0.2ms)[0m   [0;1mINSERT INTO `links` (`tweet_id`, `created_at`, `updated_at`, `url`, `post_date`, `original`) VALUES(9, '2010-03-02 15:06:24', '2010-03-02 15:06:24', 'http://bit.ly/9JBANt', '2010-03-02', NULL)[0m
+  [4;35;1mSQL (0.5ms)[0m   [0mCOMMIT[0m
+  [4;36;1mTweet Load (0.3ms)[0m   [0;1mSELECT * FROM `tweets` WHERE (twitter_id = 9853723021) LIMIT 1[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mBEGIN[0m
+  [4;36;1mTweet Exists (0.2ms)[0m   [0;1mSELECT `tweets`.id FROM `tweets` WHERE (`tweets`.`twitter_id` = 9853723021) LIMIT 1[0m
+  [4;35;1mTweet Create (0.2ms)[0m   [0mINSERT INTO `tweets` (`created_at`, `updated_at`, `text`, `t_date`, `user_id`, `twitter_id`) VALUES('2010-03-02 15:06:24', '2010-03-02 15:06:24', 'Sssshhhhwwweeeetttt. @Digg\'s @brian_wong says: @Scobleizer You are on my awesome people list =P. Awesome meeting you, see you at SXSW!', '2010-03-02', 1, 9853723021)[0m
+  [4;36;1mSQL (20.3ms)[0m   [0;1mCOMMIT[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mROLLBACK[0m
+  [4;35;1mTweet Load (0.2ms)[0m   [0mSELECT * FROM `tweets` WHERE (twitter_id = 9847348004) LIMIT 1[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mBEGIN[0m
+  [4;35;1mTweet Exists (0.2ms)[0m   [0mSELECT `tweets`.id FROM `tweets` WHERE (`tweets`.`twitter_id` = 9847348004) LIMIT 1[0m
+  [4;36;1mTweet Create (0.2ms)[0m   [0;1mINSERT INTO `tweets` (`created_at`, `updated_at`, `text`, `t_date`, `user_id`, `twitter_id`) VALUES('2010-03-02 15:06:24', '2010-03-02 15:06:24', 'That was my thought actually. @Scobleizer I noted the same zazzle billboard and wondered: Is it 1999 again? /via @Krewell', '2010-03-01', 1, 9847348004)[0m
+  [4;35;1mSQL (5.0ms)[0m   [0mCOMMIT[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mROLLBACK[0m
+  [4;36;1mTweet Load (0.2ms)[0m   [0;1mSELECT * FROM `tweets` WHERE (twitter_id = 9847223254) LIMIT 1[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mBEGIN[0m
+  [4;36;1mTweet Exists (0.5ms)[0m   [0;1mSELECT `tweets`.id FROM `tweets` WHERE (`tweets`.`twitter_id` = 9847223254) LIMIT 1[0m
+  [4;35;1mTweet Create (0.2ms)[0m   [0mINSERT INTO `tweets` (`created_at`, `updated_at`, `text`, `t_date`, `user_id`, `twitter_id`) VALUES('2010-03-02 15:06:24', '2010-03-02 15:06:24', 'Believe it or not but I have never been to @digg That changes in 30 minutes.', '2010-03-01', 1, 9847223254)[0m
+  [4;36;1mSQL (0.3ms)[0m   [0;1mCOMMIT[0m
+  [4;35;1mTweet Load (0.2ms)[0m   [0mSELECT * FROM `tweets` WHERE (twitter_id = 9847104868) LIMIT 1[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mBEGIN[0m
+  [4;35;1mTweet Exists (0.2ms)[0m   [0mSELECT `tweets`.id FROM `tweets` WHERE (`tweets`.`twitter_id` = 9847104868) LIMIT 1[0m
+  [4;36;1mTweet Create (0.2ms)[0m   [0;1mINSERT INTO `tweets` (`created_at`, `updated_at`, `text`, `t_date`, `user_id`, `twitter_id`) VALUES('2010-03-02 15:06:24', '2010-03-02 15:06:24', 'Waste of marketing dollars? @zazzle has a huge billboard on 101 in Silicon Valley with nothing but its name. What does it do? Do we care?', '2010-03-01', 1, 9847104868)[0m
+  [4;35;1mSQL (0.3ms)[0m   [0mCOMMIT[0m
+  [4;36;1mTweet Load (0.2ms)[0m   [0;1mSELECT * FROM `tweets` WHERE (twitter_id = 9846876771) LIMIT 1[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mBEGIN[0m
+  [4;36;1mTweet Exists (0.2ms)[0m   [0;1mSELECT `tweets`.id FROM `tweets` WHERE (`tweets`.`twitter_id` = 9846876771) LIMIT 1[0m
+  [4;35;1mTweet Create (0.2ms)[0m   [0mINSERT INTO `tweets` (`created_at`, `updated_at`, `text`, `t_date`, `user_id`, `twitter_id`) VALUES('2010-03-02 15:06:24', '2010-03-02 15:06:24', 'I think the @rww poll about location-based services is nuts. But am willing to be convinced with data.', '2010-03-01', 1, 9846876771)[0m
+  [4;36;1mSQL (0.3ms)[0m   [0;1mCOMMIT[0m
+  [4;35;1mTweet Load (0.2ms)[0m   [0mSELECT * FROM `tweets` WHERE (twitter_id = 9844469039) LIMIT 1[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mBEGIN[0m
+  [4;35;1mTweet Exists (0.2ms)[0m   [0mSELECT `tweets`.id FROM `tweets` WHERE (`tweets`.`twitter_id` = 9844469039) LIMIT 1[0m
+  [4;36;1mTweet Create (0.2ms)[0m   [0;1mINSERT INTO `tweets` (`created_at`, `updated_at`, `text`, `t_date`, `user_id`, `twitter_id`) VALUES('2010-03-02 15:06:24', '2010-03-02 15:06:24', 'Just had interesting meeting with @AlikeList (you will see video Wednesday morning). They are now on top of my \"Facebook should buy\" list.', '2010-03-01', 1, 9844469039)[0m
+  [4;35;1mSQL (0.3ms)[0m   [0mCOMMIT[0m
