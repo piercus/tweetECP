@@ -1,6 +1,8 @@
 class Link < ActiveRecord::Base
 	belongs_to :tweet
   	has_many :tags
+		belongs_to :reference, :class_name => 'Link', :foreign_key => 'reference_id'
+		has_many :referencers,  :class_name => 'Link', :foreign_key => 'reference_id'
 	validates_format_of :url, :with => /^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(([0-9]{1,5})?\/.*)?$/ix, :on => :create
 
   	def get_original_link
@@ -10,9 +12,13 @@ class Link < ActiveRecord::Base
 	    require 'open-uri'
 	  
 	    if self.url.size<30
-			page = open self.url
-			self.original = page.base_uri.to_s
-			self.save!
+			  page = open self.url
+			  orig_uri = page.base_uri.to_s
+				link = Link.find(:first,:conditions => ["original = ?",orig_uri])
+			  if link
+				  self.
+				self.original
+			  self.save!
 	    end
 		return self.original
   	end

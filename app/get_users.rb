@@ -3,26 +3,36 @@ class GetUsers < ActiveRecord::Base
   require 'twitter'
   # users = ['loic']
 
-  def self.get_more_users(user)
-	u =    #u = Twitter.user(user)
-    puts u.inspect            # Ok, ca me renvoie les infos relatives au user que j'indique dans l'appel a la fct plus bas
-    fws = u.followers         # LE PROBLEME EST ICI, je ne sais pas si u.followers me renvoie qqchose et quel est son format
-    puts fws.inspect          # => 'nil'              
-	# je rajoute les followers au user initial. 
-    user.followers
-	
-	return fws
+  def self.get_more_users(u,l =1 )
+	  #u is a User in the database
+		#l is the level of recursivity
+		if l != 0
+      #call the API
+			fws = u.get_followers
+			
+			#from the API objects create databases objects         
+	    users = User.set_users_from_twitter_users(fws)
+			u.add_followers(users)
+	    users.each{|f|
+			  self.get_more_users(f,l-1)
+			}
+		end
+		return users
   end
   
-  users = get_more_users( User.set_user(
-'scobleizer')
+  users = get_more_users( User.set_user('scobleizer'))
     
   # User.set_users(users)
+
+
+  def self.get_more_users(u)
 
 end
 
 
 # FONCTION QUI VA UN CRAN PLUS LOIN
+# Voir plus haut, avec le "l" de la recusrivity on a tt mis dans la même fonction !!
+
 
 #  def get_more_users(user)                # à partir d'un user originel
 #    users = []                             

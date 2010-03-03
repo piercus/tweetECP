@@ -9,7 +9,19 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100218152704) do
+ActiveRecord::Schema.define(:version => 20100303131822) do
+
+  create_table "followers_users", :force => true do |t|
+  end
+
+  create_table "friendships", :force => true do |t|
+    t.integer  "user_from_id"
+    t.integer  "user_to_id"
+    t.string   "friendType"
+    t.integer  "value"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "links", :force => true do |t|
     t.string   "url"
@@ -18,6 +30,7 @@ ActiveRecord::Schema.define(:version => 20100218152704) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "original"
+    t.integer  "follower_id"
   end
 
   create_table "relations", :force => true do |t|
@@ -25,6 +38,9 @@ ActiveRecord::Schema.define(:version => 20100218152704) do
     t.integer  "tag_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "relations_links", :force => true do |t|
   end
 
   create_table "tags", :force => true do |t|
