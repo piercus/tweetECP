@@ -11,5 +11,18 @@ class Tweet < ActiveRecord::Base
 			Link.create(:url => urlArray, :tweet_id => self.id, :post_date => self.t_date)
 		}
 	end
+	def load_arobases
+	   text = self.text
+		list = []
+	   regexp = /@[a-zA-Z]*/
+		name = text[regexp]
+
+	   while(name != nil){
+		   list.push(name[1..-1])
+		   text = text.sub(regexp,"")
+		   name = text[regexp]	   }
+	   u = User.set_users_from_name(list)
+
+	end
 	
 end

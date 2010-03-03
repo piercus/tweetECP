@@ -5,7 +5,22 @@ class User < ActiveRecord::Base
   has_many :friends_to, :foreign_key => "user_to_id", :class_name => "Friendship"
   has_many :friends_from, :foreign_key => "user_from_id", :class_name => "Friendship"
 	require 'twitter'
-	
+	def self.get_more_users(u,l=1)
+	  #u is a User in the database
+		#l is the level of recursivity
+		if l != 0
+      #call the API
+			fws = u.get_followers
+			#from the API objects create databases objects         
+	    users = User.set_users_from_twitter_users(fws)
+			u.add_followers(users)
+	    users.each{|f|
+			  self.get_more_users(f,l-1)
+			}
+		end
+		return users
+    end
+
 	def user_timeline(query={})
 		# La fonction user_timeline est disponible à partir de l'API REST mais pas à partir de l'API "twitter", j'ai refait la fonction à la main 
 		HTTParty.get('http://twitter.com/statuses/user_timeline.json', :query => query)
@@ -13,10 +28,24 @@ class User < ActiveRecord::Base
   
 	def add_followers(users)
 	  users.each{|u|
-		  fship = Friendship.find(:first, :conditions => ["friends_from = ? AND friends_to = ? AND friendType = ?",self.id,u.id,"follow"])
+		  Friendship.add_new(self,u,"follow")
 		}
 	end
+	def add_followings(users)
+	  users.each{|u|
+		  Friendship.add_new(u,self,"follow")
+		}
+	end
+  def followers
+	  Friendship.findFriends(self,"follow","from")
+  end  
   
+  def followings
+	  Friendship.findFriends(self,"follow","to")
+  end  
+  def friends
+     Friendship.findFriends(self)
+  end
   def get_followers
 		HTTParty.get('http://api.twitter.com/1/statuses/followers.json', :query => {:user_id => twitter_id })
 	end	
