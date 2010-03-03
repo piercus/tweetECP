@@ -1,5 +1,6 @@
 class GetUsers < ActiveRecord::Base
   
+  #test
   require 'twitter'
   # users = ['loic']
 
