@@ -2,21 +2,6 @@ class GetUsers < ActiveRecord::Base
   
   require 'twitter'
 
-  def self.get_more_users(u,l=1)
-	  #u is a User in the database
-		#l is the level of recursivity
-		if l != 0
-      #call the API
-			fws = u.get_followers
-			#from the API objects create databases objects         
-	    users = User.set_users_from_twitter_users(fws)
-			u.add_followers(users)
-	    users.each{|f|
-			  self.get_more_users(f,l-1)
-			}
-		end
-		return users
-  end
   
   users = get_more_users( User.set_user('scobleizer'))
     
