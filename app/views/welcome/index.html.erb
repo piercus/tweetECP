@@ -1,0 +1,9 @@
+<% form_tag :action => 'search' do %> 
+	Type in the screenname of a Twitter user : <%= text_field_tag :id %>
+	<%= submit_tag 'Go !' %>
+<% end %>
+
+<% form_for :action => 'search' do %> 
+	Type in the screenname of a Twitter user : <%= text_field_with_auto_complete :user, :screen_name, {}, { :url => formatted_users_path(:js), :method => :get} %>
+	<%= submit_tag 'Go !' %>
+<% end %>

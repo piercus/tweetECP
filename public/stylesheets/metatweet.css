@@ -1,0 +1,25 @@
+.user_name {
+	color: #E1377B;
+}
+
+.user_followers {
+	color: #5BA900;
+}
+
+.user_following {
+	color: #2C8CBD;
+}
+
+#footer {
+	font-size: 80%;
+}
+
+#header {
+	padding: 20px;
+	background: #e0f8f8;
+}
+
+#header .title {
+	font-weight:bold;
+	font-size: 150%;
+}

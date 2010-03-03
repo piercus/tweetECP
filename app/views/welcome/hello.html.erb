@@ -1,0 +1,11 @@
+We have the following users in our database :
+<br><br>
+<% @users.each{|u|%>
+	<span class="user_name"><%= u.name -%></span>
+	has
+	<span class="user_followers"><%= u.nfollowers -%></span>
+	followers and follows
+	<span class="user_following"><%= u.nfollowing -%></span>
+	accounts.
+	<br>
+<%	} %>

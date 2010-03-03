@@ -3,7 +3,7 @@ class Link < ActiveRecord::Base
   	has_many :tags
 		belongs_to :reference, :class_name => 'Link', :foreign_key => 'reference_id'
 		has_many :referencers,  :class_name => 'Link', :foreign_key => 'reference_id'
-	validates_format_of :url, :with => /^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(([0-9]{1,5})?\/.*)?$/ix, :on => :create
+	  validates_format_of :url, :with => /^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(([0-9]{1,5})?\/.*)?$/ix, :on => :create
 
   	def get_original_link
 	    # dans le cas ou le lien est raccourci (if taille du lien < 30 caractères), récupèrer le lien original
