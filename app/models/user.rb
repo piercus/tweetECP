@@ -13,10 +13,21 @@ class User < ActiveRecord::Base
   
 	def add_followers(users)
 	  users.each{|u|
-		  fship = Friendship.find(:first, :conditions => ["friends_from = ? AND friends_to = ? AND friendType = ?",self.id,u.id,"follow"])
+		  Friendship.add_new(self,u,"follow")
 		}
 	end
+	def add_followings(users)
+	  users.each{|u|
+		  Friendship.add_new(u,self,"follow")
+		}
+	end
+  def followers
+	  Friendship.findFriends(u,"follow","from")
+  end  
   
+  def followings
+	  Friendship.findFriends(u,"follow","to")
+  end  
   def get_followers
 		HTTParty.get('http://api.twitter.com/1/statuses/followers.json', :query => {:user_id => twitter_id })
 	end	
