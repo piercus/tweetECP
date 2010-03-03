@@ -2775,3 +2775,52 @@ Migrating to CreateRelations (20100218152704)
   [4;35;1mTweet Exists (0.2ms)[0m   [0mSELECT `tweets`.id FROM `tweets` WHERE (`tweets`.`twitter_id` = 9844469039) LIMIT 1[0m
   [4;36;1mTweet Create (0.2ms)[0m   [0;1mINSERT INTO `tweets` (`created_at`, `updated_at`, `text`, `t_date`, `user_id`, `twitter_id`) VALUES('2010-03-02 15:06:24', '2010-03-02 15:06:24', 'Just had interesting meeting with @AlikeList (you will see video Wednesday morning). They are now on top of my \"Facebook should buy\" list.', '2010-03-01', 1, 9844469039)[0m
   [4;35;1mSQL (0.3ms)[0m   [0mCOMMIT[0m
+  [4;36;1mSQL (0.4ms)[0m   [0;1mSET NAMES 'utf8'[0m
+  [4;35;1mSQL (0.2ms)[0m   [0mSET SQL_AUTO_IS_NULL=0[0m
+  [4;36;1mSQL (18.8ms)[0m   [0;1mSHOW TABLES[0m
+  [4;35;1mSQL (19.8ms)[0m   [0mSELECT version FROM schema_migrations[0m
+Migrating to CreateTweets (20091026111020)
+Migrating to AddColumnTwitterId (20091026122418)
+Migrating to AddColumnTwitterId2 (20091026122734)
+Migrating to CreateUsers (20091026164950)
+Migrating to CreateTags (20091026165048)
+Migrating to CreateLinks (20091026165056)
+Migrating to AddColumnScreenName (20091027143515)
+Migrating to AddOriginalLink (20100218142639)
+Migrating to AddOriginalToLink (20100218142812)
+Migrating to CreateRelations (20100218152704)
+Migrating to AddAssociationsReferenceAndRelationsAndFollowers (20100303102001)
+  [4;36;1mSQL (352.4ms)[0m   [0;1mCREATE TABLE `relations_links` (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY) ENGINE=InnoDB[0m
+  [4;35;1mSQL (100.5ms)[0m   [0mCREATE TABLE `followers_users` (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY) ENGINE=InnoDB[0m
+  [4;36;1mSQL (174.4ms)[0m   [0;1mALTER TABLE `links` ADD `follower_id` int(11)[0m
+  [4;35;1mSQL (0.7ms)[0m   [0mINSERT INTO schema_migrations (version) VALUES ('20100303102001')[0m
+Migrating to CreateFriendships (20100303131822)
+  [4;36;1mSQL (133.5ms)[0m   [0;1mCREATE TABLE `friendships` (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `user_from_id` int(11), `user_to_id` int(11), `friendType` varchar(255), `value` int(11), `created_at` datetime, `updated_at` datetime) ENGINE=InnoDB[0m
+  [4;35;1mSQL (0.6ms)[0m   [0mINSERT INTO schema_migrations (version) VALUES ('20100303131822')[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1mSHOW TABLES[0m
+  [4;35;1mSQL (0.2ms)[0m   [0mSELECT version FROM schema_migrations[0m
+  [4;36;1mSQL (0.3ms)[0m   [0;1mSHOW TABLES[0m
+  [4;35;1mSQL (35.7ms)[0m   [0mSHOW FIELDS FROM `followers_users`[0m
+  [4;36;1mSQL (1.1ms)[0m   [0;1mdescribe `followers_users`[0m
+  [4;35;1mSQL (0.3ms)[0m   [0mSHOW KEYS FROM `followers_users`[0m
+  [4;36;1mSQL (1.3ms)[0m   [0;1mSHOW FIELDS FROM `friendships`[0m
+  [4;35;1mSQL (1.5ms)[0m   [0mdescribe `friendships`[0m
+  [4;36;1mSQL (0.3ms)[0m   [0;1mSHOW KEYS FROM `friendships`[0m
+  [4;35;1mSQL (1.1ms)[0m   [0mSHOW FIELDS FROM `links`[0m
+  [4;36;1mSQL (1.5ms)[0m   [0;1mdescribe `links`[0m
+  [4;35;1mSQL (0.6ms)[0m   [0mSHOW KEYS FROM `links`[0m
+  [4;36;1mSQL (36.5ms)[0m   [0;1mSHOW FIELDS FROM `relations`[0m
+  [4;35;1mSQL (1.5ms)[0m   [0mdescribe `relations`[0m
+  [4;36;1mSQL (0.3ms)[0m   [0;1mSHOW KEYS FROM `relations`[0m
+  [4;35;1mSQL (1.1ms)[0m   [0mSHOW FIELDS FROM `relations_links`[0m
+  [4;36;1mSQL (1.3ms)[0m   [0;1mdescribe `relations_links`[0m
+  [4;35;1mSQL (0.2ms)[0m   [0mSHOW KEYS FROM `relations_links`[0m
+  [4;36;1mSQL (1.6ms)[0m   [0;1mSHOW FIELDS FROM `tags`[0m
+  [4;35;1mSQL (1.1ms)[0m   [0mdescribe `tags`[0m
+  [4;36;1mSQL (0.3ms)[0m   [0;1mSHOW KEYS FROM `tags`[0m
+  [4;35;1mSQL (3.5ms)[0m   [0mSHOW FIELDS FROM `tweets`[0m
+  [4;36;1mSQL (1.7ms)[0m   [0;1mdescribe `tweets`[0m
+  [4;35;1mSQL (0.7ms)[0m   [0mSHOW KEYS FROM `tweets`[0m
+  [4;36;1mSQL (1.9ms)[0m   [0;1mSHOW FIELDS FROM `users`[0m
+  [4;35;1mSQL (1.7ms)[0m   [0mdescribe `users`[0m
+  [4;36;1mSQL (0.8ms)[0m   [0;1mSHOW KEYS FROM `users`[0m
