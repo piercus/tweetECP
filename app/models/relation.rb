@@ -1,7 +1,7 @@
 class Relation < ActiveRecord::Base
 	belongs_to :user
 	belongs_to :tag
-	has_many_and_belongs_to_many :links
+	has_and_belongs_to_many :links
 
 	def self.build(tags, link)
 		tags.each {|tag_word|
@@ -20,11 +20,15 @@ class Relation < ActiveRecord::Base
 				relation = Relation.create(:user_id => link.tweet.user.id, :tag_id => tag.id)
 			end
 			relation.links << link
+		}
 	end  
 	
-	def weight
-		weight = links.length
-		return weight
+	def set_weight
+		self.weight = links.length
+		return self.weight
 	end		    
+	def strenght
+	  self.weight/self.tag.popularity
+	end
 	
 end

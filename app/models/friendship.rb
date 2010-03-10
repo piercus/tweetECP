@@ -52,11 +52,44 @@ class Friendship < ActiveRecord::Base
 		 {
 		  :friendship => (f.user_to == u ? "from" : "to") 
 		  :friend => (f.user_to == u ? f.user_from : f.user_to) 
-          :type => f.friendType
+      :type => f.friendType
+			:weigth => f.eval
 		 }
 	 }
   end
-
+	def self.reco(u)
+	  friends = self.findFriends(u)
+		friendships = {}
+		friends.each{|f|
+		  if friendships[f.friend.id].nil? 
+			   friendships[f.friend.id] = {:weight => f.weight, :user => f.friend}
+			else
+			   friendships[f.friend.id][:weight] += f.weight
+			end
+		}
+		return friendships.to_a.collect{|i| i[1]}
+	end
+	def eval
+	    weight = 0;
+			if type == "follow" && friendship == "from"
+				weight = 3
+			elsif type == "follow" && friendship == "to"
+				weight = 1
+			elsif type == "adress" && friendship == "to"
+				weight = 4	
+			elsif type == "adress" && friendship == "from"
+				weight = 10
+			end		
+			
+	end
+  def self.get_note(u1,u2)
+	  fships = self.find(:all, :conditions => ["(user_from_id = ? AND user_to_id = ?) OR (user_from_id = ? AND user_to_id = ?)",u1.id,u2.id,u2.id,u1.id])
+		weight = 0
+		fships.each{|f|
+       weight += f.eval
+		}
+		return weight
+	end
 end
 
 

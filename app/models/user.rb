@@ -5,17 +5,17 @@ class User < ActiveRecord::Base
   has_many :friends_to, :foreign_key => "user_to_id", :class_name => "Friendship"
   has_many :friends_from, :foreign_key => "user_from_id", :class_name => "Friendship"
 	require 'twitter'
-	def self.get_more_users(u,l=1)
+	def get_more_users(l=1)
 	  #u is a User in the database
 		#l is the level of recursivity
 		if l != 0
       #call the API
-			fws = u.get_followers
+			fws = self.get_followers
 			#from the API objects create databases objects         
 	    users = User.set_users_from_twitter_users(fws)
-			u.add_followers(users)
+      self.add_followers(users)
 	    users.each{|f|
-			  self.get_more_users(f,l-1)
+			  f.get_more_users(l-1)
 			}
 		end
 		return users
@@ -51,15 +51,18 @@ class User < ActiveRecord::Base
 	end	
 	
 	def get_tweets
-	  	# G:Comment détecter les tweets déja récupérés ?
-	  	# P:On utilise le twitter_id qui est fourni par twitter et on vérifie son unicité 
 		twits = self.user_timeline(:id => self.twitter_id)
 		twits.each {|twit|
-			if !Tweet.find(:first, :conditions => ["twitter_id = ?",twit["id"]])#On vérifie la non existence du twit
-		    	tweet = Tweet.create(:twitter_id =>twit["id"], :text => twit["text"], :t_date => twit["created_at"], :user_id => self.id)
-				# On récupère les liens depuis les tweets
-				tweet.load_links
+		  if twit.kind_of?(Hash)#debug because we find tweets like ["request", "/statuses/user_timeline.json?id=46259780"]
+			  if !Tweet.find(:first, :conditions => ["twitter_id = ?",twit["id"]])#On vérifie la non existence du twit
+		    	  tweet = Tweet.create(:twitter_id =>twit["id"].to_i, :text => twit["text"], :t_date => twit["created_at"], :user_id => self.id)
+				  # On récupère les liens depuis les tweets
+				  tweet.load_links
+			  end
+			else
+			  puts "Problem with the following twit in get_tweets : \n"+twit.inspect 
 			end
+			
 		}
 	end
 
@@ -73,13 +76,18 @@ class User < ActiveRecord::Base
 	end
 	
   def self.set_user_from_twit(twitter_user)
-			user = User.find(:first, :conditions => ["screen_name = ?",twitter_user.screen_name])
+	  if twitter_user.kind_of?(Hash)
+			user = User.find(:first, :conditions => ["screen_name = ? OR twitter_id = ?",twitter_user["screen_name"],twitter_user["id"]])
 			if !user
-				user = User.create!( :screen_name => twitter_user.screen_name ,:name => twitter_user.name , :twitter_id => twitter_user.id, :nfollowers => twitter_user.followers_count, :nfollowing => twitter_user.friends_count)
+				user = User.create!( :screen_name => twitter_user["screen_name"] ,:name => twitter_user["name"] , :twitter_id => twitter_user["id"], :nfollowers => twitter_user["followers_count"], :nfollowing => twitter_user["friends_count"])
+			  # On récupère les tweets par l'API Twitter
+			  user.get_tweets
 			end
-			# On récupère les tweets par l'API Twitter
-			user.get_tweets
+
 			return user
+		else
+		  puts "Problem with the following user in set_user_from_twit: \n"+twitter_user.inspect 
+		end
 	end
 	
 	def self.set_users_from_twitter_users(twitter_users)
@@ -97,5 +105,87 @@ class User < ActiveRecord::Base
 			self.set_user_from_twit(twitter_user)
 		}
 	end
-      
+	def get_note(object,id)
+	  if object == "User"
+		  u = User.find(id)
+		  return Friendship.get_note(self,u)
+		end
+		if object == "Link"
+		  link = Link.find(id)
+		  if l.reference
+			  link = link.reference
+			end
+			# 1 is the direct relationnships between the link and the user, 2 is an indirect relationnship through tags or through other users
+			weight = {:direct => 0, :by_tags => []}
+		  link.referencers.each{|l|
+			  #if the link has been twited by the user
+			  if l.tweet.user == self
+				   weight[:direct] += 10
+				end
+			}
+			tags = u.get_best_tags(30)
+			tags.each{|t|
+			  if link.tags.include?(t)
+				  weight[:by_tags].push({:tag => t, :rare => t.rareness})
+				end
+			}
+			return weight
+			
+		end	
+		if object == "Tag"
+		  tag = Tag.find(id)
+			weight = 0
+		  self.relations.each{|r|
+			  if r.tag == tag
+				  weight += r.strenght
+				end
+			}
+			return weight
+		end	
+	end
+	def get_best_tags(n)
+	  taglist = [];
+	  self.relations.each{|r|
+		  taglist.push({:tag => r.tag, :weight => r.strenght})
+		}
+		taglist.sort!{|x,y| y[:weight] <=> x[:weight]}
+		return taglist[1,n]
+	end
+  def self.recomand(object, id, n = 20)
+	  
+		if object == "User"
+		  u = User.find(id)
+			friends = Friendship.reco(u)
+			friends.sort!{|x,y| y[:weight] <=> x[:weight]}
+			if friends.length < n
+			  #continue the algorithm on 2nd degree
+			end
+			friends = friends[0,n]
+			
+			return {:users => friends}
+		end
+		if object == "Link"
+		  l = Link.find(id)
+			if l.reference
+			  l = l.reference
+			end
+		  url = l.orig_uri
+			rel = l.relations
+      users = rel.collect{|r|
+			  {
+				  :user => r.user,
+				  :weight => r.user.get_note("Link",l)
+				}
+			}
+			return {:users => users}
+		end
+		if object == "Tag"
+		  tag = Tag.find(id)
+		  users = []
+			tag.relations.each{|r|
+			  users.push({:user => r.user, :weight => r.strengh})
+			}
+			return {:users => users}
+		end
+	end
 end
