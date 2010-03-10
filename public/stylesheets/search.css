@@ -1,0 +1,50 @@
+#user_result {
+	padding-top:30px;
+	padding-left: 20px;
+}
+
+#pic {
+	padding-right:10px;
+	float:left;
+	width:100px;
+	height:100px;
+}
+
+#info {
+	width:auto;
+	height:auto;
+	border-width: 1px; border-left-style: solid;
+	padding-left: 20px;
+	padding-right:50px;
+	float:left;
+}
+
+#recent_tweets {
+	border-width: 1px; border-left-style: solid;
+	padding-left:20px;
+	width:300px;
+	height:auto;
+	float:left;	
+	margin-right:10px;
+}
+
+.section_title {
+	font-weight: bold;
+	text-align: center;
+}
+
+.date {
+	font-size: 0.8em;
+}
+
+.text {
+	color: #006699;
+}
+
+#tags {
+	border-width: 1px; border-left-style: solid;
+	width:300px;
+	height:auto;
+	float:left;
+	text-align: center;
+}
