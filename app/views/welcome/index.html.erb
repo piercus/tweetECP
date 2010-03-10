@@ -1,9 +1,28 @@
+<div id="form">
 <% form_tag :action => 'search' do %> 
-	Type in the screenname of a Twitter user : <%= text_field_tag :id %>
+	<strong>Type in a user or a tag : </strong><br><br><%= text_field_tag :id %>
 	<%= submit_tag 'Go !' %>
 <% end %>
+</div>
 
-<% form_for :action => 'search' do %> 
-	Type in the screenname of a Twitter user : <%= text_field_with_auto_complete :user, :screen_name, {}, { :url => formatted_users_path(:js), :method => :get} %>
-	<%= submit_tag 'Go !' %>
-<% end %>
+<div id="modules">
+
+	<div class="mod_users">
+	<strong>Popular Users</strong>
+	<div id="my_user_cloud"></div>
+	</div>	
+
+	<div class="mod_tags">
+	<strong>Popular Tags</strong>
+	<div id="my_tag_cloud"></div>
+	</div>
+
+	<div class="mod_links">
+	<strong>Popular Links</strong>
+	</div>
+
+
+	<div style="clear:both;">
+	</div>
+
+</div>

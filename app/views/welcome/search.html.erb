@@ -1,7 +1,7 @@
-<strong><%= @user.screen_name -%></strong> (<strong><%= @user.name -%></strong>)<br>
+<strong><%= @user.screen_name -%></strong> (<%= @user.name -%>)<br>
 _________________<br>
-Followers : <%= @user.nfollowers -%><br>
-Following : <%= @user.nfollowing -%><br>
+Followers : <span class="user_following"><%= @user.nfollowers -%><br></span>
+Following : <span class="user_followers"><%= @user.nfollowing -%><br></span>
 Infos : <%#= @user.infos -%><br>
 Tags : <%#= @user.get_taglist -%><br>
 Recent tweets :

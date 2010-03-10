@@ -1,0 +1,113 @@
+<html>
+  <head>
+    <title>MetaTweet</title>
+	<%= stylesheet_link_tag 'welcome' %>
+	<%= stylesheet_link_tag 'header' %>
+	<%= stylesheet_link_tag 'footer' %>
+	<%= stylesheet_link_tag 'tagcloud' %>
+	
+	
+    <%= javascript_include_tag :defaults -%>
+	<%= javascript_include_tag "tagcloud" -%>
+
+  
+	<script>
+
+	var tc = TagCloud.create();
+	var uc = TagCloud.create();
+
+	tc.add('actionscript', 29, 'http://localhost/actionscript', Date.parse('2005/06/23 00:00:00'));
+	tc.add('activerecord', 27, 'http://localhost/activerecord', Date.parse('2005/10/24 00:00:00'));
+	tc.add('adsense', 42, 'http://localhost/adsense', Date.parse('2005/09/19 00:00:00'));
+	tc.add('affiliate', 7, 'http://localhost/affiliate', Date.parse('2005/06/18 00:00:00'));
+	tc.add('aftereffects', 13, 'http://localhost/aftereffects', Date.parse('2006/02/15 00:00:00'));
+	tc.add('ajax', 49, 'http://localhost/ajax', Date.parse('2005/11/20 00:00:00'));
+	tc.add('apache', 16, 'http://localhost/apache', Date.parse('2005/10/20 00:00:00'));
+	tc.add('apple', 20, 'http://localhost/apple', Date.parse('2006/02/25 00:00:00'));
+	tc.add('asdoc', 13, 'http://localhost/asdoc', Date.parse('2005/11/02 00:00:00'));
+	tc.add('atomfeed', 43, 'http://localhost/atomfeed', Date.parse('2005/05/17 00:00:00'));
+	tc.add('atompp', 2, 'http://localhost/atompp', Date.parse('2005/06/22 00:00:00'));
+	tc.add('authentication', 41, 'http://localhost/authentication', Date.parse('2005/04/13 00:00:00'));
+	tc.add('blog', 32, 'http://localhost/blog', Date.parse('2005/08/11 00:00:00'));
+	tc.add('bloglines', 19, 'http://localhost/bloglines', Date.parse('2005/04/15 00:00:00'));
+	tc.add('book', 34, 'http://localhost/book', Date.parse('2005/05/09 00:00:00'));
+	tc.add('bookmarklet', 17, 'http://localhost/bookmarklet', Date.parse('2006/03/04 00:00:00'));
+	tc.add('business', 42, 'http://localhost/business', Date.parse('2005/04/25 00:00:00'));
+	tc.add('c++', 13, 'http://localhost/c++', Date.parse('2006/01/09 00:00:00'));
+	tc.add('catalyst', 17, 'http://localhost/catalyst', Date.parse('2005/09/30 00:00:00'));
+	tc.add('commet', 3, 'http://localhost/commet', Date.parse('2005/05/09 00:00:00'));
+	tc.add('component', 15, 'http://localhost/component', Date.parse('2005/06/11 00:00:00'));
+	tc.add('cpan', 36, 'http://localhost/cpan', Date.parse('2005/09/09 00:00:00'));
+	tc.add('css', 1, 'http://localhost/css', Date.parse('2006/03/18 00:00:00'));
+	tc.add('database', 41, 'http://localhost/database', Date.parse('2005/11/15 00:00:00'));
+	tc.add('debug', 13, 'http://localhost/debug', Date.parse('2006/03/03 00:00:00'));
+	tc.add('design', 40, 'http://localhost/design', Date.parse('2005/05/17 00:00:00'));
+	tc.add('develop', 47, 'http://localhost/develop', Date.parse('2005/07/03 00:00:00'));
+	tc.add('digg', 32, 'http://localhost/digg', Date.parse('2005/12/06 00:00:00'));
+	tc.add('doc', 4, 'http://localhost/doc', Date.parse('2005/11/15 00:00:00'));
+	tc.add('dojo', 5, 'http://localhost/dojo', Date.parse('2006/03/12 00:00:00'));
+	tc.add('dublinecore', 38, 'http://localhost/dublinecore', Date.parse('2006/03/14 00:00:00'));
+	tc.add('ejb', 13, 'http://localhost/ejb', Date.parse('2005/05/14 00:00:00'));
+	tc.add('emacs', 21, 'http://localhost/emacs', Date.parse('2006/03/18 00:00:00'));
+	tc.add('encode', 28, 'http://localhost/encode', Date.parse('2005/06/17 00:00:00'));
+	tc.add('feed', 31, 'http://localhost/feed', Date.parse('2005/04/08 00:00:00'));
+	tc.add('firefox', 33, 'http://localhost/firefox', Date.parse('2005/04/09 00:00:00'));
+	
+	uc.add('actionscript', 29, 'http://localhost/actionscript', Date.parse('2005/06/23 00:00:00'));
+	uc.add('activerecord', 27, 'http://localhost/activerecord', Date.parse('2005/10/24 00:00:00'));
+	uc.add('adsense', 42, 'http://localhost/adsense', Date.parse('2005/09/19 00:00:00'));
+	uc.add('affiliate', 7, 'http://localhost/affiliate', Date.parse('2005/06/18 00:00:00'));
+	uc.add('aftereffects', 13, 'http://localhost/aftereffects', Date.parse('2006/02/15 00:00:00'));
+	uc.add('ajax', 49, 'http://localhost/ajax', Date.parse('2005/11/20 00:00:00'));
+	uc.add('apache', 16, 'http://localhost/apache', Date.parse('2005/10/20 00:00:00'));
+	uc.add('apple', 20, 'http://localhost/apple', Date.parse('2006/02/25 00:00:00'));
+	uc.add('asdoc', 13, 'http://localhost/asdoc', Date.parse('2005/11/02 00:00:00'));
+	uc.add('atomfeed', 43, 'http://localhost/atomfeed', Date.parse('2005/05/17 00:00:00'));
+	uc.add('atompp', 2, 'http://localhost/atompp', Date.parse('2005/06/22 00:00:00'));
+	uc.add('authentication', 41, 'http://localhost/authentication', Date.parse('2005/04/13 00:00:00'));
+	uc.add('blog', 32, 'http://localhost/blog', Date.parse('2005/08/11 00:00:00'));
+	uc.add('bloglines', 19, 'http://localhost/bloglines', Date.parse('2005/04/15 00:00:00'));
+	uc.add('book', 34, 'http://localhost/book', Date.parse('2005/05/09 00:00:00'));
+	uc.add('bookmarklet', 17, 'http://localhost/bookmarklet', Date.parse('2006/03/04 00:00:00'));
+	uc.add('business', 42, 'http://localhost/business', Date.parse('2005/04/25 00:00:00'));
+	uc.add('c++', 13, 'http://localhost/c++', Date.parse('2006/01/09 00:00:00'));
+	uc.add('catalyst', 17, 'http://localhost/catalyst', Date.parse('2005/09/30 00:00:00'));
+	uc.add('commet', 3, 'http://localhost/commet', Date.parse('2005/05/09 00:00:00'));
+	uc.add('component', 15, 'http://localhost/component', Date.parse('2005/06/11 00:00:00'));
+	uc.add('cpan', 36, 'http://localhost/cpan', Date.parse('2005/09/09 00:00:00'));
+	uc.add('css', 1, 'http://localhost/css', Date.parse('2006/03/18 00:00:00'));
+	uc.add('database', 41, 'http://localhost/database', Date.parse('2005/11/15 00:00:00'));
+	uc.add('debug', 13, 'http://localhost/debug', Date.parse('2006/03/03 00:00:00'));
+	uc.add('design', 40, 'http://localhost/design', Date.parse('2005/05/17 00:00:00'));
+	uc.add('develop', 47, 'http://localhost/develop', Date.parse('2005/07/03 00:00:00'));
+	uc.add('digg', 32, 'http://localhost/digg', Date.parse('2005/12/06 00:00:00'));
+	uc.add('doc', 4, 'http://localhost/doc', Date.parse('2005/11/15 00:00:00'));
+	uc.add('dojo', 5, 'http://localhost/dojo', Date.parse('2006/03/12 00:00:00'));
+	uc.add('dublinecore', 38, 'http://localhost/dublinecore', Date.parse('2006/03/14 00:00:00'));
+	uc.add('ejb', 13, 'http://localhost/ejb', Date.parse('2005/05/14 00:00:00'));
+	uc.add('emacs', 21, 'http://localhost/emacs', Date.parse('2006/03/18 00:00:00'));
+	uc.add('encode', 28, 'http://localhost/encode', Date.parse('2005/06/17 00:00:00'));
+	uc.add('feed', 31, 'http://localhost/feed', Date.parse('2005/04/08 00:00:00'));
+	uc.add('firefox', 33, 'http://localhost/firefox', Date.parse('2005/04/09 00:00:00'));
+
+
+	tc.loadEffector('CountSize').base(10).range(5);
+	tc.loadEffector('DateTimeColor');
+
+	uc.loadEffector('CountSize').base(10).range(5);
+	uc.loadEffector('DateTimeColor');
+
+	function setup() {
+	  	tc.setup('my_tag_cloud');
+		uc.setup('my_user_cloud')
+	}
+	
+	</script>
+
+</head>
+  <body onload="setup();">
+	<%= render :partial => "layouts/header" -%>
+    <%= yield -%>
+    <%= render :partial => "layouts/footer" -%>
+  </body>
+</html>

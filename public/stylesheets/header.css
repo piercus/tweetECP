@@ -1,0 +1,12 @@
+#header {
+	margin: 5px;
+	border-width: 1px;
+	border-style: solid;
+	padding: 20px;
+	background: #e0f8f8;
+}
+
+#header .title {
+	font-weight:bold;
+	font-size: 150%;
+}
