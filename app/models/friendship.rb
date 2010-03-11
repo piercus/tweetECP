@@ -40,7 +40,7 @@ class Friendship < ActiveRecord::Base
 	   else 
 		   raise "Error with the sens, bad input"
 	 end
-    
+   puts "[debug]conditions :"+conditions
 
 	 if !friendType.nil? && TYPES.include?(friendType)
          conditions[0] += " AND friendType = ?"
