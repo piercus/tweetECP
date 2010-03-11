@@ -2,16 +2,22 @@ class Tweet < ActiveRecord::Base
 	validates_uniqueness_of :twitter_id
 	has_many :links
 	belongs_to :user
-	
+	def self.load_links
+	  self.all.each{|t|
+		  t.load_links
+		}
+	end
 	def load_links
    	# créer un objet Link pour chaque URL du tweet
     	require 'uri' 
-    	urls = URI.extract(text)
-      urls.each {|urlArray|
-			  l = Link.create(:url => urlArray, :tweet_id => self.id, :post_date => self.t_date)
-			  l.get_original_link
-				l.get_delicious_tags
-	  	}
+			if !Link.find(:first, :conditions => ["tweet_id = ?", self.id]).nil?
+				urls = URI.extract(text)
+				urls.each {|urlArray|
+					l = Link.create(:url => urlArray, :tweet_id => self.id, :post_date => self.t_date)
+					l.get_original_link
+					l.get_delicious_tags
+				}
+			end
 	end
 	def load_arobases
 	   text = self.text

@@ -4,6 +4,9 @@ class User < ActiveRecord::Base
 	has_many :relations
   has_many :friends_to, :foreign_key => "user_to_id", :class_name => "Friendship"
   has_many :friends_from, :foreign_key => "user_from_id", :class_name => "Friendship"
+	validates_uniqueness_of :twitter_id
+	
+	
 	require 'twitter'
 	def get_more_users(l=1)
 	  #u is a User in the database

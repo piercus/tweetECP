@@ -2,7 +2,7 @@ class Tag < ActiveRecord::Base
 	belongs_to :link
 	has_many :links
 	has_many :relations
-  
+	
 	def self.set_weight
 	self.all.each{|t|
 	  t.set_weight

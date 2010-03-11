@@ -5,18 +5,18 @@ class Friendship < ActiveRecord::Base
     TYPES = ["follow","adress","interests","retwit"]
 
 
-  def self.add_new(ut,uf,ftype,options = nil)
+  def self.add_new(ut,uf,friendType,options = nil)
 
-	 if !TYPES.include?(ftype)
+	 if !TYPES.include?(friendType)
 	    puts "Problem with the type of the frienship,"
-	    puts ftype
+	    puts friendType
         return
 	 end
    	 
-	 fship = self.find(:first, :conditions => ["user_from_id = ? AND user_to_id = ? AND friendType = ?",uf.id,ut.id,ftype])
+	 fship = self.find(:first, :conditions => ["user_from_id = ? AND user_to_id = ? AND friendType = ?",uf.id,ut.id,friendType])
 
 	 if !fship || (options && options[:value] != fship.value)
-		f =  self.create(:user_from_id => uf.id, :user_to_id => ut.id, :friendType => ftype)
+		f =  self.create(:user_from_id => uf.id, :user_to_id => ut.id, :friendType => friendType)
 		if !options.nil? && options[:value]
 			#Options is used to store informations like the twit id of the twit who link the two users
 			f.value = options[:value]
@@ -24,7 +24,7 @@ class Friendship < ActiveRecord::Base
 	 end
 	 return f
   end
-  def self.findFriends(u,ftype = nil,sens = "none")
+  def self.findFriends(u,friendType = nil,sens = "none")
      conditions = [""]
 	 case sens
        when "to"  
@@ -42,17 +42,19 @@ class Friendship < ActiveRecord::Base
 	 end
     
 
-	 if !ftype.nil? && TYPES.include?(ftype)
-         conditions[0] += "AND friendType = ?"
+	 if !friendType.nil? && TYPES.include?(friendType)
+         conditions[0] += " AND friendType = ?"
          conditions.push(u.id)		 
 	 end
 
 	 friendships = self.find(:all,:conditions => conditions)
+	 
+
 	 friendships.collect{|f|
 		 {
-		  :friendship => (f.user_to == u ? "from" : "to") 
-		  :friend => (f.user_to == u ? f.user_from : f.user_to) 
-      :type => f.friendType
+		  :friendship => (f.user_to == u ? "from" : "to"),
+		  :friend => (f.user_to == u ? f.user_from : f.user_to) ,
+      :friendType => f.friendType,
 			:weigth => f.eval
 		 }
 	 }
@@ -70,14 +72,15 @@ class Friendship < ActiveRecord::Base
 		return friendships.to_a.collect{|i| i[1]}
 	end
 	def eval
+	   #We should make a better function here to a better recommandation
 	    weight = 0;
-			if type == "follow" && friendship == "from"
-				weight = 3
-			elsif type == "follow" && friendship == "to"
+			if friendType == "follow" #&& friendship == "from"
 				weight = 1
-			elsif type == "adress" && friendship == "to"
-				weight = 4	
-			elsif type == "adress" && friendship == "from"
+			#elsif friendType == "follow" && friendship == "to"
+			#	weight = 1
+			#elsif friendType == "adress" && friendship == "to"
+			#	weight = 4	
+			elsif friendType == "adress" #&& friendship == "from"
 				weight = 10
 			end		
 			
