@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100311133442) do
+ActiveRecord::Schema.define(:version => 20100311140049) do
 
   create_table "friendships", :force => true do |t|
     t.integer  "user_from_id"
@@ -67,6 +67,8 @@ ActiveRecord::Schema.define(:version => 20100311133442) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "screen_name"
+    t.string   "pic_url"
+    t.string   "description"
   end
 
 end
