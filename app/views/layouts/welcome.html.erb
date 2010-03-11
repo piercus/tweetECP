@@ -7,8 +7,6 @@
 	<%= stylesheet_link_tag 'tagcloud' %>
 	<%= stylesheet_link_tag 'search' %>
 	
-	
-	
     <%= javascript_include_tag :defaults -%>
 	<%= javascript_include_tag "tagcloud" -%>
 
@@ -108,7 +106,7 @@
 
 </head>
   <body onload="setup();">
-	<%= render :partial => "layouts/header" -%>
+	<%= render :partial => "layouts/header" -%>	
     <%= yield -%>
     <%= render :partial => "layouts/footer" -%>
   </body>

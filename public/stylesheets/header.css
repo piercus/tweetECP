@@ -1,12 +1,23 @@
+body {
+	font-family: Arial, Helvetica ;
+	font-size: 0.95em;
+}
+
 #header {
 	margin: 5px;
 	border-width: 1px;
 	border-style: solid;
 	padding: 20px;
-	background: #e0f8f8;
+	background: #006699;
 }
 
-#header .title {
+.title {
+	color: white;
 	font-weight:bold;
 	font-size: 150%;
+}
+
+.subtitle {
+	color: white;
+	font-weight:bold;
 }

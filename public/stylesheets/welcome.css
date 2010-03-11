@@ -1,3 +1,8 @@
+body {
+	font-family: Arial, Helvetica ;
+	font-size: 0.95em;
+}
+
 .user_name {
 	color: #E1377B;
 }
@@ -9,11 +14,15 @@
 	margin : auto;
 	border-width : 2px; 
 	border-style: solid;
-	border-color:#e0f8f8;
+	border-color:#006699;
 	padding-top:10px;
 	padding-bottom:10px;
 	margin-top:10px;
 	margin-bottom:10px;
+}
+
+#notice {
+	color:red;
 }
 
 .form_left {
@@ -43,7 +52,7 @@
 	text-align: center;
 	border-width : 2px; 
 	border-style: solid;
-	border-color:#e0f8f8;
+	border-color:#006699;
 	margin-right: 10px;
 }
 
@@ -54,7 +63,7 @@
 	text-align: center;
 	border-width : 2px; 
 	border-style: solid;
-	border-color: #e0f8f8;
+	border-color: #006699;
 	margin-right: 10px;
 	
 }
@@ -66,5 +75,5 @@
 	text-align: center;
 	border-width : 2px; 
 	border-style: solid;
-	border-color: #e0f8f8;
+	border-color: #006699;
 }
