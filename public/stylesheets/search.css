@@ -3,8 +3,26 @@
 	padding-left: 20px;
 }
 
+a {
+	text-decoration: none;
+	color: #006699;
+}
+
+a:hover {
+	text-decoration: none;
+	color:black;
+}
+
+.user_followers {
+	color: #006699;
+}
+
+.user_following {
+	color: #006699;
+}
+
 #pic {
-	padding-right:10px;
+	padding-right:20px;
 	float:left;
 	width:100px;
 	height:100px;
@@ -22,9 +40,10 @@
 #recent_tweets {
 	border-width: 1px; border-left-style: solid;
 	padding-left:20px;
-	width:300px;
+	width:260px;
 	height:auto;
-	float:left;	
+	float:left;
+	padding-right:50px;
 	margin-right:10px;
 }
 
@@ -41,10 +60,14 @@
 	color: #006699;
 }
 
+.text:hover {
+	color:black;
+}
+
 #tags {
 	border-width: 1px; border-left-style: solid;
 	width:300px;
-	height:auto;
+	height:200px;
 	float:left;
 	text-align: center;
 }

@@ -1,8 +1,23 @@
-<div id="form">
-<% form_tag :action => 'search' do %> 
-	<strong>Type in a user or a tag : </strong><br><br><%= text_field_tag :id %>
-	<%= submit_tag 'Go !' %>
-<% end %>
+<div id="forms">
+	
+	<div class="form_left">	
+		<% form_tag :action => 'search' do %> 
+			<strong>Type in a user : </strong><br><br><%= text_field_tag :id_user %>
+			<%= submit_tag 'Go !' %>
+		<% end %>
+	</div>
+
+	<div class="form">
+	<br>or
+	</div>
+
+	<div class="form">
+		<% form_tag :action => 'search' do %> 
+			<strong>Type in a tag : </strong><br><br><%= text_field_tag :id_tag %>
+			<%= submit_tag 'Go !' %>
+		<% end %>
+	</div>
+	
 </div>
 
 <div id="modules">

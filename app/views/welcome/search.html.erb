@@ -1,7 +1,35 @@
-<strong><%= @user.screen_name -%></strong> (<%= @user.name -%>)<br>
-_________________<br>
-Followers : <span class="user_following"><%= @user.nfollowers -%><br></span>
-Following : <span class="user_followers"><%= @user.nfollowing -%><br></span>
-Infos : <%#= @user.infos -%><br>
-Tags : <%#= @user.get_taglist -%><br>
-Recent tweets :
+
+
+<div id="user_result">
+	
+	<div id="pic">
+		<img src="http://youguru.net/blog/wp-content/uploads/2009/07/twitter_bird_logo_by_ipotion.png" height="100" width="100">
+	</div>
+	
+	<div id="info">
+		<strong><%= @user.screen_name -%></strong> (<%= @user.name -%>)<br><br>
+		Followers : <span class="user_following"><%= @user.nfollowers -%></span><br>
+		Following : <span class="user_followers"><%= @user.nfollowing -%></span><br>
+		Infos : <%#= @user.infos -%><br>
+		<a href="http://www.twitter.com/<%=@user.screen_name-%>">follow <%= @user.screen_name -%> on twitter</a>
+	</div>
+	
+	<div id="recent_tweets">
+		<div class="section_title";>Recents Tweets</div><br>
+		<div class="text"><%= @tweet0.text -%></div>
+		<div class="date">on <%= @tweet0.t_date -%></div><br>
+		<div class="text"><%= @tweet1.text -%></div>
+		<div class="date">on <%= @tweet1.t_date -%></div><br>
+		<div class="text"><%= @tweet2.text -%></div>
+		<div class="date">on <%= @tweet2.t_date -%></div>
+	</div>
+	
+	<div id="tags">
+		<div class="section_title";>Tags</div><br>
+		<%#= @user.get_taglist -%>
+	</div>
+	
+	<div style="clear:both;">
+	</div>
+
+</div>
