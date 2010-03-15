@@ -213,4 +213,30 @@ class User < ActiveRecord::Base
 			return {:users => users}
 		end
 	end
+	def self.HubsAndAuthority(n)
+	  users = self.all
+		list = {}
+		users.each{|u|
+		  list[u.id.to_s] = {  
+			  :auth => 1,
+			  :hub => 1
+			}
+		}
+		n.times {
+			users.each{|u|
+				u.followings.each{|f|
+					list[u.id.to_s][:auth] +=  list[f[:friend].id.to_s][:hub]
+				}
+			}
+			users.each{|u|
+				u.followers.each{|f|
+					list[u.id.to_s][:hub] +=  list[f[:friend].id.to_s][:auth]
+				}
+			}				
+			puts list.inspect		
+		}
+    return list
+	end
+	
+
 end
