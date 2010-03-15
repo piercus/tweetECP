@@ -15,18 +15,23 @@ class Relation < ActiveRecord::Base
 			
 			# crŽer/incrŽmente la relation
 
-			relation = Relation.find(:conditions["user_id = ? and tag_id = ?",link.tweet.user.id, tag.id])
+			relation = Relation.find(:first, :conditions => ["user_id = ? and tag_id = ?",link.tweet.user.id, tag.id])
 			if !relation
 				relation = Relation.create(:user_id => link.tweet.user.id, :tag_id => tag.id)
 			end
-			relation.links << link
+			link.relations << relation if !link.relations.include?(relation)
 		}
 	end  
 	
 	def set_weight
 		self.weight = links.length
+		self.save
 		return self.weight
 	end		    
+	def get_weight
+	  set_weight if !weight
+		return weight
+	end
 	def strenght
 	  self.weight/self.tag.popularity
 	end

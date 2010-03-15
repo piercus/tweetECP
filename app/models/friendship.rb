@@ -2,24 +2,31 @@ class Friendship < ActiveRecord::Base
   belongs_to :user_to, :foreign_key => "user_to_id", :class_name => "User"
   belongs_to :user_from, :foreign_key => "user_from_id", :class_name => "User"
  
-    TYPES = ["follow","adress","interests","retwit"]
+    TYPES = ["follow","address","interests","retwit"]
 
 
-  def self.add_new(ut,uf,friendType,options = nil)
+  def self.add_new(ut,uf,friendType, value = nil)
 
 	 if !TYPES.include?(friendType)
 	    puts "Problem with the type of the frienship,"
 	    puts friendType
-        return
+      return
 	 end
-   	 
-	 fship = self.find(:first, :conditions => ["user_from_id = ? AND user_to_id = ? AND friendType = ?",uf.id,ut.id,friendType])
+   conditions = ["user_from_id = ? AND user_to_id = ? AND friendType = ?",uf.id,ut.id,friendType]
+	 #For the fType adress, we verify that the reference has been made on the same tweet, we then use the value column
+	 if friendType == "adress"
+	   raise "Must have a tweet id in parameter" if value.nil?
+	   conditions[0] += " AND value == ?"
+		 conditions.push(value)
+	 end
+	 fship = self.find(:first, :conditions => conditions)
 
-	 if !fship || (options && options[:value] != fship.value)
+	 if !fship 
 		f =  self.create(:user_from_id => uf.id, :user_to_id => ut.id, :friendType => friendType)
-		if !options.nil? && options[:value]
+		if value
 			#Options is used to store informations like the twit id of the twit who link the two users
-			f.value = options[:value]
+			f.value = value
+			f.save!
 		end
 	 end
 	 return f
@@ -40,15 +47,14 @@ class Friendship < ActiveRecord::Base
 	   else 
 		   raise "Error with the sens, bad input"
 	 end
-   puts "[debug]conditions :"+conditions
+
 
 	 if !friendType.nil? && TYPES.include?(friendType)
          conditions[0] += " AND friendType = ?"
-         conditions.push(u.id)		 
+         conditions.push(friendType)		 
 	 end
 
-	 friendships = self.find(:all,:conditions => conditions)
-	 
+	 friendships = Friendship.find(:all,:conditions => conditions)
 
 	 friendships.collect{|f|
 		 {
@@ -78,9 +84,9 @@ class Friendship < ActiveRecord::Base
 				weight = 1
 			#elsif friendType == "follow" && friendship == "to"
 			#	weight = 1
-			#elsif friendType == "adress" && friendship == "to"
+			#elsif friendType == "address" && friendship == "to"
 			#	weight = 4	
-			elsif friendType == "adress" #&& friendship == "from"
+			elsif friendType == "address" #&& friendship == "from"
 				weight = 10
 			end		
 			
