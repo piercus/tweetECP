@@ -34,11 +34,27 @@ class User < ActiveRecord::Base
 		  Friendship.add_new(self,u,"follow")
 		}
 	end
+  def add_address(users,tweet_ref)#correspond to the @ in tweet, call in tweet.rb
+	  #here self adress a tweet to users
+		users.each{|u|
+		  Friendship.add_new(u,self,"address",tweet_ref)
+		}
+	end
 	def add_followings(users)
 	  users.each{|u|
 		  Friendship.add_new(u,self,"follow")
 		}
 	end
+	################################################################################################
+	#
+	# Friendships Getters
+	# The output format is like 
+	# :weight => 1, // an arbitrary value to classify friendships  
+	# :friendType=>"from" or "to" // is self the user who make the friendships or is it the other
+	# :friend => Friend Object 
+	# :friendType => "follow" or "address"
+	################################################################################################
+	
   def followers
 	  Friendship.findFriends(self,"follow","from")
   end  
@@ -49,7 +65,9 @@ class User < ActiveRecord::Base
   def friends
      Friendship.findFriends(self)
   end
-  def get_followers
+
+	
+	def get_followers
 		HTTParty.get('http://api.twitter.com/1/statuses/followers.json', :query => {:user_id => twitter_id })
 	end	
 	
@@ -103,10 +121,14 @@ class User < ActiveRecord::Base
 	def self.set_users_from_name(users)
 	  #We have a list of users names and we want a list of users in database
 		require 'twitter'
+		localUsers = []
+		
 		users.each{|u|
 		  twitter_user = self.get_twitter_user_from_name(u)
-			self.set_user_from_twit(twitter_user)
+			localU = self.set_user_from_twit(twitter_user)
+			localUsers.push(localU)
 		}
+		return localUsers
 	end
 	def get_note(object,id)
 	  if object == "User"

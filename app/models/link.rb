@@ -9,10 +9,10 @@ class Link < ActiveRecord::Base
 		
     def self.get_delicious_tags
 		  puts "[info]Try to get Delicious Tags of all the links in database"
-		  #get all the original links
+		  #get all delicious tags
 			count = 0
 			self.all.each{|l|
-				l.get_original_link if l.original.nil?		  
+				l.get_delicious_tags
 			}
 			return count
 		end
@@ -21,11 +21,8 @@ class Link < ActiveRecord::Base
 		  puts "[info]Try to get Original Links all the links in the database"
 		  #get all the original links
 			count = 0
-			self.all.each{|l|
-			  
-				l.get_original_link if l.original.nil?
-				
-			  
+			self.all.each{|l|		  
+				l.get_original_link if l.original.blank?
 			}
 			return count
 		end
@@ -44,6 +41,7 @@ class Link < ActiveRecord::Base
 	
 	    #open-uri : une librairie pour récupérer une page web depuis un lien  
       raise "no url in the object" if self.url.nil?
+      return false if self.url.nil?
 	    require "timeout"
       require 'twitter' #we use HTTParty in the hack for nxy.in
 			
@@ -58,7 +56,6 @@ class Link < ActiveRecord::Base
 							end
 						rescue Timeout::Error
               puts "[Error]Timeout Error : "+self.inspect
-							self.url = nil
 							return false
 						end
 					rescue => e
@@ -67,14 +64,15 @@ class Link < ActiveRecord::Base
 									self.original = self.parse_mini_url(self.url)
 									self.save
 						else
-						  puts "[Error]Problem with the link (id :"+self.id+ ") see the logs for more informations"
+						  puts "[Error]Problem with to get original link : "+e.to_s+"\nWith the link (id :"+self.id.to_s+ ") see the logs for more informations"
 							logger.info self.inspect
+							return false
 						end
 						return false
 				  end  
 					#display a message when it's nil
 					if self.original.nil?
-						puts "Error while loading the link" + self.url
+						puts "[Error] while loading the link" + self.url
 					end
 			else
 			  orig_uri = self.url
@@ -96,31 +94,36 @@ class Link < ActiveRecord::Base
 		  return self.reference
   	end
   	def get_delicious_tags
-    	# récupèrer les tags associés aux lien "original" auprès de delicious
+		  return self.tags if self.delicioused
+			# récupèrer les tags associés aux lien "original" auprès de delicious
+	
+			require "rexml/document"
+			require "lib/delicious/api"
 		
-    	require "rexml/document"
-    	require "lib/delicious/api"
-    	
-    	imported_tags = []
-    	
-    	# Consumer Key & Shared Secret provided by Yahoo!
-    	secret = "d8882abeadb73a8d5a17800a4ff948580132d7f9"
-    	key ="dj0yJmk9aTVMYU90Y0lYY2F1JmQ9WVdrOVFucHlaV1JPTXpnbWNHbzlNVGt3TkRBME1EQTJNZy0tJnM9Y29uc3VtZXJzZWNyZXQmeD0wYg--"
- 		
-    	api = Delicious::API.new(key,secret)
-    	response = api.suggest!(original)
-    	resp = response.body
-    	
-    	doc = REXML::Document.new(resp)
-    	doc.elements.each("*/recommended"){|tag| imported_tags.push(tag.text)}
-    	doc.elements.each("*/popular"){|tag| imported_tags.push(tag.text)}
-    	# Ici on doit ajouter une fonction qui créé les tags dans la base de données
-    	# en vérifiant qu'ils existent pas encore et qui lie ce lien à ces tags
-   
-   		Relation.build(imported_tags, self)			
-   
-       	return imported_tags
-  		end
+			imported_tags = []
+		
+			# Consumer Key & Shared Secret provided by Yahoo!
+
+			key = "dj0yJmk9a3owem9BVWlxbWhMJmQ9WVdrOVdERTRTRzFITjJzbWNHbzlNVFkzTmpjMU5ERTJNZy0tJnM9Y29uc3VtZXJzZWNyZXQmeD01Ng--"
+			secret ="d5eca4f03b486b19bf168c4705a58eb7dd0692d8"
+			# App ID : X18HmG7k
+	
+			api = Delicious::API.new(key,secret)
+			response = api.suggest!(original)
+			resp = response.body
+			
+			doc = REXML::Document.new(resp)
+			doc.elements.each("*/recommended"){|tag| imported_tags.push(tag.text)}
+			doc.elements.each("*/popular"){|tag| imported_tags.push(tag.text)}
+			# Ici on doit ajouter une fonction qui créé les tags dans la base de données
+			# en vérifiant qu'ils existent pas encore et qui lie ce lien à ces tags
+			puts "[info]Take Tags from delicious, :"+imported_tags.inspect
+			Relation.build(imported_tags, self)			
+			
+			self.delicioused = true
+
+			return imported_tags
+  	end
   		
   		
 				

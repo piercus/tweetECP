@@ -4,15 +4,16 @@ class Tag < ActiveRecord::Base
 	has_many :relations
 	
 	def self.set_weight
-	self.all.each{|t|
-	  t.set_weight
-	}
+	  self.all.each{|t|
+	    t.set_weight
+			t.save!
+	  }
 	end
 	
 	def set_weight
 		w = 0
-		relations.each {|relation|
-			w =+ relation.weight
+		self.relations.each {|relation|
+			w =+ relation.get_weight
 		}	
 		self.weight = w
 		return w
