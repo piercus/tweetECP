@@ -173,15 +173,28 @@ class User < ActiveRecord::Base
 		taglist.sort!{|x,y| y[:weight] <=> x[:weight]}
 		return taglist[1,n]
 	end
+	def last_links(n = 5)
+	  ll = [];
+		self.tweets.each{|t|
+		  ls.push(t.links)
+		}
+		ls.flatten
+		ls[-(n+1)..-1]
+	end
   def self.recomand(object, id, n = 20)
 	  
 		if object == "User"
 		  u = User.find(id)
 			friends = Friendship.reco(u)
+			puts friends.inspect
 			friends.sort!{|x,y| y[:weight] <=> x[:weight]}
 			if friends.length < n
+			  #otherfriends = Friendship.reco(friends[:friend])
+
 			  #continue the algorithm on 2nd degree
 			end
+			
+			friends.to_a.sort!{|x,y| y[1][:weight] <=> x[1][:weight]}
 			friends = friends[0,n]
 			
 			return {:users => friends}
