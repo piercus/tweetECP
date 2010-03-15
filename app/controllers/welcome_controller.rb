@@ -2,12 +2,11 @@ class WelcomeController < ApplicationController
   
   def index
   end
-  
-  def hello
-    @users = User.find(:all)
-  end
-  
+      
   def search
+  
+    @input = {"tags" => {"web" => 10, "music" => 20, "politics" => 30, "sports" => 40}, "users" => {"loic" => 10, "scobleizer" => 20, "jalove" => 30, "thaven" => 40} }.to_json
+    
     
     if params[:type]=="valueuser"
       if params[:id_user].blank?
