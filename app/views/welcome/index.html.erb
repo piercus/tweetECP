@@ -1,49 +1,20 @@
+<div id="welcome_content">
 <div id="forms">
-	
-	<div class="form_left">	
-		<% form_tag :action => 'search' do %> 
-			<strong>Type in a user : </strong><br><br><%= text_field_tag :id_user %><%= hidden_field_tag :type, :value => "user" %>
-			<%= submit_tag 'Go !' %>
-		<% end %>
-				
-	</div>
-
-	<div class="form">
-	<br>or<br><br>
-	<% if flash[:notice] -%>
-		<div id="notice"><%= flash[:notice] %></div>
-	<% end %>
-	</div>
-
-	<div class="form">
-		<% form_tag :action => 'search' do %> 
-			<strong>Type in a tag : </strong><br><br><%= text_field_tag :id_tag %><%= hidden_field_tag :type, :value => "tag" %>
-			<%= submit_tag 'Go !' %>
-		<% end %>
-		
-	</div>
-	
+	<%= render :partial => "shared/welcome/forms", :object => @user -%>	
 </div>
 
 <div id="modules">
-
 	<div class="mod_users">
-	<strong>Popular Users</strong>
-	<div id="my_user_cloud"></div>
+		<%= render :partial => "shared/welcome/popusers", :object => @user -%>	
 	</div>	
-
 	<div class="mod_tags">
-	<strong>Popular Tags</strong>
-	<div id="my_tag_cloud"></div>
+		<%= render :partial => "shared/welcome/poptags", :object => @user -%>	
 	</div>
-
 	<div class="mod_links">
-	<strong>Popular Links</strong>
-	<div id="my_tag_cloud2"></div>
+		<%= render :partial => "shared/welcome/poplinks", :object => @user -%>	
 	</div>
-
 
 	<div style="clear:both;">
 	</div>
-
+</div>
 </div>

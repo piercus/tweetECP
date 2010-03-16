@@ -1,35 +1,27 @@
-
-
 <div id="user_result">
-	
-	<div id="pic">
-		<img src="http://youguru.net/blog/wp-content/uploads/2009/07/twitter_bird_logo_by_ipotion.png" height="100" width="100">
+	<div id="object">
+		<% if @user %>
+	    	<%= render :partial => "shared/user", :object => @user -%>	
+		<% elsif @tag %>
+	    	<%= render :partial => "shared/tag", :object => @tag -%>	
+		<% end %>
 	</div>
-	
-	<div id="info">
-		<strong><%= @user.screen_name -%></strong> (<%= @user.name -%>)<br><br>
-		<span class="user_following"><%= @user.nfollowers -%></span> followers<br>
-		<span class="user_followers"><%= @user.nfollowing -%></span> following<br>
-		Infos : <%#= @user.infos -%><br>
-		<a href="http://www.twitter.com/<%=@user.screen_name-%>">follow <%= @user.screen_name -%> on twitter</a>
+	<div id="sidebar">
+		<% if @user %>
+			<%= render :partial => "shared/usersidebar", :object => @user -%>	
+		<% elsif @tag %>
+	    	<%= render :partial => "shared/tagsidebar", :object => @tag -%>	
+		<% end %>
 	</div>
-	
-	<div id="recent_tweets">
-		<div class="section_title";>Recents Tweets</div><br>
-		<div class="text"><%= @last_tweets[2].text -%></div>
-		<div class="date">on <%= @last_tweets[2].t_date -%></div><br>
-		<div class="text"><%= @last_tweets[1].text -%></div>
-		<div class="date">on <%= @last_tweets[1].t_date -%></div><br>
-		<div class="text"><%= @last_tweets[0].text -%></div>
-		<div class="date">on <%= @last_tweets[0].t_date -%></div>
+	<div id="content">
+		<div id="last_links">
+			<%= render :partial => "shared/lastlinks", :object => @user -%>	
+		</div>
+		<div id="tags">
+			<%= render :partial => "shared/tagcloud", :object => @user -%>	
+		</div
+		<div id="users">
+			<%= render :partial => "shared/usercloud", :object => @user -%>	
+		</div>
 	</div>
-	
-	<div id="tags">
-		<div class="section_title">Tags</div><br>
-		<div id="user_tag_cloud"></div>
-	</div>
-	
-	<div style="clear:both;">
-	</div>
-
 </div>

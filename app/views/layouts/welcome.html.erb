@@ -16,35 +16,41 @@
 	var input = <%= @input.to_s -%>;
 	var input_tags = input['tags'];
 	var input_users = input['users'];
-
+	
+	// on crée deux clouds : un pour les tag et un pour les users 
 	var tags = TagCloud.create();
 	var users = TagCloud.create();
 
+	// on parcourt les hash et on les convertit en cloud
+	
 	for (var i in input_tags) {
 		if (input_tags.hasOwnProperty(i)) {
-			tags.add(i, input_tags[i], 'http://localhost/authentication', Date.parse('2005/04/13 00:00:00'));
+			tags.add(i, input_tags[i][0], input_tags[i][1], Date.parse('2005/04/13 00:00:00'));
 		}
 	}
-	
 	for (var i in input_users) {
 		if (input_users.hasOwnProperty(i)) {
-			users.add(i, input_users[i], 'http://localhost/authentication', Date.parse('2005/04/13 00:00:00'));
+			users.add(i, input_users[i][0], input_users[i][1], Date.parse('2005/04/13 00:00:00'));
 		}
 	}
 			
 	tags.loadEffector('CountSize').base(10).range(5);
 	tags.loadEffector('DateTimeColor');
+	
+	users.loadEffector('CountSize').base(10).range(5);
+	users.loadEffector('DateTimeColor');
 
 	function setup() {
 		tags.setup('user_tag_cloud');
+		users.setup('user_user_cloud');
 	}
 	
 	</script>
 
 </head>
   <body onload="setup();">
-	<%= render :partial => "layouts/header" -%>	
+	<%= render :partial => "layouts/header" -%>
     <%= yield -%>
     <%= render :partial => "layouts/footer" -%>
-  </body>
+</body>
 </html>

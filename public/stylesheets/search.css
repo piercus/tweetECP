@@ -1,6 +1,78 @@
 #user_result {
-	padding-top:30px;
-	padding-left: 20px;
+	border:solid;
+	margin:15px; padding:2px;
+	height:700px;
+}
+
+#object {
+	border:solid; margin:2px; padding:2px; border-color:red;
+}
+
+#sidebar {
+	border:solid; margin:2px; padding:2px; border-color:red;
+	width: 30%;
+	height:600px;
+	float:left;
+}
+
+#user_info {
+	border:solid; margin:2px; padding:2px;
+	float:left;
+	width:97%;
+	height:auto;
+}
+
+#pic {
+	border:solid; margin:2px; padding:2px;
+	float:left;
+	width:100px;
+	height:100px;
+	padding-right:20px;
+}
+
+#info {
+	border:solid; margin:2px; padding:2px;
+	width:60%;
+	height:auto;
+	float:left;
+}
+
+#recent_tweets {
+	border:solid; margin:2px; padding:2px;
+	width:auto;
+	height:auto;
+	float:left;
+}
+
+#content {
+	border:solid; margin:2px; padding:2px; border-color:red;
+	width:60%;
+	height:auto;
+	float:left;
+}
+
+#last_links {
+	border:solid; margin:2px; padding:2px;
+}
+
+#tags {
+	border:solid; margin:2px; padding:2px;
+	width:48%;
+	height:150px;
+	float:left;
+	text-align: center;
+}
+
+#users {
+	border:solid; margin:2px; padding:2px;
+	width:48%;
+	height:150px;
+	float:left;
+	text-align: center;
+}
+
+body {
+	font-family: Lucida;
 }
 
 a {
@@ -21,32 +93,6 @@ a:hover {
 	color: #006699;
 }
 
-#pic {
-	padding-right:20px;
-	float:left;
-	width:100px;
-	height:100px;
-}
-
-#info {
-	width:auto;
-	height:auto;
-	border-width: 1px; border-left-style: solid;
-	padding-left: 20px;
-	padding-right:50px;
-	float:left;
-}
-
-#recent_tweets {
-	border-width: 1px; border-left-style: solid;
-	padding-left:20px;
-	width:260px;
-	height:auto;
-	float:left;
-	padding-right:50px;
-	margin-right:10px;
-}
-
 .section_title {
 	font-weight: bold;
 	text-align: center;
@@ -64,10 +110,8 @@ a:hover {
 	color:black;
 }
 
-#tags {
-	border-width: 1px; border-left-style: solid;
-	width:300px;
-	height:200px;
-	float:left;
-	text-align: center;
+#main_title {
+	font-size: 3em;
+	font-family:Georgia;
+	font-weight: bold;
 }

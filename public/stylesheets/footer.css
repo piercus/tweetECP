@@ -1,4 +1,14 @@
 #footer {
+	color:white;
+	text-align:center;
+	background-color: rgb(49, 78, 120);
+	border-top: 1px solid;
 	font-size: 80%;
 	margin-left: 5 px;
+	height:100px;
+	padding-top:20px;
+}
+
+#link {
+	color:rgb(156, 194, 65);
 }
