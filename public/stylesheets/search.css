@@ -3,9 +3,9 @@
 	width:95%;
 	margin-left:30px;
 	margin-right:20px;
-	background: #f4f5f5 url("http://mootools.net//assets/images/gradient.png") repeat-x top left;
+	background: #f4f5f5 url("http://mootools.net//assets/images/gradient.png") repeat-x top;
 	padding:10px;
-	height:500px;
+	height:550px;
 }
 
 #object {
@@ -19,7 +19,7 @@
 	float:left;
 	border-right:solid;
 	border-right-width:1px;
-	padding-right:10px; margin-right:10px;
+	padding-right:20px;
 }
 
 #user_info {
@@ -109,19 +109,24 @@ a:hover {
 }
 
 .date {
+	color: #999999;
 	font-size: 0.8em;
 }
 
 .text {
-	color: rgb(51, 153, 153);
+	color:black ;
 }
 
 .text:hover {
-	color:black;
+	color:rgb(51, 153, 153);
 }
 
 #main_title {
 	font-size: 3em;
 	font-family:Georgia;
 	font-weight: bold;
+}
+
+img {
+	
 }

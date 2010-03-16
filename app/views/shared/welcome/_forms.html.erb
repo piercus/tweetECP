@@ -1,7 +1,7 @@
 <div class="form_left">	
 	<% form_tag :action => 'search' do %> 
 		<span class="form_title">Type in a user</span><br><br>
-		<%= text_field_tag :id_user %><%= hidden_field_tag :type, :value => "user" %>
+		<%= text_field_tag :id_user %><%= hidden_field_tag :type, :value => "user" %><br><br>
 		<%= submit_tag 'Search !' %>
 	<% end %>
 			
@@ -17,7 +17,7 @@
 <div class="form_right">
 	<% form_tag :action => 'search' do %> 
 		<span class="form_title">Type in a tag</span><br><br>
-		<%= text_field_tag :id_tag %><%= hidden_field_tag :type, :value => "tag" %>
+		<%= text_field_tag :id_tag %><%= hidden_field_tag :type, :value => "tag" %><br><br>
 		<%= submit_tag 'Search !' %>
 	<% end %>
 	
