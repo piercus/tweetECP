@@ -3,14 +3,14 @@ class Relation < ActiveRecord::Base
 	belongs_to :tag
 	has_and_belongs_to_many :links
 
-	def self.build(tags, link)
+	def self.build(tags, link,w = 1)
 		tags.each {|tag_word|
 	
 			# enregistre le tag
 			
 			tag = Tag.find(:first, :conditions => ["word = ?",tag_word]) #On vérifie la non existence du twit
 		    if !tag
-		    	tag = Tag.create(:word => tag_word)
+		    	tag = Tag.create(:word => tag_word, :weight => w)
 		    end
 			
 			# créer/incrémente la relation

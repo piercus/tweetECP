@@ -165,12 +165,30 @@ class User < ActiveRecord::Base
 			return weight
 		end	
 	end
-	def get_best_tags(n)
+	def get_best_tags(n,factor = 1)
+	  return [] if factor < 0.1
 	  taglist = [];
+		puts "[debug] in best_tags"
 	  self.relations.each{|r|
 		  taglist.push({:tag => r.tag, :weight => r.strenght})
 		}
 		taglist.sort!{|x,y| y[:weight] <=> x[:weight]}
+		
+		taglist.each{|t| t[:weight] = factor*t[:weight] }
+		
+		if self.relations.size < n
+		  m = self.relations.size
+			list = [];
+		  self.friends.each{|f|
+			  puts f[:friend].inspect
+				puts f[:friend].get_best_tags(n-m,factor*1/2).inspect
+			  list.push(f[:friend].get_best_tags(n-m,factor*1/2))
+			}
+			list.flatten!
+			list.sort!{|x,y| y[:weight] <=> x[:weight]}
+			puts list.inspect + m.inspect + taglist.inspect
+			taglist.concat(list)
+		end
 		return taglist[1,n]
 	end
 	def last_links(n = 5)
@@ -186,18 +204,22 @@ class User < ActiveRecord::Base
 		if object == "User"
 		  u = User.find(id)
 			friends = Friendship.reco(u)
-			puts friends.inspect
-			friends.sort!{|x,y| y[:weight] <=> x[:weight]}
-			if friends.length < n
+			sortedF = friends.to_a.sort!{|x,y| y[1][:weight] <=> x[1][:weight]}
+			
+			#if friends.length < n
 			  #otherfriends = Friendship.reco(friends[:friend])
 
 			  #continue the algorithm on 2nd degree
+			#end
+
+			#format an output
+			j = 0;
+			out = {};
+			while j < n  do
+			  out[sortedF[j][0]] = friends[sortedF[j][0]][:weight]
+	      j += 1
 			end
-			
-			friends.to_a.sort!{|x,y| y[1][:weight] <=> x[1][:weight]}
-			friends = friends[0,n]
-			
-			return {:users => friends}
+			return out
 		end
 		if object == "Link"
 		  l = Link.find(id)

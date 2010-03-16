@@ -18,6 +18,7 @@ class Tag < ActiveRecord::Base
 		self.weight = w
 		return w
 	end
+	
 	def popularity
 		return weight
 	end
@@ -27,7 +28,7 @@ class Tag < ActiveRecord::Base
   def self.recomand(object, id, n = 20)
 		if object == "User"
 		  u= User.find(id)
-			return {:tags => u.get_best_tags(n) }
+			return u.get_best_tags(n) 
 		elsif object == "Link"
 		  l = Link.find(id)
 			if l.reference
