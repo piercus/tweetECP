@@ -4,9 +4,9 @@ class WelcomeController < ApplicationController
   end
       
   def search
-  
-    @input = {"tags" => {"web" => 10, "music" => 20, "politics" => 30, "sports" => 40}, "users" => {"loic" => 10, "scobleizer" => 20, "jalove" => 30, "thaven" => 40} }.to_json
     
+    url = url_for(:controller => "welcome", :action => "search", :type => "valueuser", :id_user => "scobleizer")
+    @input = {"tags" => {"web" => [10,""], "music" => [20,""], "politics" => [20,""], "sports" => [20,""]}, "users" => {"loic" => [20,""], "scobleizer" => [20,url], "jalove" => [20,""], "thaven" => [20,""]} }.to_json
     
     if params[:type]=="valueuser"
       if params[:id_user].blank?
@@ -14,7 +14,9 @@ class WelcomeController < ApplicationController
         redirect_to :action => "index"
       else
         @user = User.find(:first, :conditions => ["screen_name = ?", params[:id_user]])
-        @last_tweets = Tweet.find(:all,:conditions => ["user_id = ?", @user.id])[-3..-1]
+        @last_tweets = @user.tweets[-3..-1]
+        #@last_links = Link.find(:all,:conditions => ["user_id = ?", @user.id])[-5..-1]
+
       end  
     elsif params[:type]=="valuetag"
       if params[:id_tag].blank?
@@ -22,7 +24,6 @@ class WelcomeController < ApplicationController
         redirect_to :action => "index"
       else
         @tag = Tag.find(:first, :conditions => ["word = ?", params[:id_tag]])
-        redirect_to :action => "index"
       end
     end
     

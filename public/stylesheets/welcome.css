@@ -3,22 +3,18 @@ body {
 	font-size: 0.95em;
 }
 
-.user_name {
-	color: #E1377B;
+#welcome_content {
+	background: #f4f5f5 url("http://mootools.net//assets/images/gradient.png") repeat-x top left;
+	width:100%;
+	height:400px;
+	float:none;
 }
 
 #forms {
-	background-color: #CCCCCC;
-	width : 95%;
-	height: 70px;
-	margin : auto;
-	border-width : 2px; 
-	border-style: solid;
-	border-color:#006699;
-	padding-top:10px;
-	padding-bottom:10px;
-	margin-top:10px;
-	margin-bottom:10px;
+	border:solid; margin:2px; padding:2px;
+	width : auto;
+	height: 100px;
+	vertical-align:middle;
 }
 
 #notice {
@@ -33,6 +29,7 @@ body {
 }
 
 .form {
+	vertical-align:middle;
 	text-align: center;
 	width: 200px;
 	float: left;
@@ -47,7 +44,7 @@ body {
 
 .mod_users {
 	width : 32.5%;
-	height : auto;
+	height : 200px;
 	float: left;
 	text-align: center;
 	border-width : 2px; 
@@ -58,7 +55,7 @@ body {
 
 .mod_tags {
 	width : 32.5%;
-	height : auto;
+	height : 200px;
 	float: left;
 	text-align: center;
 	border-width : 2px; 
@@ -70,7 +67,7 @@ body {
 
 .mod_links {
 	width : 32.5%;
-	height : auto;
+	height : 200px;
 	float: left;
 	text-align: center;
 	border-width : 2px; 
