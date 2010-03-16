@@ -1,9 +1,10 @@
-<div class="form_left">	
-	<% form_tag :action => 'search' do %> 
-		<strong>Type in a user : </strong><br><br><%= text_field_tag :id_user %><%= hidden_field_tag :type, :value => "user" %>
-		<%= submit_tag 'Go !' %>
-	<% end %>
-			
+
+
+<div class="form_left">
+  <div class="yui-skin-sam">	
+	  <div id='user_screen_name'>
+	  </div>
+	</div>
 </div>
 
 <div class="form">
@@ -15,7 +16,7 @@
 
 <div class="form">
 	<% form_tag :action => 'search' do %> 
-		<strong>Type in a tag : </strong><br><br><%= text_field_tag :id_tag %><%= hidden_field_tag :type, :value => "tag" %>
+		<strong>Type in a tag : </strong><br><br><%= text_field_tag :id %><%= hidden_field_tag :type, :value => "tag" %>
 		<%= submit_tag 'Go !' %>
 	<% end %>
 	
