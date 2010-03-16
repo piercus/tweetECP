@@ -14,8 +14,9 @@ class WelcomeController < ApplicationController
         redirect_to :action => "index"
       else
         @user = User.find(:first, :conditions => ["screen_name = ?", params[:id_user]])
-        @last_tweets = @user.tweets[-3..-1]
-        #@last_links = Link.find(:all,:conditions => ["user_id = ?", @user.id])[-5..-1]
+        @last_tweets = @user.tweets[-5..-1]
+        puts @last_tweets.inspect
+        #@last_links = Link.find(:all,:conditions => ["user_id = ?", @user.id])[-4..-1]
 
       end  
     elsif params[:type]=="valuetag"

@@ -7,11 +7,12 @@ div#mytagcloud {
 	height: auto;
 }
 ul.tagcloud-list {
-  font-size: 100%;
-  font-weight: bold;
-  font-family: "Arial", "sans-self";
-  padding: 2px;
-  margin: 10px;
+  	font-size: 100%;
+  	font-weight: bold;
+  	font-family: "Arial", "sans-self";
+  	padding: 2px;
+  	margin: 10px;
+	color:rgb(51, 153, 153);
 }
 li.tagcloud-base {
   font-size: 24px;

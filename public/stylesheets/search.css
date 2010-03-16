@@ -1,29 +1,36 @@
 #user_result {
-	border:solid;
-	margin:15px; padding:2px;
-	height:700px;
+	border: 1px solid rgb(221, 221, 221);
+	width:95%;
+	margin-left:30px;
+	margin-right:20px;
+	background: #f4f5f5 url("http://mootools.net//assets/images/gradient.png") repeat-x top left;
+	padding:10px;
+	height:500px;
 }
 
 #object {
-	border:solid; margin:2px; padding:2px; border-color:red;
+	padding-left:13px;
 }
 
 #sidebar {
-	border:solid; margin:2px; padding:2px; border-color:red;
+	margin:2px; padding:2px;
 	width: 30%;
-	height:600px;
+	height:auto;
 	float:left;
+	border-right:solid;
+	border-right-width:1px;
+	padding-right:10px; margin-right:10px;
 }
 
 #user_info {
-	border:solid; margin:2px; padding:2px;
+	margin:2px; padding:2px;
 	float:left;
 	width:97%;
 	height:auto;
 }
 
 #pic {
-	border:solid; margin:2px; padding:2px;
+	margin:2px; padding:2px;
 	float:left;
 	width:100px;
 	height:100px;
@@ -31,40 +38,47 @@
 }
 
 #info {
-	border:solid; margin:2px; padding:2px;
+	margin:2px; padding:2px;
 	width:60%;
 	height:auto;
 	float:left;
 }
 
 #recent_tweets {
-	border:solid; margin:2px; padding:2px;
-	width:auto;
+	border-top:solid;
+	border-top-width:1px;
+	padding-top:25px; margin-top:25px;
+	width:100%;
 	height:auto;
 	float:left;
 }
 
 #content {
-	border:solid; margin:2px; padding:2px; border-color:red;
+	margin-left:20px;
 	width:60%;
 	height:auto;
 	float:left;
 }
 
 #last_links {
-	border:solid; margin:2px; padding:2px;
+	border-bottom:solid;
+	border-bottom-width:1px;
+	padding-bottom:20px;
 }
 
 #tags {
-	border:solid; margin:2px; padding:2px;
+	margin-top:20px;
 	width:48%;
 	height:150px;
 	float:left;
 	text-align: center;
+	border-right:solid;
+	border-right-width:1px;
+	padding-right:20px;
 }
 
 #users {
-	border:solid; margin:2px; padding:2px;
+	padding-top:20px;
 	width:48%;
 	height:150px;
 	float:left;
@@ -72,12 +86,13 @@
 }
 
 body {
-	font-family: Lucida;
+	font-family: Helvetica;
+	font-size: 14px;
 }
 
 a {
 	text-decoration: none;
-	color: #006699;
+	color: rgb(51, 153, 153);
 }
 
 a:hover {
@@ -86,16 +101,11 @@ a:hover {
 }
 
 .user_followers {
-	color: #006699;
+	color: rgb(51, 153, 153);
 }
 
 .user_following {
-	color: #006699;
-}
-
-.section_title {
-	font-weight: bold;
-	text-align: center;
+	color: rgb(51, 153, 153);
 }
 
 .date {
@@ -103,7 +113,7 @@ a:hover {
 }
 
 .text {
-	color: #006699;
+	color: rgb(51, 153, 153);
 }
 
 .text:hover {

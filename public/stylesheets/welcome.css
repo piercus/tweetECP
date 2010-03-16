@@ -1,20 +1,36 @@
 body {
-	font-family: Arial, Helvetica ;
-	font-size: 0.95em;
+	font-family: Helvetica;
+}
+
+.form_title {
+	font-weight: bold;
+	text-align: center;
+	font-family: Helvetica;
+	color: black;
+}
+
+.section_title {
+	font-weight: bold;
+	text-align: center;
+	font-family: Helvetica;
 }
 
 #welcome_content {
+	border: 1px solid rgb(221, 221, 221);
+	width:95%;
+	margin-left:30px;
+	padding-top:20px;
 	background: #f4f5f5 url("http://mootools.net//assets/images/gradient.png") repeat-x top left;
-	width:100%;
-	height:400px;
+	height:500px;
 	float:none;
 }
 
 #forms {
-	border:solid; margin:2px; padding:2px;
+	margin-bottom:20px;
 	width : auto;
 	height: 100px;
 	vertical-align:middle;
+	border-bottom:solid; border-width:1px; margin-left:20px; margin-right:20px;
 }
 
 #notice {
@@ -28,7 +44,7 @@ body {
 	padding-left: 300px;
 }
 
-.form {
+.form_right {
 	vertical-align:middle;
 	text-align: center;
 	width: 200px;
@@ -47,10 +63,8 @@ body {
 	height : 200px;
 	float: left;
 	text-align: center;
-	border-width : 2px; 
-	border-style: solid;
-	border-color:#006699;
-	margin-right: 10px;
+	border-right:solid;
+	border-right-width:1px;
 }
 
 .mod_tags {
@@ -58,11 +72,9 @@ body {
 	height : 200px;
 	float: left;
 	text-align: center;
-	border-width : 2px; 
-	border-style: solid;
-	border-color: #006699;
 	margin-right: 10px;
-	
+	border-right:solid;
+	border-right-width:1px;
 }
 
 .mod_links {
@@ -70,7 +82,4 @@ body {
 	height : 200px;
 	float: left;
 	text-align: center;
-	border-width : 2px; 
-	border-style: solid;
-	border-color: #006699;
 }

@@ -1,22 +1,24 @@
 <div class="form_left">	
 	<% form_tag :action => 'search' do %> 
-		<strong>Type in a user : </strong><br><br><%= text_field_tag :id_user %><%= hidden_field_tag :type, :value => "user" %>
-		<%= submit_tag 'Go !' %>
+		<span class="form_title">Type in a user</span><br><br>
+		<%= text_field_tag :id_user %><%= hidden_field_tag :type, :value => "user" %>
+		<%= submit_tag 'Search !' %>
 	<% end %>
 			
 </div>
 
-<div class="form">
+<div class="form_right">
 <br>or<br><br>
 <% if flash[:notice] -%>
 	<div id="notice"><%= flash[:notice] %></div>
 <% end %>
 </div>
 
-<div class="form">
+<div class="form_right">
 	<% form_tag :action => 'search' do %> 
-		<strong>Type in a tag : </strong><br><br><%= text_field_tag :id_tag %><%= hidden_field_tag :type, :value => "tag" %>
-		<%= submit_tag 'Go !' %>
+		<span class="form_title">Type in a tag</span><br><br>
+		<%= text_field_tag :id_tag %><%= hidden_field_tag :type, :value => "tag" %>
+		<%= submit_tag 'Search !' %>
 	<% end %>
 	
 </div>

@@ -1,14 +1,15 @@
 #footer {
-	color:white;
+	font-family:Helvetica;
+	color:black;
 	text-align:center;
-	background-color: rgb(49, 78, 120);
-	border-top: 1px solid;
-	font-size: 80%;
+	background-color: white;
+	font-size: 12px;
 	margin-left: 5 px;
 	height:100px;
 	padding-top:20px;
+	border-top: 1px solid rgb(221, 221, 221);
 }
 
 #link {
-	color:rgb(156, 194, 65);
+	color:rgb(51, 153, 153);
 }
