@@ -16,7 +16,9 @@ class Link < ActiveRecord::Base
 			}
 			return count
 		end
-
+	  def tags
+		  return self.relations.collect{|r| r.tag }.uniq
+	  end
     def self.get_original_links
 		  puts "[info]Try to get Original Links all the links in the database"
 		  #get all the original links

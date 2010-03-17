@@ -5,6 +5,17 @@ class User < ActiveRecord::Base
   has_many :friends_to, :foreign_key => "user_to_id", :class_name => "Friendship"
   has_many :friends_from, :foreign_key => "user_from_id", :class_name => "Friendship"
 	require 'twitter'
+	include Recommandation
+  
+	def dname
+	  return screen_name
+	end
+	def self.find_by_dname(key)
+	  return self.find_by_screen_name(key)
+	end
+	def self.find_by_dname_like(key)
+	  self.find(:all,:conditions => ["screen_name like ?", key.concat("%")])
+	end
 	def get_more_users(l=1)
 	  #u is a User in the database
 		#l is the level of recursivity
@@ -165,8 +176,29 @@ class User < ActiveRecord::Base
 			return weight
 		end	
 	end
-	def get_best_tags(n,factor = 1)
-	  return [] if factor < 0.1
+	def get_best_users(n,factor = 1, outputType = "array")
+	  return recommand(:get_best_users,:get_best_tags,n,factor, min_factor,outputType){
+		  self.friends.collect{|f|		
+			# Form of friends is like 
+			# {
+		  #:friendship => (f.user_to == u ? "from" : "to"),
+		  #:friend => (f.user_to == u ? f.user_from : f.user_to) ,
+      #:friendType => f.friendType,
+			#:weight => f.eval((f.user_to == u ? "to":"from"))
+		  # }
+			  [f[:friend],f[:friend].screen_name,f[:weight]*factor]
+		  }
+		}	
+	end 
+	def get_best_tags(n,factor = 1, outputType = "array")
+	  return recommand(:get_best_tags,:get_best_users,n,factor, min_factor,outputType){
+		  self.relations.collect{|r|
+			  [r.tag,r.tag.word,(r.weight || r.get_weight)*factor]
+		  }
+		}
+		
+		
+		
 	  taglist = [];
 		puts "[debug] in best_tags"
 	  self.relations.each{|r|
@@ -199,20 +231,11 @@ class User < ActiveRecord::Base
 		ls.flatten
 		ls[-(n+1)..-1]
 	end
-  def self.recomand(object, id, n = 20)
-	  
-		if object == "User"
-		  u = User.find(id)
-			friends = Friendship.reco(u)
+  def self.recomand(object, n = 20, factor = 1)
+	  className = object.class.to_s
+		if className == "User"
+			friends = Friendship.reco(object)
 			sortedF = friends.to_a.sort!{|x,y| y[1][:weight] <=> x[1][:weight]}
-			
-			#if friends.length < n
-			  #otherfriends = Friendship.reco(friends[:friend])
-
-			  #continue the algorithm on 2nd degree
-			#end
-
-			#format an output
 			j = 0;
 			out = {};
 			while j < n  do
@@ -220,29 +243,11 @@ class User < ActiveRecord::Base
 	      j += 1
 			end
 			return out
-		end
-		if object == "Link"
-		  l = Link.find(id)
-			if l.reference
-			  l = l.reference
-			end
-		  url = l.orig_uri
-			rel = l.relations
-      users = rel.collect{|r|
-			  {
-				  :user => r.user,
-				  :weight => r.user.get_note("Link",l)
-				}
+		elsif className == "Tag"
+		  users = {}
+			object.relations.each{|r|
+			  users[r.user.screen_name] = r.strength
 			}
-			return {:users => users}
-		end
-		if object == "Tag"
-		  tag = Tag.find(id)
-		  users = []
-			tag.relations.each{|r|
-			  users.push({:user => r.user, :weight => r.strengh})
-			}
-			return {:users => users}
 		end
 	end
 	def self.HubsAndAuthority(n)
