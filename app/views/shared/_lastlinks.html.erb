@@ -1,11 +1,11 @@
 <div class="section_title">Last links tweeted</div><br>
-link<br>
-link<br>
-link<br>
-link<br>
-link<br>
-<div class="text"><%#= @last_links[4].original -%></div>
-<div class="text"><%#= @last_links[3].original -%></div>
-<div class="text"><%#= @last_links[2].original -%></div>
-<div class="text"><%#= @last_links[1].original -%></div>
-<div class="text"><%#= @last_links[0].original -%></div>
+
+<% if !lastlinks.nil? %>
+
+  <% lastlinks.each{|l| %>
+    <div class="text"><a href="<%=l.original%>"><%= l.original -%></a></div>
+  <% } %>
+<%else%>
+Pas de liens dans la base de données
+<%end %>
+

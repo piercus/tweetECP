@@ -4,7 +4,7 @@
 	</div>
 	<div id="info">
 		<strong><%= usersidebar.name -%></strong><br>
-		<%= usersidebar.location -%><br>
+
 		<%= usersidebar.description -%><br>
 		<span class="user_following"><%= usersidebar.nfollowers -%></span> followers<br>
 		<span class="user_followers"><%= usersidebar.nfollowing -%></span> following<br>
@@ -13,10 +13,14 @@
 </div>
 <div id="recent_tweets">
 	<div class="section_title";>Recents Tweets</div><br>
-	<% @last_tweets.each{|t| %>
-	  <div class="text"><%= t.text -%></div> 
-		<div class="date">on <%= t.t_date -%></div>
-	<% } %>
+	<% if !usersidebar.last_tweets(5).nil? %>
+		<% usersidebar.last_tweets(5).each{|t| %>
+			<div class="text"><%= t.text -%></div> 
+			<div class="date">on <%= t.t_date -%></div>
+		<% } %>
+	<% else %>
+	  No Tweet in the database
+	<% end %>
 
 </div>
 

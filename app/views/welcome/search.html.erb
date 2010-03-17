@@ -16,7 +16,7 @@
 	<div id="content">
 
 		<div id="last_links">
-			<%= render :partial => "shared/lastlinks" -%>	
+			<%= render :partial => "shared/lastlinks", :object => @object.last_links(5) -%>	
 		</div>
 		<div id="tags">
 			<%= render :partial => "shared/tagcloud" -%>	
