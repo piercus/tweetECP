@@ -1,19 +1,20 @@
 <div id="user_result">
 	<div id="object">
 		<% if @user %>
-	    	<%= render :partial => "shared/user", :object => @user -%>	
+	    	<%= render :partial => "shared/user", :object => @object -%>	
 		<% elsif @tag %>
-	    	<%= render :partial => "shared/tag", :object => @tag -%>	
+	    	<%= render :partial => "shared/tag", :object => @object -%>	
 		<% end %>
 	</div>
 	<div id="sidebar">
 		<% if @user %>
-			<%= render :partial => "shared/usersidebar", :object => @user -%>	
+			<%= render :partial => "shared/usersidebar", :object => @object -%>	
 		<% elsif @tag %>
-	    	<%= render :partial => "shared/tagsidebar", :object => @tag -%>	
+	    	<%= render :partial => "shared/tagsidebar", :object => @object -%>	
 		<% end %>
 	</div>
 	<div id="content">
+
 		<div id="last_links">
 			<%= render :partial => "shared/lastlinks" -%>	
 		</div>
@@ -23,5 +24,6 @@
 		<div id="users">
 			<%= render :partial => "shared/usercloud" -%>	
 		</div>
+
 	</div>
 </div>

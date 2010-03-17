@@ -3,12 +3,12 @@
 		<img src="http://richardwiseman.files.wordpress.com/2009/11/twitter_bird_logo_by_ipotion-1.jpg" height="100" width="100">
 	</div>
 	<div id="info">
-		<span class="user_following"><%= @user.nfollowers -%></span> followers<br>
-		<span class="user_followers"><%= @user.nfollowing -%></span> following<br>
-		<span class="user_followers"><%= @user.nfollowing -%></span> listed<br>
-		Location : <br>
-		Infos : <%= @user.description -%><br>
-		<a href="http://www.twitter.com/<%=@user.screen_name-%>">follow <%= @user.screen_name -%> on twitter</a>
+		<strong><%= usersidebar.name -%></strong><br>
+		<%= usersidebar.location -%><br>
+		<%= usersidebar.description -%><br>
+		<span class="user_following"><%= usersidebar.nfollowers -%></span> followers<br>
+		<span class="user_followers"><%= usersidebar.nfollowing -%></span> following<br>
+		<a href="http://www.twitter.com/<%=usersidebar.screen_name-%>">follow <%= usersidebar.screen_name -%> on <img src="http://www.music276.com/Images/twitter_logo.png" height="20px" width="55px" alt="twitter" align-bottom></a>
 	</div>
 </div>
 <div id="recent_tweets">
@@ -19,3 +19,4 @@
 	<% } %>
 
 </div>
+

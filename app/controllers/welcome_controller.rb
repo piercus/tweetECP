@@ -37,7 +37,7 @@ class WelcomeController < ApplicationController
         redirect_to :action => "index"
 				return false
 		end
-		@last_tweets = @object.tweets
+		@last_tweets = @object.tweets[-5..-1]
     @input = {
  		   "users" => @object.get_best_users(10,1),
 		   "tags" => @object.get_best_tags(10,1,)

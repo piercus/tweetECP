@@ -108,7 +108,7 @@ class User < ActiveRecord::Base
 	  if twitter_user.kind_of?(Hash)
 			user = User.find(:first, :conditions => ["screen_name = ? OR twitter_id = ?",twitter_user["screen_name"],twitter_user["id"]])
 			if !user
-				user = User.create!( :screen_name => twitter_user["screen_name"] ,:name => twitter_user["name"] , :twitter_id => twitter_user["id"], :nfollowers => twitter_user["followers_count"], :nfollowing => twitter_user["friends_count"])
+				user = User.create!( :screen_name => twitter_user["screen_name"] ,:name => twitter_user["name"] , :twitter_id => twitter_user["id"], :nfollowers => twitter_user["followers_count"], :nfollowing => twitter_user["friends_count"], :description => twitter_user["description"], :location => twitter_user["location"])
 			  # On récupère les tweets par l'API Twitter
 			  user.get_tweets
 			end
