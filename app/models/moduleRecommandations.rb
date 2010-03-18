@@ -6,16 +6,19 @@ module Recommandation
 	#  Let Chair be another class of objects that we can find from self
 	#  then fnSelfToChairs is a method of self to find chair
 	#  and fnChairToApples is a method of Chair to find apples
+	#
+	#  n : number of apples we want to recommand
 	   recos = []
 		 return [] if factor < 0.1
 
      recos = yield
-			
-			# If not enough elements to recommand, recursively add new elements
-			if recos.size < n
-			  s = recos.size()
+
+		 # recos is an array
+		 s = recos.size()
+		 
+			# recursively add new elements
+			if s < n
 				more_recos = [];
-				
 				other_objs = self.send(fnMore,(n-s))
 				more_reco = []
 				other_objs.each{|o|
@@ -43,7 +46,6 @@ module Recommandation
 	end
 	
   def last_tweets(n = 5)
-	  
 	 return  self.tweets[-n..-1] if n < self.tweets.size
 	 return  self.tweets || []
 	end

@@ -35,9 +35,10 @@ class User < ActiveRecord::Base
 	  self.tweets.collect{|t| t.links}.flatten.compact
 	end
 	
-	#   I.2 : getters for the recommamndation system, the function recommand is in the module Recommandation, 
-	#   the whole recommandation system is based on this function
-	#   recommand(fnChairToApples,fnSelfToChairs,n,factor)
+	# I.2 : getters for the recommamndation system, the function recommand is in the module Recommandation, 
+	# the whole recommandation system is based on this function
+	#  recommand(fnChairToApples,fnSelfToChairs,n,factor)
+
 
 	def get_best_users(n,factor = 1)
 	  return recommand(:get_best_users,:get_best_tags,n,factor){
