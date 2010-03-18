@@ -1,5 +1,5 @@
-
 module Recommandation
+
   def recommand(fnOther,fnMore,n,factor = 1)
 	#  recommand(fnChairToApples,fnSelfToChairs,n,factor)
 	#  Let Apple be the class of objects we want to recommand and self be the object we have

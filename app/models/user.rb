@@ -25,22 +25,19 @@ class User < ActiveRecord::Base
 	##############################################
 	
 	# I.1 : Simple getters
+	
 	def dname
 	  return screen_name
 	end
-	def self.find_by_dname(key)
-	  return self.find_by_screen_name(key)
-	end
-	def self.find_by_dname_like(key)
-	  self.find(:all,:conditions => ["screen_name like ?", key.concat("%")])
-	end	
+
+	# returns an array containing ALL the links tweeted bu the user
   def links
 	  self.tweets.collect{|t| t.links}.flatten.compact
 	end
 	
-	# I.1 : getters for the recommamndation system, the function recommand is in the module Recommandation, 
-	# the whole recommandation system is based on this function
-	#  recommand(fnChairToApples,fnSelfToChairs,n,factor)
+	#   I.2 : getters for the recommamndation system, the function recommand is in the module Recommandation, 
+	#   the whole recommandation system is based on this function
+	#   recommand(fnChairToApples,fnSelfToChairs,n,factor)
 
 	def get_best_users(n,factor = 1)
 	  return recommand(:get_best_users,:get_best_tags,n,factor){
@@ -209,6 +206,14 @@ class User < ActiveRecord::Base
 		return localUsers
 	end
 	
+	def self.find_by_dname(key)
+	  return self.find_by_screen_name(key)
+	end
+	
+	def self.find_by_dname_like(key)
+	  self.find(:all,:conditions => ["screen_name like ?", key.concat("%")])
+	end
+
 
  	#################################################
 	# B. II. Recommandation
