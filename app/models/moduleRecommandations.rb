@@ -8,15 +8,15 @@ module Recommandation
 	#  and fnChairToApples is a method of Chair to find apples
 	#
 	#  n : number of apples we want to recommand
-	   recos = []
-		 return [] if factor < 0.1
 
-     recos = yield
+      # recos is an array of array : [ [object,object.dname,weight], ... ]
+      recos = []
+		  return [] if factor < 0.1
 
-		 # recos is an array
-		 s = recos.size()
+      recos = yield
+		  s = recos.size()
 		 
-			# recursively add new elements
+			# If there's not enough recos, recursively add new elements
 			if s < n
 				more_recos = [];
 				other_objs = self.send(fnMore,(n-s))
@@ -27,7 +27,7 @@ module Recommandation
 				recos.concat(more_reco)
 			end
 			
-			# verify the uniqueness
+			# Delete the dname doubles
 			recosU = []
 			keys = recos.collect{|x| x[1]}.uniq
 			recos.each{|r|
@@ -35,11 +35,11 @@ module Recommandation
 				  recosU.push(r)
 					keys.delete(r[1])
 				end
-				#here we could had a function to add a weight when the thing is repetitive
+				# Here we could had a function to add a weight when the thing is repetitive
 			}
 			recos = recosU
 			
-			# sort the array and cut it
+			# Sort the array from highest weight to smallest weight. Then keep the n first.
 			recos.sort!{|x,y| y[2] <=> x[2]}
 			recos = recos[0..n-1]
 			return recos 

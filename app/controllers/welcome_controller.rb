@@ -1,7 +1,7 @@
 class WelcomeController < ApplicationController
   protect_from_forgery :only => [:create, :update, :destroy] # bug fix
 	before_filter :set_class_object, :except => :index
-	#Cette action va être lu avant les autres actions et va permettre de faire des actions communes à toutes les action s(ici il s'agit de savoir si on fait du Tag ou du User)
+	# Cette action va être lu avant les autres actions et va permettre de faire des actions communes à toutes les action s(ici il s'agit de savoir si on fait du Tag ou du User)
 	
 	def set_class_object
 	   if params[:type]=="user"
@@ -26,27 +26,29 @@ class WelcomeController < ApplicationController
 		like = params[:query].concat("%")
 		outs = @classType.find_by_dname_like(like).collect{|u| u.dname}
 		render :text => outs.to_json
-	end    
+	end
+	  
   def search
-
     @object = @classType.find_by_dname(params[:id])	
   	if @object.nil?
-        flash[:notice] = "Not a valid "+params[:type]
+        flash[:notice] = "Not a valid "+ params[:type]
         redirect_to :action => "index"
 				return false
 		end
-		
     @input = {
- 		   "users" => parse_obj(@object.get_best_users(30,4)),
-		   "tags" => parse_obj(@object.get_best_tags(30,4))
+ 		   "users" => form_obj(@object.get_best_users(10,4)),
+		   "tags" => form_obj(@object.get_best_tags(10,4))
 		}.to_json    
-  end   
-	def parse_obj(recos)
+  end
+  
+	def form_obj(recos)
 			  out = {}
 				recos.each{|r| out[r[1]] = [r[2], get_url(r[0])] }
 				return out
 	end
+  
   def get_url(object)
 	  return url_for :controller => "welcome", :action => "search",:type => object.class.to_s.downcase, :id => object.dname
 	end
+	
 end
