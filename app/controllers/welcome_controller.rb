@@ -1,8 +1,8 @@
 class WelcomeController < ApplicationController
-  protect_from_forgery :only => [:create, :update, :destroy] 
+  protect_from_forgery :only => [:create, :update, :destroy] # bug fix
 	before_filter :set_class_object, :except => :index
-	
 	#Cette action va être lu avant les autres actions et va permettre de faire des actions communes à toutes les action s(ici il s'agit de savoir si on fait du Tag ou du User)
+	
 	def set_class_object
 	   if params[:type]=="user"
 		  @classType = User
@@ -28,11 +28,7 @@ class WelcomeController < ApplicationController
 		render :text => outs.to_json
 	end    
   def search
-		if params[:id].blank?
-        flash[:notice] = "Not a valid "+params[:type]
-        redirect_to :action => "index"
-				return false
-		end
+
     @object = @classType.find_by_dname(params[:id])	
   	if @object.nil?
         flash[:notice] = "Not a valid "+params[:type]
