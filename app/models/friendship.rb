@@ -4,8 +4,17 @@ class Friendship < ActiveRecord::Base
  
     TYPES = ["follow","address","interests","retweet"]
 
+	#################################################
+	#
+	#  I. Class Methods, Setters or getters
+	#   
+	##############################################
+	
+	
+  #	  Add a new friendship
+  # 	Global setter to create friendships
 
-  def self.add_new(ut,uf,friendType, value = nil)
+	def self.add_new(ut,uf,friendType, value = nil)
 
 	 if !TYPES.include?(friendType)
 	    puts "Problem with the type of the frienship,"
@@ -24,13 +33,16 @@ class Friendship < ActiveRecord::Base
 	 if !fship 
 		f =  self.create(:user_from_id => uf.id, :user_to_id => ut.id, :friendType => friendType)
 		if value
-			#Options is used to store informations like the twit id of the twit who link the two users
+			#Options is used to store informations like the tweet id of the twit who link the two users
 			f.value = value
 			f.save!
 		end
 	 end
 	 return f
   end
+	
+  #	  Get friendships of a user, parameters are options for the finder
+  # 	
   def self.findFriends(u,friendType = nil,sens = "none")
      conditions = [""]
 	 case sens
@@ -65,34 +77,24 @@ class Friendship < ActiveRecord::Base
 		 }
 	 }
   end
-	def self.reco(u)
-	  friends = self.findFriends(u)
-		friendships = {}
-		friends.each{|f|
-			weight = f[:weight]
-		  if friendships[f[:friend].screen_name].nil? 
-			   friendships[f[:friend].screen_name] = f
-			else
-			   friendships[f[:friend].screen_name][:weight] += weight
-			end
-		}
-		return friendships
-	end
+	
+	#################################################
+	#
+	#  II. Instance Methods
+	#   
+	##############################################
+
+	#	  Make an evaluation
+  # 	
 	def eval(fSens = nil)
 	   if fSens.nil?
-	   #We should make a better function here to a better recommandation
 	    weight = 0;
 			if friendType == "follow" #&& friendship == "from"
 				weight = 1
-			#elsif friendType == "follow" && friendship == "to"
-			#	weight = 1
-			#elsif friendType == "address" && friendship == "to"
-			#	weight = 4	
 			elsif friendType == "address" #&& friendship == "from"
 				weight = 10
 			end		
 		else
-		#We should make a better function here to a better recommandation
 	    weight = 0;
 			if friendType == "follow" && fSens == "to"
 				weight = 3
@@ -106,14 +108,7 @@ class Friendship < ActiveRecord::Base
 		end
 			
 	end
-  def self.get_note(u1,u2)
-	  fships = self.find(:all, :conditions => ["(user_from_id = ? AND user_to_id = ?) OR (user_from_id = ? AND user_to_id = ?)",u1.id,u2.id,u2.id,u1.id])
-		weight = 0
-		fships.each{|f|
-       weight += f.eval
-		}
-		return weight
-	end
+
 end
 
 
