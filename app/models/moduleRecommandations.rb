@@ -11,7 +11,7 @@ module Recommandation
 
      recos = yield
 			
-			# recursively add new elements
+			# If not enough elements to recommand, recursively add new elements
 			if recos.size < n
 			  s = recos.size()
 				more_recos = [];
@@ -24,7 +24,7 @@ module Recommandation
 				recos.concat(more_reco)
 			end
 			
-			#verify the uniqueness
+			# verify the uniqueness
 			recosU = []
 			keys = recos.collect{|x| x[1]}.uniq
 			recos.each{|r|
@@ -41,13 +41,16 @@ module Recommandation
 			recos = recos[0..n-1]
 			return recos 
 	end
+	
   def last_tweets(n = 5)
 	  
 	 return  self.tweets[-n..-1] if n < self.tweets.size
 	 return  self.tweets || []
 	end
+	
 	def last_links(n = 5)  
 	 return  self.links[-n..-1] if n < self.links.size
 	 return  self.links || []
 	end
+
 end
