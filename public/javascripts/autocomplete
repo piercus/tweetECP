@@ -1,0 +1,30 @@
+
+var urlAutoComp = "<%= url_for :action => 'autocomplete' %>";
+// Autocompleter
+			var field = inputEx({
+				type: "autocomplete",
+				parentEl: 'user_screen_name', 
+				label: 'Type a User',
+				datasource: new YAHOO.util.ScriptNodeDataSource(urlAutoComp), 
+				// Format the hidden value (value returned by the form)
+				returnValue: function(oResultItem) {
+				  console.log(oResultItem);
+					return oResultItem[1];
+				},
+				autoComp: {
+					forceSelection: true,
+					minQueryLength: 2,
+					maxResultsDisplayed: 50,
+					formatResult: function(oResultItem, sQuery) {
+		       	var sMarkup = oResultItem[0] + " (" + oResultItem[1] + ")";
+		       	return sMarkup;
+		    	}
+				}
+			});
+
+			var button = inputEx.cn('button', null, null, 'GetValue');
+			YAHOO.util.Dom.get('user_screen_name').appendChild(button);
+			YAHOO.util.Event.addListener(button , 'click', function() {
+				alert( field.getValue() );
+			});
+
