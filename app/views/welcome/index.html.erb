@@ -1,3 +1,4 @@
+<%= javascript_include_tag "autocomplete" -%>
 <div id="welcome_content">
 <div id="forms">
 	<%= render :partial => "shared/welcome/forms", :object => @user -%>	
@@ -5,16 +6,17 @@
 
 <div id="modules">
 	<div class="mod_users">
-		<%= render :partial => "shared/welcome/popusers", :object => @user -%>	
+		<%= render :partial => "shared/usercloud"-%>	
 	</div>	
 	<div class="mod_tags">
-		<%= render :partial => "shared/welcome/poptags", :object => @user -%>	
+		<%= render :partial => "shared/tagcloud" -%>	
 	</div>
 	<div class="mod_links">
-		<%= render :partial => "shared/welcome/poplinks", :object => @user -%>	
+		<%= render :partial => "shared/welcome/poplinks"-%>	
 	</div>
 
 	<div style="clear:both;">
 	</div>
 </div>
+
 </div>

@@ -61,7 +61,7 @@ class Friendship < ActiveRecord::Base
 		  :friendship => (f.user_to == u ? "from" : "to"),
 		  :friend => (f.user_to == u ? f.user_from : f.user_to) ,
       :friendType => f.friendType,
-			:weigth => f.eval
+			:weight => f.eval((f.user_to == u ? "to":"from"))
 		 }
 	 }
   end
@@ -69,15 +69,17 @@ class Friendship < ActiveRecord::Base
 	  friends = self.findFriends(u)
 		friendships = {}
 		friends.each{|f|
-		  if friendships[f.friend.id].nil? 
-			   friendships[f.friend.id] = {:weight => f.weight, :user => f.friend}
+			weight = f[:weight]
+		  if friendships[f[:friend].screen_name].nil? 
+			   friendships[f[:friend].screen_name] = f
 			else
-			   friendships[f.friend.id][:weight] += f.weight
+			   friendships[f[:friend].screen_name][:weight] += weight
 			end
 		}
-		return friendships.to_a.collect{|i| i[1]}
+		return friendships
 	end
-	def eval
+	def eval(fSens = nil)
+	   if fSens.nil?
 	   #We should make a better function here to a better recommandation
 	    weight = 0;
 			if friendType == "follow" #&& friendship == "from"
@@ -89,6 +91,19 @@ class Friendship < ActiveRecord::Base
 			elsif friendType == "address" #&& friendship == "from"
 				weight = 10
 			end		
+		else
+		#We should make a better function here to a better recommandation
+	    weight = 0;
+			if friendType == "follow" && fSens == "to"
+				weight = 3
+			elsif friendType == "follow" && fSens == "from"
+				weight = 1
+			elsif friendType == "address" && fSens == "to"
+				weight = 10
+			elsif friendType == "address" && fSens == "from"
+				weight = 5
+			end		
+		end
 			
 	end
   def self.get_note(u1,u2)

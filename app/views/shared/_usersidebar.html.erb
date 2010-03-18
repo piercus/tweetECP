@@ -3,22 +3,24 @@
 		<img src="http://richardwiseman.files.wordpress.com/2009/11/twitter_bird_logo_by_ipotion-1.jpg" height="100" width="100">
 	</div>
 	<div id="info">
-		<strong><%= @user.name -%></strong><br>
-		<%= @user.location -%><br>
-		<%= @user.description -%><br>
-		<span class="user_following"><%= @user.nfollowers -%></span> followers<br>
-		<span class="user_followers"><%= @user.nfollowing -%></span> following<br>
-		<a href="http://www.twitter.com/<%=@user.screen_name-%>">follow <%= @user.screen_name -%> on <img src="http://www.music276.com/Images/twitter_logo.png" height="20px" width="55px" alt="twitter" align-bottom></a>
+		<strong><%= usersidebar.name -%></strong><br>
+
+		<%= usersidebar.description -%><br>
+		<span class="user_following"><%= usersidebar.nfollowers -%></span> followers<br>
+		<span class="user_followers"><%= usersidebar.nfollowing -%></span> following<br>
+		<a href="http://www.twitter.com/<%=usersidebar.screen_name-%>">follow <%= usersidebar.screen_name -%> on <img src="http://www.music276.com/Images/twitter_logo.png" height="20px" width="55px" alt="twitter" align-bottom></a>
 	</div>
 </div>
 <div id="recent_tweets">
 	<div class="section_title";>Recents Tweets</div><br>
-	<div class="text"><%= @last_tweets[3].text -%></div>
-	<div class="date">on <%= @last_tweets[3].t_date -%></div><br>
-	<div class="text"><%= @last_tweets[2].text -%></div>
-	<div class="date">on <%= @last_tweets[2].t_date -%></div><br>
-	<div class="text"><%= @last_tweets[1].text -%></div>
-	<div class="date">on <%= @last_tweets[1].t_date -%></div><br>
-	<div class="text"><%= @last_tweets[0].text -%></div>
-	<div class="date">on <%= @last_tweets[0].t_date -%></div>
+	<% if !usersidebar.last_tweets(5).nil? %>
+		<% usersidebar.last_tweets(5).each{|t| %>
+			<div class="text"><%= t.text -%></div> 
+			<div class="date">on <%= t.t_date -%></div>
+		<% } %>
+	<% else %>
+	  No Tweet in the database
+	<% end %>
+
 </div>
+

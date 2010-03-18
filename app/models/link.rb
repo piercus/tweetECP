@@ -16,7 +16,9 @@ class Link < ActiveRecord::Base
 			}
 			return count
 		end
-
+	  def tags
+		  return self.relations.collect{|r| r.tag }.uniq
+	  end
     def self.get_original_links
 		  puts "[info]Try to get Original Links all the links in the database"
 		  #get all the original links
@@ -76,6 +78,7 @@ class Link < ActiveRecord::Base
 					end
 			else
 			  orig_uri = self.url
+				self.save
 			end
 			return self.original
 		end	
@@ -99,7 +102,8 @@ class Link < ActiveRecord::Base
 	
 			require "rexml/document"
 			require "lib/delicious/api"
-		
+			self.delicioused = true		
+			self.save!
 			imported_tags = []
 		
 			# Consumer Key & Shared Secret provided by Yahoo!
@@ -118,13 +122,38 @@ class Link < ActiveRecord::Base
 			# Ici on doit ajouter une fonction qui créé les tags dans la base de données
 			# en vérifiant qu'ils existent pas encore et qui lie ce lien à ces tags
 			puts "[info]Take Tags from delicious, :"+imported_tags.inspect
-			Relation.build(imported_tags, self)			
-			
-			self.delicioused = true
+			Relation.build(imported_tags, self,5)			
+
 
 			return imported_tags
   	end
-  		
+		def get_tags
+		  if !self.delicioused
+			  tags = self.get_delicious_tags
+				if tags.size == 0
+				  self.get_tags_from_meta
+				end
+			else
+			  self.get_tags_from_meta
+			end
+		end
+  	def get_tags_from_meta
+		  return self.tags if !self.delicioused
+			require 'nokogiri'
+      require 'open-uri'
+			begin
+			  doc = Nokogiri::HTML(open(self.original))
+			rescue
+			  puts "[error] with the link "+self.inspect+"\nReturn no tags" 
+		    return []
+		  end
+			balise = doc.xpath('//meta[@name=\'keywords\']')[0]
+			return [] if balise.nil? 
+			text = balise.attributes["content"].content
+			tags = text.split(',').collect{|s| s.strip.downcase}
+			Relation.build(tags, self,1)	
+			return tags
+		end	
   		
 				
 	end

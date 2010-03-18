@@ -5,6 +5,79 @@ class User < ActiveRecord::Base
   has_many :friends_to, :foreign_key => "user_to_id", :class_name => "Friendship"
   has_many :friends_from, :foreign_key => "user_from_id", :class_name => "Friendship"
 	require 'twitter'
+	
+  require File.dirname(__FILE__) + '/moduleRecommandations'
+	include Recommandation
+
+
+############################################################################
+
+                      # PART A : instance method
+
+##########################################################################
+
+
+	#################################################
+	# A. I . Naming and alias Methods 
+	#   
+	#   for the consolidations of names with the object Tag
+	#   dname is for "display name"
+	##############################################
+	
+	# I.1 : Simple getters
+	def dname
+	  return screen_name
+	end
+	def self.find_by_dname(key)
+	  return self.find_by_screen_name(key)
+	end
+	def self.find_by_dname_like(key)
+	  self.find(:all,:conditions => ["screen_name like ?", key.concat("%")])
+	end	
+  def links
+	  self.tweets.collect{|t| t.links}.flatten.compact
+	end
+	
+	# I.1 : getters for the recommamndation system, the function recommand is in the module Recommandation, 
+	# the whole recommandation system is based on this function
+	#  recommand(fnChairToApples,fnSelfToChairs,n,factor)
+
+	def get_best_users(n,factor = 1)
+	  return recommand(:get_best_users,:get_best_tags,n,factor){
+		  self.friends.collect{|f|		
+			# See comments about frienships relations to more information about f structure
+			  [f[:friend],f[:friend].screen_name,f[:weight]*factor]
+		  }
+		}	
+	end 
+	def get_best_tags(n,factor = 1)
+	  return recommand(:get_best_tags,:get_best_users,n,factor){
+		  self.relations.collect{|r|
+			  [r.tag,r.tag.word,(r.weight || r.get_weight)*factor]
+		  }
+		}
+	end
+	
+	#################################################
+	# A. II . Connection Method
+	#   
+	# here are methods which takes elements from Web
+	##############################################
+	
+	
+	### II.1 Extend Twitter API to get twitter's infos with HTTParty
+	
+	def user_timeline(query={})
+		# La fonction user_timeline est disponible à partir de l'API REST mais pas à partir de l'API "twitter", j'ai refait la fonction à la main 
+		HTTParty.get('http://twitter.com/statuses/user_timeline.json', :query => query)
+  end	
+	
+	def get_followers
+		HTTParty.get('http://api.twitter.com/1/statuses/followers.json', :query => {:user_id => twitter_id })
+	end	
+	
+	### II.2 Process to take elements from the web
+	
 	def get_more_users(l=1)
 	  #u is a User in the database
 		#l is the level of recursivity
@@ -19,55 +92,8 @@ class User < ActiveRecord::Base
 			}
 		end
 		return users
-    end
-
-	def user_timeline(query={})
-		# La fonction user_timeline est disponible à partir de l'API REST mais pas à partir de l'API "twitter", j'ai refait la fonction à la main 
-		HTTParty.get('http://twitter.com/statuses/user_timeline.json', :query => query)
-  end
-  
-	def add_followers(users)
-	  users.each{|u|
-		  Friendship.add_new(self,u,"follow")
-		}
-	end
-  def add_address(users,tweet_ref)#correspond to the @ in tweet, call in tweet.rb
-	  #here self adress a tweet to users
-		users.each{|u|
-		  Friendship.add_new(u,self,"address",tweet_ref)
-		}
-	end
-	def add_followings(users)
-	  users.each{|u|
-		  Friendship.add_new(u,self,"follow")
-		}
-	end
-	################################################################################################
-	#
-	# Friendships Getters
-	# The output format is like 
-	# :weight => 1, // an arbitrary value to classify friendships  
-	# :friendType=>"from" or "to" // is self the user who make the friendships or is it the other
-	# :friend => Friend Object 
-	# :friendType => "follow" or "address"
-	################################################################################################
-	
-  def followers
-	  Friendship.findFriends(self,"follow","from")
-  end  
-  
-  def followings
-	  Friendship.findFriends(self,"follow","to")
-  end  
-  def friends
-     Friendship.findFriends(self)
   end
 
-	
-	def get_followers
-		HTTParty.get('http://api.twitter.com/1/statuses/followers.json', :query => {:user_id => twitter_id })
-	end	
-	
 	def get_tweets
 		twits = self.user_timeline(:id => self.twitter_id)
 		twits.each {|twit|
@@ -84,16 +110,73 @@ class User < ActiveRecord::Base
 		}
 	end
 
-
-  def get_taglist
-		relations.collect{|r| {:label => r.label, :weight => r.weight} }
-	end
+	#################################################
+	# A. III . Friendship methods
+	#   
+	#  Friendship is a model to create n-n links between the table user and itself
+	#  It's a full model to store all the informations about the friendship
+	#  then we can make lot of methods to interrogate this links
+	##############################################
   
+	## III.1 Setters, create links between users
+	
+	def add_followers(users)
+	  users.each{|u|
+		  Friendship.add_new(self,u,"follow")
+		}
+	end
+  def add_address(users,tweet_ref)#correspond to the @ in tweet, call in tweet.rb
+	  #here self adress a tweet to users
+		users.each{|u|
+		  Friendship.add_new(u,self,"address",tweet_ref)
+		}
+	end
+	def add_followings(users)
+	  users.each{|u|
+		  Friendship.add_new(u,self,"follow")
+		}
+	end
+	## III.1 getters, ask links between users	
+	
+	#  NB : 
+	#
+	# Friendships Getters
+	# The output format is like 
+	# :weight => 1, // an arbitrary value to classify friendships  
+	# :friendType=>"from" or "to" // is self the user who make the friendships or is it the other
+	# :friend => Friend Object 
+	# :friendType => "follow" or "address"
+	
+  def followers
+	  Friendship.findFriends(self,"follow","from")
+  end  
+  
+  def followings
+	  Friendship.findFriends(self,"follow","to")
+  end  
+  def friends
+     Friendship.findFriends(self)
+  end
+############################################################################
+
+                      # PART B : class method
+
+##########################################################################
+
+ 	#################################################
+	# B. I. Connection Method
+	#   
+	# here are methods which takes elements from Web
+	############################################## 
+	
   def self.get_twitter_user_from_name(u)
+	  # depreciated
+    # u is a name of twitter account, this method can be used to debug in console
 	  return Twitter.user(u)
 	end
 	
-  def self.set_user_from_twit(twitter_user)
+  def self.set_user_from_twit(twitter_user) 
+	  # We have a twitter user and we want a user in database
 	  if twitter_user.kind_of?(Hash)
 			user = User.find(:first, :conditions => ["screen_name = ? OR twitter_id = ?",twitter_user["screen_name"],twitter_user["id"]])
 			if !user
@@ -104,125 +187,35 @@ class User < ActiveRecord::Base
 
 			return user
 		else
-		  puts "Problem with the following user in set_user_from_twit: \n"+twitter_user.inspect 
+		  puts "[Error] Problem with the following user in set_user_from_twit: \n"+twitter_user.inspect 
 		end
 	end
 	
 	def self.set_users_from_twitter_users(twitter_users)
 	  # We have a list of twitter users and we want a list of users in database
-	  twitter_users.collect{|u|
-		  self.set_user_from_twit(u)
-		}
+	  twitter_users.collect{|u| self.set_user_from_twit(u) }
 	end
 	
 	def self.set_users_from_name(users)
-	  #We have a list of users names and we want a list of users in database
+	  #We have a list of names and we want a list of users in database
 		require 'twitter'
 		localUsers = []
 		
 		users.each{|u|
-		  twitter_user = self.get_twitter_user_from_name(u)
+		  twitter_user = Twitter.user(u)
 			localU = self.set_user_from_twit(twitter_user)
 			localUsers.push(localU)
 		}
 		return localUsers
 	end
-	def get_note(object,id)
-	  if object == "User"
-		  u = User.find(id)
-		  return Friendship.get_note(self,u)
-		end
-		if object == "Link"
-		  link = Link.find(id)
-		  if l.reference
-			  link = link.reference
-			end
-			# 1 is the direct relationnships between the link and the user, 2 is an indirect relationnship through tags or through other users
-			weight = {:direct => 0, :by_tags => []}
-		  link.referencers.each{|l|
-			  #if the link has been twited by the user
-			  if l.tweet.user == self
-				   weight[:direct] += 10
-				end
-			}
-			tags = u.get_best_tags(30)
-			tags.each{|t|
-			  if link.tags.include?(t)
-				  weight[:by_tags].push({:tag => t, :rare => t.rareness})
-				end
-			}
-			return weight
-			
-		end	
-		if object == "Tag"
-		  tag = Tag.find(id)
-			weight = 0
-		  self.relations.each{|r|
-			  if r.tag == tag
-				  weight += r.strenght
-				end
-			}
-			return weight
-		end	
-	end
-	def get_best_tags(n)
-	  taglist = [];
-	  self.relations.each{|r|
-		  taglist.push({:tag => r.tag, :weight => r.strenght})
-		}
-		taglist.sort!{|x,y| y[:weight] <=> x[:weight]}
-		return taglist[1,n]
-	end
-	def last_links(n = 5)
-	  ll = [];
-		self.tweets.each{|t|
-		  ls.push(t.links)
-		}
-		ls.flatten
-		ls[-(n+1)..-1]
-	end
-  def self.recomand(object, id, n = 20)
-	  
-		if object == "User"
-		  u = User.find(id)
-			friends = Friendship.reco(u)
-			puts friends.inspect
-			friends.sort!{|x,y| y[:weight] <=> x[:weight]}
-			if friends.length < n
-			  #otherfriends = Friendship.reco(friends[:friend])
+	
 
-			  #continue the algorithm on 2nd degree
-			end
-			
-			friends.to_a.sort!{|x,y| y[1][:weight] <=> x[1][:weight]}
-			friends = friends[0,n]
-			
-			return {:users => friends}
-		end
-		if object == "Link"
-		  l = Link.find(id)
-			if l.reference
-			  l = l.reference
-			end
-		  url = l.orig_uri
-			rel = l.relations
-      users = rel.collect{|r|
-			  {
-				  :user => r.user,
-				  :weight => r.user.get_note("Link",l)
-				}
-			}
-			return {:users => users}
-		end
-		if object == "Tag"
-		  tag = Tag.find(id)
-		  users = []
-			tag.relations.each{|r|
-			  users.push({:user => r.user, :weight => r.strengh})
-			}
-			return {:users => users}
-		end
-	end
+ 	#################################################
+	# B. II. Recommandation
+	#   
+	# Test to use the algorithm for recommandations of google : hubs and authority
+	############################################## 
+
 	def self.HubsAndAuthority(n)
 	  users = self.all
 		list = {}
