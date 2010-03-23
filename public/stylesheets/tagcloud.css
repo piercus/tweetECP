@@ -1,31 +1,34 @@
 div#mytagcloud {
 	width: 100%;
 	height: auto;
+	text-align:center;
 }
 ul.tagcloud-list {
+	width:100px;
   	font-size: 100%;
   	font-weight: bold;
   	font-family: "Arial", "sans-self";
   	padding: 2px;
+  	padding-left: 100px;
   	margin: 10px;
 	color:rgb(51, 153, 153);
 }
 li.tagcloud-base {
-  font-size: 24px;
+  font-size: 2px4px;
   display: inline;
 }
 a.tagcloud-anchor {
   text-decoration: none;
 }
 a.tagcloud-ealiest {
-  color: #ccc;
+  color: rgb(51, 153, 153);
 }
 a.tagcloud-earlier {
-  color: #99c;
+  color: rgb(51, 153, 153);
 }
 a.tagcloud-later {
-  color: #99f;
+  color: rgb(51, 153, 153);
 }
 a.tagcloud-latest {
-  color: #00f;
+  color: rgb(51, 153, 153);
 }

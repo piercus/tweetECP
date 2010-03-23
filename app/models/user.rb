@@ -173,8 +173,9 @@ class User < ActiveRecord::Base
 			# See comments about frienships relations to more information about f structure
 			  [f[:friend],f[:friend].screen_name,f[:weight]*factor]
 		  }
-		}	
-	end 
+		}
+	end
+	
 	def get_best_tags(n,factor = 1)
 	  return recommand(:get_best_tags,:get_best_users,n,factor){
 		  self.relations.collect{|r|
@@ -255,17 +256,20 @@ class User < ActiveRecord::Base
 		  Friendship.add_new(self,u,"follow")
 		}
 	end
+	
   def add_address(users,tweet_ref)#correspond to the @ in tweet, call in tweet.rb
 	  #here self adress a tweet to users
 		users.each{|u|
 		  Friendship.add_new(u,self,"address",tweet_ref)
 		}
 	end
+	
 	def add_followings(users)
 	  users.each{|u|
 		  Friendship.add_new(u,self,"follow")
 		}
 	end
+	
 	## III.1 getters, ask links between users	
 	
 	#  NB : 

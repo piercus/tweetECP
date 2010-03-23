@@ -170,9 +170,10 @@ TagCloud.Effector.CountSize.prototype.suffix = function (suffix) {
   return this;
 }
 
+// FONCTION QUI REGLE LA TAILLE DES ELEMENST DU TAGCLOUD
 TagCloud.Effector.CountSize.prototype.affect = function (tags) {
-  var maxFontSize = this.baseFontSize + this.fontSizeRange;
-  var minFontSize = this.baseFontSize - this.fontSizeRange;
+  var maxFontSize = 2*(this.baseFontSize) + (this.fontSizeRange);
+  var minFontSize = 2*(this.baseFontSize) - (this.fontSizeRange);
   if (minFontSize < 0) minFontSize = 0;
   var range = maxFontSize - minFontSize;
   var min = null;
@@ -199,7 +200,7 @@ TagCloud.Effector.DateTimeColor = function() {
     earlier:  'tagcloud-earlier',
     later:    'tagcloud-later',
     latest:   'tagcloud-latest'
-  };
+  }
 }
 
 TagCloud.Effector.DateTimeColor.prototype.setClass = function (classes) {

@@ -14,11 +14,10 @@
 
 #sidebar {
 	margin:2px; padding:2px;
-	width: 30%;
+	width: 35%;
 	height:auto;
 	float:left;
-	border-right:solid;
-	border-right-width:1px;
+	border-right:solid; border-right-width:1px; border-right-color: rgb(191, 191, 191);
 	padding-right:20px;
 }
 
@@ -45,9 +44,8 @@
 }
 
 #recent_tweets {
-	border-top:solid;
-	border-top-width:1px;
-	padding-top:25px; margin-top:25px;
+	border-top:solid; border-top-width:1px; padding-top:25px; margin-top:25px; border-top-color: rgb(191, 191, 191);
+	border-bottom:solid; border-bottom-width:1px; padding-bottom:25px; border-bottom-color: rgb(191, 191, 191);
 	width:100%;
 	height:auto;
 	float:left;
@@ -60,27 +58,29 @@
 	float:left;
 }
 
+#premium_content {
+	height:300px;
+	width:100%;
+	border-top:solid; border-top-width:1px; padding-top:20px; border-top-color: rgb(191, 191, 191);
+}
+
 #last_links {
-	border-bottom:solid;
-	border-bottom-width:1px;
-	padding-bottom:20px;
+	height:140px;
+	border-top:solid; border-top-width:1px; padding-top:20px; border-top-color: rgb(191, 191, 191);
 }
 
 #tags {
-	margin-top:20px;
 	width:48%;
-	height:150px;
+	height:auto;
 	float:left;
 	text-align: center;
-	border-right:solid;
-	border-right-width:1px;
+	border-right:solid; border-right-width:1px; border-right-color: rgb(191, 191, 191);
 	padding-right:20px;
 }
 
 #users {
-	padding-top:20px;
 	width:48%;
-	height:150px;
+	height:auto;
 	float:left;
 	text-align: center;
 }
@@ -92,12 +92,12 @@ body {
 
 a {
 	text-decoration: none;
-	color: rgb(51, 153, 153);
+	color: black;
 }
 
 a:hover {
 	text-decoration: none;
-	color:black;
+	color: rgb(255, 144, 154);
 }
 
 .user_followers {
@@ -118,15 +118,11 @@ a:hover {
 }
 
 .text:hover {
-	color:rgb(51, 153, 153);
+	color: rgb(51, 153, 153);
 }
 
 #main_title {
 	font-size: 3em;
 	font-family:Georgia;
 	font-weight: bold;
-}
-
-img {
-	
 }
