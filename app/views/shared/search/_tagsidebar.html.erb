@@ -1,3 +1,15 @@
 <div id="recent_tweets">
-azerty
+	<div class="section_title">Last Tweets</div><br>
+	<% if !tagsidebar.last_tweets(5).nil? %>
+		<% tagsidebar.last_tweets(5).each{|t| %>
+		
+			<div class="author"><%= t.user.screen_name -%></div>
+			<div class="text"><%= t.text -%></div>
+			<div class="date">on <%= t.t_date -%></div>
+			
+		<% } %>
+	<% else %>
+	  No Tweet in the database
+	<% end %>
+
 </div>
