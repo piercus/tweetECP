@@ -27,11 +27,11 @@ module Recommandation
 				recos.concat(more_reco)
 			end
 			
-			# Delete the dname doubles
+			# Delete the dname doubles and delete self itself
 			recosU = []
 			keys = recos.collect{|x| x[1]}.uniq
 			recos.each{|r|
-			  if keys.include? r[1]
+			  if keys.include? r[1] 
 				  recosU.push(r)
 					keys.delete(r[1])
 				end

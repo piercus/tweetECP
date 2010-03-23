@@ -1,6 +1,6 @@
 
 class Tag < ActiveRecord::Base
-	belongs_to :link
+  validates_uniqueness_of :word
 	has_many :relations
 	require File.dirname(__FILE__) + '/moduleRecommandations'
 	include Recommandation
@@ -16,7 +16,19 @@ class Tag < ActiveRecord::Base
 			t.save!
 	  }
 	end
-	
+	def self.clean_up
+	self.all.each{|t|
+	  if t.word.split.size > 1
+		  tags = t.word.split
+			ls = t.links
+			ls.each{|l|
+			  Relation.build(tags,l)
+			}
+			t.relations.delete
+			t.delete
+		end
+	}
+	end
 	
 	def self.pageRank(n)
 	  tags = self.all
@@ -34,9 +46,10 @@ class Tag < ActiveRecord::Base
 
   	}
 		max_value = 0
-		list.each{|i|
-		  if i > max_value
-			  max_value = i
+		list.each_pair{|i,value|
+		  
+		  if !list[i].nil? && list[i] > max_value
+			  max_value = list[i]
 			end
 		}
 		list.each_pair{|key,value|
@@ -99,7 +112,7 @@ class Tag < ActiveRecord::Base
 	end	
 	def get_best_tags(n, factor = 1)
 	  return recommand(:get_best_tags,:get_best_users,n,factor){
-		 self.links.collect{|l| l.tags }.flatten.collect{|t| [t,t.word,t.weight*factor];}
+		 self.links.collect{|l| l.tags }.flatten.compact.collect{|t| [t,t.word,t.weight*factor];}
 		}
 	end
 

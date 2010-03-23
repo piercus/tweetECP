@@ -43,8 +43,27 @@ class User < ActiveRecord::Base
   	end
 
 	  # Takes a list of twitter users and return a list of users in database
-  	def self.set_users_from_twitter_users(twitter_users)
-  	  twitter_users.collect{|u| self.set_user_from_twitter(u) }
+  	def self.set_users_from_twitter_users(twitter_users,n = nil)
+		  total_count = 0
+			twitter_users.each{|u| total_count += u["followers_count"]}
+  	  
+			twitter_users.collect{|u| 
+			  if n != nil
+			    prob = u["followers_count"].to_f/total_count*n
+			    if (prob > rand )
+			      self.set_user_from_twitter(u)
+				  else
+					  user = User.find_by_dname(u["name"])
+					  if User.find_by_dname(u["name"])
+					    nil
+						else
+						  
+						end
+					end
+				else
+				  self.set_user_from_twitter(u)
+				end
+			}.compact
   	end
 
 	  # Takes a list of names and return a list of users in database
@@ -59,7 +78,12 @@ class User < ActiveRecord::Base
   		}
   		return localUsers
   	end
-
+    def self.add_followers_to_each
+		  users = self.all
+			users.each{|u|
+			  u.get_more_users(1,3)
+			}
+		end
     ########################################################################
     # A. II. Finder Methods
     #   
@@ -154,8 +178,8 @@ class User < ActiveRecord::Base
 	def get_best_tags(n,factor = 1)
 	  return recommand(:get_best_tags,:get_best_users,n,factor){
 		  self.relations.collect{|r|
-			  [r.tag,r.tag.word,(r.weight || r.get_weight)*factor]
-		  }
+			  (r.tag.nil? ? nil : [r.tag,r.tag.word,(r.weight || r.get_weight)*factor])
+		  }.compact
 		}
 	end
 	
@@ -176,21 +200,24 @@ class User < ActiveRecord::Base
 	def get_followers
 		HTTParty.get('http://api.twitter.com/1/statuses/followers.json', :query => {:user_id => twitter_id })
 	end	
-	
+	def get_following
+		HTTParty.get('http://api.twitter.com/1/statuses/friends.json', :query => {:user_id => twitter_id })
+	end		
 	########################################################################
 	# II.2 Process to take elements from the web
 	
-	def get_more_users(l=1)
+	def get_more_users(l=1,n = nil)
 	  #u is a User in the database
 		#l is the level of recursivity
 		if l != 0
       #call the API
-			fws = self.get_followers
-			#from the API objects create databases objects         
-	    users = User.set_users_from_twitter_users(fws)
-      self.add_followers(users)
+			#fws = self.get_followers
+			fi = self.get_following
+			#from the API objects create databases objects   
+	    users = User.set_users_from_twitter_users(fi,n)
+      self.add_followings(users)
 	    users.each{|f|
-			  f.get_more_users(l-1)
+			  f.get_more_users(l-1, n)
 			}
 		end
 		return users
@@ -204,6 +231,7 @@ class User < ActiveRecord::Base
 		    	  tweet = Tweet.create(:twitter_id =>twit["id"].to_i, :text => twit["text"], :t_date => twit["created_at"], :user_id => self.id)
 				  # On récupère les liens depuis les tweets
 				  tweet.load_links
+				  tweet.load_arobases
 			  end
 			else
 			  puts "Problem with the following twit in get_tweets : \n"+twit.inspect 

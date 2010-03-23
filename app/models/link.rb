@@ -122,7 +122,16 @@ class Link < ActiveRecord::Base
 			# App ID : X18HmG7k
 	
 			api = Delicious::API.new(key,secret)
-			response = api.suggest!(original)
+			begin
+			  response = api.suggest!(original)
+			rescue => e
+			  if e.to_s == "token_expired"
+				  self.delicioused = false
+					value = `lib/rmToken.sh`
+					puts value
+					return []
+				end
+			end
 			resp = response.body
 			
 			doc = REXML::Document.new(resp)
