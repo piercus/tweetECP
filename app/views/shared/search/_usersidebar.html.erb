@@ -1,0 +1,26 @@
+<div id="user_info">
+	<div id="pic">
+		<img src="/images/profile_pic.jpg" height="100" width="100">
+	</div>
+	<div id="info">
+		<strong><%= usersidebar.name -%></strong><br>
+
+		<i><%= usersidebar.description -%></i><br><br>
+		<span class="user_following"><%= usersidebar.nfollowers -%></span> followers<br>
+		<span class="user_followers"><%= usersidebar.nfollowing -%></span> following<br>
+		<a href="http://www.twitter.com/<%=usersidebar.screen_name-%>"> ☞ follow <%= usersidebar.screen_name -%> on twitter</a>
+	</div>
+</div>
+<div id="recent_tweets">
+	<div class="section_title">Last Tweets</div><br>
+	<% if !usersidebar.last_tweets(5).nil? %>
+		<% usersidebar.last_tweets(5).each{|t| %>
+			<div class="text"><%= t.text -%></div>
+			<div class="date">on <%= t.t_date -%></div>
+		<% } %>
+	<% else %>
+	  No Tweet in the database
+	<% end %>
+
+</div>
+

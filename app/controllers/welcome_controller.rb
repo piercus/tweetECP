@@ -15,12 +15,12 @@ class WelcomeController < ApplicationController
 			return false
 		end
 	end
+	
   def index	       
 	  url = url_for(:controller => "welcome", :action => "search", :type => "valueuser", :id_user => "scobleizer")
-  
-	 @input = {"tags" => {"web" => [10,""], "music" => [20,""], "politics" => [20,""], "sports" => [20,""]}, "users" => {"loic" => [20,""], "scobleizer" => [20,url], "jalove" => [20,""], "thaven" => [20,""]} }.to_json
-
+	  @input = {"tags" => {"web" => [10,""], "music" => [20,""], "politics" => [20,""], "sports" => [20,""]}, "users" => {"loic" => [20,""], "scobleizer" => [20,url], "jalove" => [20,""], "thaven" => [20,""]} }.to_json
   end
+  
   def autocomplete
     return false if !params[:query]
 		like = params[:query].concat("%")
@@ -36,8 +36,8 @@ class WelcomeController < ApplicationController
 				return false
 		end
     @input = {
- 		   "users" => form_obj(@object.get_best_users(10,4)),
-		   "tags" => form_obj(@object.get_best_tags(10,4))
+ 		   "users" => form_obj(@object.get_best_users(10,2)),
+		   "tags" => form_obj(@object.get_best_tags(10,2))
 		}.to_json    
   end
   

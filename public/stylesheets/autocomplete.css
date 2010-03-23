@@ -1,5 +1,4 @@
 .yui-ac-container .yui-ac-content {
-border:solid black 1px;
 background-color:white;
 }
 .yui-ac-container li{
@@ -2273,11 +2272,11 @@ left:5px;
 background-position:0 -1044px;
 left:5px;
 }
-.yui-skin-sam .yui-toolbar-container .yui-toolbar-insertunorderedlist span.yui-toolbar-icon {
+.yui-skin-sam .yui-toolbar-container .yui-toolbar-insertunborderedlist span.yui-toolbar-icon {
 background-position:0 -468px;
 left:5px;
 }
-.yui-skin-sam .yui-toolbar-container .yui-toolbar-insertorderedlist span.yui-toolbar-icon {
+.yui-skin-sam .yui-toolbar-container .yui-toolbar-insertborderedlist span.yui-toolbar-icon {
 background-position:0 -504px;
 left:5px;
 }
@@ -4384,11 +4383,11 @@ left:5px;
 background-position:0 -1044px;
 left:5px;
 }
-.yui-skin-sam .yui-toolbar-container .yui-toolbar-insertunorderedlist span.yui-toolbar-icon {
+.yui-skin-sam .yui-toolbar-container .yui-toolbar-insertunborderedlist span.yui-toolbar-icon {
 background-position:0 -468px;
 left:5px;
 }
-.yui-skin-sam .yui-toolbar-container .yui-toolbar-insertorderedlist span.yui-toolbar-icon {
+.yui-skin-sam .yui-toolbar-container .yui-toolbar-insertborderedlist span.yui-toolbar-icon {
 background-position:0 -504px;
 left:5px;
 }
