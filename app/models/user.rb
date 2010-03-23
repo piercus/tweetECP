@@ -100,8 +100,14 @@ class User < ActiveRecord::Base
   					list[u.id.to_s][:hub] +=  list[f[:friend].id.to_s][:auth]
   				}
   			}				
-  			puts list.inspect		
+
   		}
+			list.each_pair{|key,value|
+			  u = self.find(key)
+				u.auth = value[:auth]
+				u.hubs = value[:hub]
+				u.save
+			}
       return list
   	end
 
@@ -131,7 +137,7 @@ class User < ActiveRecord::Base
   def links
 	  self.tweets.collect{|t| t.links}.flatten.compact
 	end
-	
+
 	########################################################################
 	# I.2 : getters for the recommamndation system, the function recommand is in the module Recommandation, 
 	# the whole recommandation system is based on this function

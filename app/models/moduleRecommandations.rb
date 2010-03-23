@@ -55,4 +55,5 @@ module Recommandation
 	 return  self.links || []
 	end
 
+
 end

@@ -1,4 +1,6 @@
-
+<% if flash[:notice] -%>
+	<div id="notice"><%= flash[:notice] %></div>
+<% end %>
 
 
 <div class="form_left">
@@ -8,6 +10,7 @@
 	</div>
 
 </div>
+
 
 <div class="form_right">
 <br>or<br><br>
