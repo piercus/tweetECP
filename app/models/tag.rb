@@ -2,6 +2,9 @@
 class Tag < ActiveRecord::Base
   validates_uniqueness_of :word
 	has_many :relations
+	before_create :find_flickr_photo
+	require 'flickr_fu'
+	
 	require File.dirname(__FILE__) + '/moduleRecommandations'
 	include Recommandation
 	############################################################################
@@ -24,8 +27,12 @@ class Tag < ActiveRecord::Base
 			ls.each{|l|
 			  Relation.build(tags,l)
 			}
-			t.relations.delete
+			t.relations.delete_all
 			t.delete
+		end
+		if t.pic_url.nil? && !t.word.blank? && t.word.size > 3
+		  t.find_flickr_photo
+			t.save
 		end
 	}
 	end
@@ -135,7 +142,14 @@ class Tag < ActiveRecord::Base
 	def set_rareness
 		self.rareness = (User.all.length/self.weight).to_i
 	end
-	
-
+		#################################################
+	# III. Flickr Methods
+	#   
+	##############################################
+	def find_flickr_photo
+	  flickr = Flickr.new(File.join(RAILS_ROOT, 'config', 'flickr.yml'))
+		flis =flickr.photos.search(:tags => self.word)
+    self.pic_url = flis[1].url
+	end
 end
 
