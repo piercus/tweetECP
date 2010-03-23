@@ -4,7 +4,11 @@ class Tag < ActiveRecord::Base
 	has_many :relations
 	require File.dirname(__FILE__) + '/moduleRecommandations'
 	include Recommandation
-	
+	############################################################################
+
+                      # PART A : Class Methods
+
+############################################################################
 	
 	def self.set_weight
 	  self.all.each{|t|
@@ -13,6 +17,42 @@ class Tag < ActiveRecord::Base
 	  }
 	end
 	
+	
+	def self.pageRank(n)
+	  tags = self.all
+  	list = {}
+  	tags.each{|t|
+  		  list[t.id.to_s] = 1
+  	}
+  	n.times {
+  		tags.each{|t|
+  			t.closest.each{|f|
+  				list[t.id.to_s] +=  list[f.id.to_s]*f.weight
+  			}
+  		}
+		
+
+  	}
+		max_value = 0
+		list.each{|i|
+		  if i > max_value
+			  max_value = i
+			end
+		}
+		list.each_pair{|key,value|
+		    
+				t = self.find(key)
+				t.rank= value*1000/max_value.
+				t.save
+		}
+    return list
+	end
+	
+############################################################################
+
+                      # PART B : Instance Methods
+
+############################################################################
 	#################################################
 	# I. Naming and alias Methods 
 	#   
@@ -23,7 +63,8 @@ class Tag < ActiveRecord::Base
 	  return word
 	end
 	def self.find_by_dname_like(key)
-	  self.find(:all,:conditions => ["word like ?", key.concat("%")])
+	  tags = self.find(:all,:conditions => ["word like ?", key.concat("%")], :order => "weight DESC")
+		return (tags.size>10 ? tags[O..10] : tags)
 	end
 	def self.find_by_dname(key)
 	  return self.find_by_word(key)
@@ -32,7 +73,10 @@ class Tag < ActiveRecord::Base
 	def tweets
 	  self.links.collect{|l| l.tweet}
 	end
-	
+		# Returns the closest tags
+	def closest
+	  self.get_best_tags(30,0.1).collect{|a| a[0]}
+	end
 	def links 
 		return self.relations.collect{|r| r.links }.flatten
 	end

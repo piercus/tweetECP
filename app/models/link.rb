@@ -38,6 +38,15 @@ class Link < ActiveRecord::Base
 			end
 			return orig_uri
 		end
+		
+		#############################################
+		# Function to get original link from a mini link
+		#
+		# Links are often not available and it's a hazardous process with some loss in the database
+		# We make specific coding for most common problems,
+		#Errors are logs in the standard output (server console) 
+		# That's why we make a lot of rescue loop, but this loop should be implemented in a proper way
+		
   	def get_original_link
 	    # dans le cas ou le lien est raccourci (if taille du lien < 30 caractères), récupèrer le lien original
 	
