@@ -5,7 +5,7 @@
 	margin-right:20px;
 	background: #f4f5f5 url("http://mootools.net//assets/images/gradient.png") repeat-x top;
 	padding:10px;
-	height:550px;
+	height:auto;
 }
 
 #object {
@@ -16,9 +16,9 @@
 	margin:2px; padding:2px;
 	width: 35%;
 	height:auto;
-	float:left;
 	border-right:solid; border-right-width:1px; border-right-color: rgb(191, 191, 191);
 	padding-right:20px;
+	float:left;
 }
 
 #user_info {
@@ -38,7 +38,7 @@
 
 #info {
 	margin:2px; padding:2px;
-	width:60%;
+	width:auto;
 	height:auto;
 	float:left;
 }
@@ -65,7 +65,7 @@
 }
 
 #last_links {
-	height:140px;
+	height:180px;
 	border-top:solid; border-top-width:1px; padding-top:20px; border-top-color: rgb(191, 191, 191);
 }
 

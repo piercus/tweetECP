@@ -220,6 +220,7 @@ TagCloud.Effector.DateTimeColor.prototype.affect = function (tags) {
     if (max == null || max < epoch)
       max = epoch;
   }
+
   var calculator = new TagCloud.Calculator(min, max, 3);
   for (var j = 0; j < tags.length; j++) {
     var tag   = tags[j];

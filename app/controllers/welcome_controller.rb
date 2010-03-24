@@ -36,8 +36,8 @@ class WelcomeController < ApplicationController
 				return false
 		end
     @input = {
- 		   "users" => form_obj(@object.get_best_users(20,2)),
-		   "tags" => form_obj(@object.get_best_tags(20,2))
+ 		   "users" => form_obj(@object.get_best_users(10,2)),
+		   "tags" => form_obj(@object.get_best_tags(10,2))
 		}.to_json    
   end
   
