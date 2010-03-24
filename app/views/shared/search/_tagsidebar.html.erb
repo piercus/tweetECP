@@ -1,9 +1,21 @@
+<div id="tag_info">
+	<div id="pic">
+		<img src="<%= tagsidebar.pic_url %>" height="100" width="100">
+	</div>
+	<div id="info">
+		<strong><%= tagsidebar.word -%></strong><br>
+		Rank : <span class="tag_rank"><%= tagsidebar.rank -%></span> / 1000<br>
+	</div>
+</div>
+
 <div id="recent_tweets">
 	<div class="section_title">Last Tweets</div><br>
 	<% if !tagsidebar.last_tweets(5).nil? %>
 		<% tagsidebar.last_tweets(5).each{|t| %>
 		
-			<div class="author"><%= t.user.screen_name -%></div>
+			<div class="author">
+			
+			<%= t.user.screen_name -%></div>
 			<div class="text"><%= t.text -%></div>
 			<div class="date">on <%= t.t_date -%></div>
 			

@@ -15,7 +15,7 @@ class Friendship < ActiveRecord::Base
   # 	Global setter to create friendships
 
 	def self.add_new(ut,uf,friendType, value = nil)
-
+  
 	 if !TYPES.include?(friendType)
 	    puts "Problem with the type of the frienship,"
 	    puts friendType
@@ -37,7 +37,10 @@ class Friendship < ActiveRecord::Base
 			f.value = value
 			f.save!
 		end
+		puts "added Friendship from User id :"+uf.id.to_s+" & User id :"+ut.id.to_s+"  friendType :"+friendType 
+	  f.save!
 	 end
+
 	 return f
   end
 	

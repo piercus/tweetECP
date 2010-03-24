@@ -7,6 +7,23 @@ class Link < ActiveRecord::Base
     has_and_belongs_to_many :relations
 		validates_uniqueness_of :tweet_id
 		
+		
+		###########################
+		#
+		#       A. Class Methods
+		#
+		###########################
+
+		#  Generalization
+
+
+	  def self.get_references
+		  self.all.each{|l|
+			  l.get_reference
+			}
+		end
+	
+		
     def self.get_delicious_tags
 		  puts "[info]Try to get Delicious Tags of all the links in database"
 		  #get all delicious tags
@@ -16,9 +33,7 @@ class Link < ActiveRecord::Base
 			}
 			return count
 		end
-	  def tags
-		  return self.relations.collect{|r| r.tag }.uniq
-	  end
+		
     def self.get_original_links
 		  puts "[info]Try to get Original Links all the links in the database"
 		  #get all the original links
@@ -27,7 +42,31 @@ class Link < ActiveRecord::Base
 				l.get_original_link if l.original.blank?
 			}
 			return count
+		end		
+		
+		# clean_up
+		def self.clean_up
+      self.get_reference
+			
 		end
+		
+		
+		###########################
+		#
+		#       A. Instance Method
+		#
+		###########################		
+		
+		
+		
+		
+		
+	  def tags
+		  return self.relations.collect{|r| r.tag }.uniq
+	  end
+		
+		
+
 		def parse_mini_url(url)#put this in a library
 			require 'open-uri'
 		  page = open(self.url, "User-Agent" => "Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.2.2pre) Gecko/20100130 Ubuntu/8.10 (intrepid) Namoroka/3.6.2pre")
@@ -75,7 +114,7 @@ class Link < ActiveRecord::Base
 									self.original = self.parse_mini_url(self.url)
 									self.save
 						else
-						  puts "[Error]Problem with to get original link : "+e.to_s+"\nWith the link (id :"+self.id.to_s+ ") see the logs for more informations"
+						  puts "[info]Problem with to get original link : "+e.to_s+"\nWith the link (id :"+self.inspect+ ") see the logs for more informations"
 							logger.info self.inspect
 							return false
 						end
@@ -91,21 +130,19 @@ class Link < ActiveRecord::Base
 			end
 			return self.original
 		end	
-		def self.get_references
-		  self.all.each{|l|
-			  l.get_reference
-			}
-		end
+		
 		def get_reference
+      self.delete if self.url.nil?
 		  self.get_original_link if self.original.blank?
 			link = Link.find(:first,:conditions => ["original = ?",self.original])
-			if !link.nil?
+			if link.id != self.id
 				  self.reference = link
 			end
       self.save!
 		  return self.reference
   	end
-  	def get_delicious_tags
+  	
+		def get_delicious_tags
 		  return self.tags if self.delicioused
 			# récupèrer les tags associés aux lien "original" auprès de delicious
 	
@@ -126,10 +163,8 @@ class Link < ActiveRecord::Base
 			  response = api.suggest!(original)
 			rescue => e
 			  if e.to_s == "token_expired"
-				  self.delicioused = false
-					value = `lib/rmToken.sh`
-					puts value
-					return []
+          puts "[error] You must delete the files access_token.yml and requset_token.yml" 
+					raise e
 				end
 			end
 			resp = response.body

@@ -30,58 +30,83 @@ class User < ActiveRecord::Base
 
 	  # Takes a twitter user, creates the user in the database, and retrieve its tweets (get_tweets)
     def self.set_user_from_twitter(twitter_user) 
-  	  if twitter_user.kind_of?(Hash)
-  			user = User.find(:first, :conditions => ["screen_name = ? OR twitter_id = ?",twitter_user["screen_name"],twitter_user["id"]])
-  			if !user
-  				user = User.create!( :screen_name => twitter_user["screen_name"] ,:name => twitter_user["name"] , :twitter_id => twitter_user["id"], :nfollowers => twitter_user["followers_count"], :nfollowing => twitter_user["friends_count"], :description => twitter_user["description"], :location => twitter_user["location"])
-  			  user.get_tweets
-  			end
-  			return user
-  		else
-  		  puts "[Error] Problem with the following user in set_user_from_twitter: \n"+twitter_user.inspect 
-  		end
+  	  
+			#verify the type Hash
+			raise "[Error] Problem with the following user in set_user_from_twitter: \n"+twitter_user.inspect+"The input must be a Hash\n" if !twitter_user.kind_of?(Hash)
+			
+			
+  	  userF = User.find(:first, :conditions => ["screen_name = ? OR twitter_id = ?",twitter_user["screen_name"],twitter_user["id"]])
+			# debug puts "[debug, user.b l.35]"+userF.nil?.to_s
+			if userF.nil?
+			  
+				begin
+					userF = User.create!( :screen_name => twitter_user["screen_name"] ,:name => twitter_user["name"] , :twitter_id => twitter_user["id"], :nfollowers => twitter_user["followers_count"], :nfollowing => twitter_user["friends_count"], :description => twitter_user["description"], :location => twitter_user["location"])
+				rescue => e
+					puts "[error] While getting the following user :"+twitter_user["screen_name"]+"\nTestValue :"+(userF.nil?).to_s+"\nUser :"+userF.inspect+"\nIn object :"+twitter_user.inspect
+					raise e
+				end
+				userF.save!
+				userF.get_tweets
+			end
+			return userF
+
   	end
 
 	  # Takes a list of twitter users and return a list of users in database
   	def self.set_users_from_twitter_users(twitter_users,n = nil)
 		  total_count = 0
-			twitter_users.each{|u| total_count += u["followers_count"]}
+			 
+			twitter_users.each{|u| 
+			  if u.kind_of?(Hash) && u["followers_count"].kind_of?(Integer)
+			    total_count += u["followers_count"]
+        else
+				  puts "[info] Problem with the following user:"+u.to_s+" that should have followers"
+				end
+				
+			}
   	  
+			
 			twitter_users.collect{|u| 
-			  if n != nil
-			    prob = u["followers_count"].to_f/total_count*n
-			    if (prob > rand )
-			      self.set_user_from_twitter(u)
-				  else
-					  user = User.find_by_dname(u["name"])
-					  if User.find_by_dname(u["name"])
-					    nil
-						else
-						  
-						end
+				if n != nil
+				  #We don't parse each user by just those with lot of followers
+					prob = u["followers_count"].to_f/total_count*n
+					if (prob > rand )
+					  puts "[info] here is a lucky friend ("+u["screen_name"]+") for prob:"+prob.to_s
+						self.set_user_from_twitter(u)
+					else
+						user = User.find_by_dname(u["name"])
 					end
 				else
-				  self.set_user_from_twitter(u)
+					self.set_user_from_twitter(u)
 				end
 			}.compact
   	end
 
 	  # Takes a list of names and return a list of users in database
-  	def self.set_users_from_name(users)
+  	def self.set_users_from_name(users,n=1)
   		require 'twitter'
   		localUsers = []
 
   		users.each{|u|
-  		  twitter_user = Twitter.user(u)
-  			localU = self.set_user_from_twitter(twitter_user)
-  			localUsers.push(localU)
+			  if n
+  		    twitter_user = Twitter.user(u)
+  			  localU = self.set_user_from_twitter(twitter_user)
+  			  localUsers.push(localU)
+				else
+				  localU = self.find_by_dname(u)
+					localUsers.push(localU) if localU
+				end
   		}
   		return localUsers
   	end
-    def self.add_followers_to_each
+    def self.add_followers_to_each(n = 3,start = 0)
 		  users = self.all
+			if start > 0 && start < users.size
+			  users = users[start..-1]
+			end
 			users.each{|u|
-			  u.get_more_users(1,3)
+			  friends = u.get_more_users(1,n)
+				#puts "[info] id:"+u.id+" name:"+u.screen_name +" friends:"+friends.count
 			}
 		end
     ########################################################################
@@ -103,7 +128,11 @@ class User < ActiveRecord::Base
   	# Test to use the algorithm for recommandations of google : Hubs and Authority
   	# http://en.wikipedia.org/wiki/HITS_algorithm
     ########################################################################
-
+		
+	  def self.reco_best(n=10)
+	    best = self.all.sort{|x,y| ( y.auth.nil? ? -1 : ( x.auth.nil? ? 1 : y.auth <=> x.auth))}
+		  return best[0..n].collect{|b| [b,b.dname,rand*10.to_i]}
+	  end
   	def self.HubsAndAuthority(n)
   	  users = self.all
   		list = {}
@@ -173,9 +202,8 @@ class User < ActiveRecord::Base
 			# See comments about frienships relations to more information about f structure
 			  [f[:friend],f[:friend].screen_name,f[:weight]*factor]
 		  }
-		}
-	end
-	
+		}	
+	end 
 	def get_best_tags(n,factor = 1)
 	  return recommand(:get_best_tags,:get_best_users,n,factor){
 		  self.relations.collect{|r|
@@ -209,6 +237,7 @@ class User < ActiveRecord::Base
 	
 	def get_more_users(l=1,n = nil)
 	  #u is a User in the database
+		#n is the number we want to had 
 		#l is the level of recursivity
 		if l != 0
       #call the API
@@ -216,6 +245,7 @@ class User < ActiveRecord::Base
 			fi = self.get_following
 			#from the API objects create databases objects   
 	    users = User.set_users_from_twitter_users(fi,n)
+			self.save!
       self.add_followings(users)
 	    users.each{|f|
 			  f.get_more_users(l-1, n)
@@ -228,12 +258,17 @@ class User < ActiveRecord::Base
 		twits = self.user_timeline(:id => self.twitter_id)
 		twits.each {|twit|
 		  if twit.kind_of?(Hash)#debug because we find tweets like ["request", "/statuses/user_timeline.json?id=46259780"]
-			  if !Tweet.find(:first, :conditions => ["twitter_id = ?",twit["id"]])#On vérifie la non existence du twit
-		    	  tweet = Tweet.create(:twitter_id =>twit["id"].to_i, :text => twit["text"], :t_date => twit["created_at"], :user_id => self.id)
-				  # On récupère les liens depuis les tweets
-				  tweet.load_links
-				  tweet.load_arobases
-			  end
+				if !Tweet.find(:first, :conditions => ["twitter_id = ?",twit["id"].to_s])#On vérifie la non existence du twit
+				   begin
+		    	  Tweet.create(:twitter_id =>twit["id"].to_s, :text => twit["text"], :t_date => twit["created_at"], :user_id => self.id)
+			     rescue => e
+					   puts "[info]Problem in Tweet.create :"+e.to_s+". It occur in user : "+self.id.to_s
+						 if e.to_s == "token_expired"
+						   raise e
+						 end
+						 #to debug puts "[error]"+e.to_s+"\n in user"+self.id.to_s+" with following twit :"+twit.inspect+"\nid :"+twit["id"].to_s+"\ntext :"+twit["text"].to_s+"\ncreated_at :"+twit["created_at"].to_s
+					 end
+				end
 			else
 			  puts "Problem with the following twit in get_tweets : \n"+twit.inspect 
 			end
@@ -256,20 +291,17 @@ class User < ActiveRecord::Base
 		  Friendship.add_new(self,u,"follow")
 		}
 	end
-	
   def add_address(users,tweet_ref)#correspond to the @ in tweet, call in tweet.rb
 	  #here self adress a tweet to users
 		users.each{|u|
 		  Friendship.add_new(u,self,"address",tweet_ref)
 		}
 	end
-	
 	def add_followings(users)
 	  users.each{|u|
 		  Friendship.add_new(u,self,"follow")
 		}
 	end
-	
 	## III.1 getters, ask links between users	
 	
 	#  NB : 

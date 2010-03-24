@@ -16,9 +16,13 @@ class WelcomeController < ApplicationController
 		end
 	end
 	
-  def index	       
+  def index	  
+	     
 	  url = url_for(:controller => "welcome", :action => "search", :type => "valueuser", :id_user => "scobleizer")
-	  @input = {"tags" => {"web" => [10,""], "music" => [20,""], "politics" => [20,""], "sports" => [20,""]}, "users" => {"loic" => [20,""], "scobleizer" => [20,url], "jalove" => [20,""], "thaven" => [20,""]} }.to_json
+	  @input = {
+			"tags" => form_obj(Tag.reco_best(10)), 
+			"users" => form_obj(User.reco_best(10))
+		}.to_json
   end
   
   def autocomplete
@@ -36,14 +40,19 @@ class WelcomeController < ApplicationController
 				return false
 		end
     @input = {
- 		   "users" => form_obj(@object.get_best_users(20,2)),
-		   "tags" => form_obj(@object.get_best_tags(20,2))
+ 		   "users" => form_obj(@object.get_best_users(20,2),@object),
+		   "tags" => form_obj(@object.get_best_tags(20,2),@object)
 		}.to_json    
   end
   
-	def form_obj(recos)
+	def form_obj(recos,object_avoid = false)
 			  out = {}
-				recos.each{|r| out[r[1]] = [r[2], get_url(r[0])] }
+				recos.each{|r| 
+				  if !object_avoid || r[1] != object_avoid.dname #avoid recommand itself
+					  out[r[1]] = [r[2], get_url(r[0])] 
+				  end
+				}
+						
 				return out
 	end
   
