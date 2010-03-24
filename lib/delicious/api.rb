@@ -21,9 +21,6 @@ module Delicious
     end
     def suggest!(url)
       response = @access_token.get('/v2/posts/suggest', {:url => url})
-
-      puts response.inspect
-      response
     end
     def posts_add!(parameters)
       response = @access_token.get('/v2/posts/add', parameters)

@@ -36,7 +36,10 @@ class Tag < ActiveRecord::Base
 		end
 	}
 	end
-	
+	def self.reco_best(n=10)
+	  best = self.all.sort{|x,y| y.rank  <=> x.rank}
+		return best.collect{|b| (b.dname.size > 5 ? [b,b.dname,rand*10.to_i] : nil)}.compact[0..n]
+	end
 	def self.pageRank(n)
 	  tags = self.all
   	list = {}
@@ -45,25 +48,25 @@ class Tag < ActiveRecord::Base
   	}
   	n.times {
   		tags.each{|t|
-  			t.closest.each{|f|
-  				list[t.id.to_s] +=  list[f.id.to_s]*f.weight
+  			t.links.each{|f|
+  				list[t.id.to_s] +=  list[f.id.to_s].to_i
   			}
   		}
-		
 
-  	}
-		max_value = 0
-		list.each_pair{|i,value|
-		  
-		  if !list[i].nil? && list[i] > max_value
-			  max_value = list[i]
-			end
+  	
+		  max_value = 0
+		  list.each_pair{|i,value|  
+		    if !list[i].nil? && list[i] > max_value
+			    max_value = list[i]
+			  end
+		  }
+			tags.each{|t|
+  		  list[t.id.to_s] = list[t.id.to_s]*100/max_value
+  	  }
 		}
-		list.each_pair{|key,value|
-		    
-				t = self.find(key)
-				t.rank= value*1000/max_value.
-				t.save
+		tags.each{|t|
+				t.rank = list[t.id.to_s]*t.weight
+				t.save		
 		}
     return list
 	end
@@ -95,7 +98,7 @@ class Tag < ActiveRecord::Base
 	end
 		# Returns the closest tags
 	def closest
-	  self.get_best_tags(30,0.1).collect{|a| a[0]}
+	  self.links.collect{|l| l.tags }.flatten.compact.collect{|t| t}
 	end
 	def links 
 		return self.relations.collect{|r| r.links }.flatten
@@ -119,7 +122,7 @@ class Tag < ActiveRecord::Base
 	end	
 	def get_best_tags(n, factor = 1)
 	  return recommand(:get_best_tags,:get_best_users,n,factor){
-		 self.links.collect{|l| l.tags }.flatten.compact.collect{|t| [t,t.word,t.weight*factor];}
+		 self.links.collect{|l| l.tags }.flatten.compact.collect{|t| [t,t.word,t.weight*factor*(t.rank+1)];}
 		}
 	end
 
@@ -148,8 +151,21 @@ class Tag < ActiveRecord::Base
 	##############################################
 	def find_flickr_photo
 	  flickr = Flickr.new(File.join(RAILS_ROOT, 'config', 'flickr.yml'))
-		flis =flickr.photos.search(:tags => self.word)
-    self.pic_url = flis[1].url
+		begin
+		  flis =flickr.photos.search(:tags => self.word)
+		rescue => e
+		  puts "[Error]Error with the flick'r API, Go through : "+self.inspect
+			return
+		end 
+		if flis[1].nil?
+		 return 
+		end
+		begin
+      self.pic_url = flis[1].url
+		rescue => e
+		  puts "[Error]Error with the save of the url comming from twitter api, Go through : "+flis[1].inspect
+			return
+		end
 	end
 end
 
