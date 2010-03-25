@@ -22,7 +22,6 @@ class User < ActiveRecord::Base
     # Methods which takes elements from the Twitter API
     ########################################################################
     
-    # ___ DEPRECIATED ___ #
     # U is a name of twitter account (screen_name), this method can be used to debug in console
     def self.get_twitter_user_from_name(u)
   	  return Twitter.user(u)
@@ -40,7 +39,7 @@ class User < ActiveRecord::Base
 			if userF.nil?
 			  
 				begin
-					userF = User.create!( :screen_name => twitter_user["screen_name"] ,:name => twitter_user["name"] , :twitter_id => twitter_user["id"], :nfollowers => twitter_user["followers_count"], :nfollowing => twitter_user["friends_count"], :description => twitter_user["description"], :location => twitter_user["location"])
+					userF = User.create!( :screen_name => twitter_user["screen_name"] ,:name => twitter_user["name"] , :twitter_id => twitter_user["id"], :nfollowers => twitter_user["followers_count"], :nfollowing => twitter_user["friends_count"], :pic_url => twitter_user["profile_image_url"], :description => twitter_user["description"], :location => twitter_user["location"])
 				rescue => e
 					puts "[error] While getting the following user :"+twitter_user["screen_name"]+"\nTestValue :"+(userF.nil?).to_s+"\nUser :"+userF.inspect+"\nIn object :"+twitter_user.inspect
 					raise e
@@ -99,6 +98,8 @@ class User < ActiveRecord::Base
   		}
   		return localUsers
   	end
+		
+		#function to uniformise the database
     def self.add_followers_to_each(n = 3,start = 0)
 		  users = self.all
 			if start > 0 && start < users.size
@@ -163,7 +164,47 @@ class User < ActiveRecord::Base
 			}
       return list
   	end
+    ########################################################################
+  	# A. III. Cleanup
+  	#   
+    ########################################################################
 
+    def self.clean_up
+		  #params of my network
+			ipEnd = 125
+			ipStart = 110
+			ipRadical = "138.195.153."
+			file = "sudo ./script/changeIP.sh "
+
+      #twitter parameter
+			maxRequest = 140
+			
+			ip = ipStart
+			n = 0
+			User.all.each{|u|
+			# add a pic_url to each
+			   if !u.pic_url
+					 if n > maxRequest
+						 cmd = file+ipRadical+n.to_s
+						 chg = %x[#{cmd}]
+						 puts chg
+						 n = 0
+						 ip += 1
+					 end
+					 if ip > ipEnd
+						 return "not arrived to the end"
+					 end
+					 begin
+					   u.get_pic_url				
+					 rescue => e
+					   puts u.inspect+"\n----------------------\n"+e.inspect
+					 end
+					 n += 1
+					end
+			}
+			return "ok"
+			
+		end
 
 ############################################################################
 
@@ -190,7 +231,16 @@ class User < ActiveRecord::Base
   def links
 	  self.tweets.collect{|t| t.links}.flatten.compact
 	end
-
+	
+	#Get the pic_url to fill database
+  def get_pic_url
+	  if !self.pic_url
+		  twit_u = User.get_twitter_user_from_name(self.screen_name)
+			puts twit_u
+			self.pic_url = twit_u["profile_image_url"]
+			self.save!
+		end
+	end
 	########################################################################
 	# I.2 : getters for the recommamndation system, the function recommand is in the module Recommandation, 
 	# the whole recommandation system is based on this function

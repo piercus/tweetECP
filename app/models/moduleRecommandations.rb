@@ -51,8 +51,9 @@ module Recommandation
 	end
 	
 	def last_links(n = 5)  
-	 return  self.links[-n..-1] if n < self.links.size
-	 return  self.links || []
+	 ls = self.links.collect{|l| (l.original.nil? ? nil: [l.original,l.description])}.compact.uniq
+	 return  ls[-n..-1] if n < ls.size
+	 return  ls || []
 	end
 
 

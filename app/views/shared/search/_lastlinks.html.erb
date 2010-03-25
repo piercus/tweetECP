@@ -1,9 +1,15 @@
 <div class="section_title">Last links tweeted</div><br>
 
 <% if !lastlinks.nil? %>
-
+      
+      <div class="description title">Description</div>
+      <div class="url title">URL</div>
+			<div class="h_line"></div>
   <% lastlinks.each{|l| %>
-	<div class="text"> ➟ <a href="<%=l.original%>"><%= l.original -%></a></div>
+	  <div class="link_line">
+      <div class="description"><%if l[1]%><a href="<%=l[0]%>"><%= l[1][0..40] -%></a><%else%><div class="no-ref">No description :</div><% end %></div>
+      <div class="url"><a href="<%=l[0]%>"><%= l[0][0..40] -%></a></div>
+		</div>
   <% } %>
 <%else%>
 Pas de liens dans la base de données

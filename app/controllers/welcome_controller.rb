@@ -17,12 +17,12 @@ class WelcomeController < ApplicationController
 	end
 	
   def index	  
-	     
-	  url = url_for(:controller => "welcome", :action => "search", :type => "valueuser", :id_user => "scobleizer")
-	  @input = {
+	     	  
+		@input = {
 			"tags" => form_obj(Tag.reco_best(10)), 
 			"users" => form_obj(User.reco_best(10))
 		}.to_json
+		
   end
   
   def autocomplete
@@ -40,8 +40,8 @@ class WelcomeController < ApplicationController
 				return false
 		end
     @input = {
- 		   "users" => form_obj(@object.get_best_users(20,2),@object),
-		   "tags" => form_obj(@object.get_best_tags(20,2),@object)
+ 		   "users" => form_obj(@object.get_best_users(10,2),@object),
+		   "tags" => form_obj(@object.get_best_tags(10,2),@object)
 		}.to_json    
   end
   

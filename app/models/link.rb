@@ -22,7 +22,21 @@ class Link < ActiveRecord::Base
 			  l.get_reference
 			}
 		end
-	
+		
+		#recommend the last links in the database
+	  def self.reco(n)
+		 recos = []
+		 self.all{|l|
+		   if !l.original.nil? && !l.description.nil?
+			   recos.push([l.original,l.description])
+			 end
+			 recos = recos.uniq
+			 if recos.size > n
+			   return recos
+			 end
+		 }
+		 return recos
+		end
 		
     def self.get_delicious_tags
 		  puts "[info]Try to get Delicious Tags of all the links in database"
@@ -207,6 +221,21 @@ class Link < ActiveRecord::Base
 			Relation.build(tags, self,1)	
 			return tags
 		end	
-  		
+  	
+  	def get_description_from_meta
+			require 'nokogiri'
+      require 'open-uri'
+			begin
+			  doc = Nokogiri::HTML(open(self.original))
+			rescue
+			  puts "[error] with the link "+self.inspect+"\nReturn no tags" 
+		    return []
+		  end
+			balise = doc.xpath('//meta[@name=\'description\']')[0]
+			return [] if balise.nil? 
+			text = balise.attributes["content"].content
+			self.description = text
+			self.save!
+		end	
 				
 	end
