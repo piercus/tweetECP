@@ -59,7 +59,7 @@ body {
 
 .mod_users {
 	vertical-align:middle;
-	width : 32.5%;
+	width : 45%;
 	height : 200px;
 	float: left;
 	text-align: center;
@@ -68,17 +68,16 @@ body {
 
 .mod_tags {
 	vertical-align:middle;
-	width : 32.5%;
+	width : 45%;
 	height : 200px;
 	float: left;
 	text-align: center;
 	margin-right: 10px;
-	border-right:solid; border-right-width:1px; border-right-color: rgb(191, 191, 191);
 }
 
 .mod_links {
 	vertical-align:middle;
-	width : 32.5%;
+	width : 0%;
 	height : 200px;
 	float: left;
 	text-align: center;
