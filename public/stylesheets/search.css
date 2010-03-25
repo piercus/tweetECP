@@ -113,6 +113,10 @@ a:hover {
 	font-size: 0.8em;
 }
 
+.author {
+	font-weight: bold;
+}
+
 .text {
 	color:black ;
 }

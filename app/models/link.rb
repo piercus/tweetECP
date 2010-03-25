@@ -190,6 +190,7 @@ class Link < ActiveRecord::Base
 			  self.get_tags_from_meta
 			end
 		end
+		
   	def get_tags_from_meta
 		  return self.tags if !self.delicioused
 			require 'nokogiri'
@@ -208,5 +209,21 @@ class Link < ActiveRecord::Base
 			return tags
 		end	
   		
+		def get_description_from_meta
+		  return self.tags if !self.delicioused
+			require 'nokogiri'
+      require 'open-uri'
+			begin
+			  doc = Nokogiri::HTML(open(self.original))
+			rescue
+			  puts "[error] with the link "+self.inspect+"\nReturn no description" 
+		    return []
+		  end
+			balise = doc.xpath('//meta[@name=\'description\']')[0]
+			return [] if balise.nil? 
+			text = balise.attributes["content"].content
+      puts text
+		end
+				
 				
 	end

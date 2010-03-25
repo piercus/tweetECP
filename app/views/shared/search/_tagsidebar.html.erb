@@ -3,7 +3,7 @@
 		<img src="<%= tagsidebar.pic_url %>" height="100" width="100">
 	</div>
 	<div id="info">
-		<strong><%= tagsidebar.word -%></strong><br>
+		<strong><%= tagsidebar.word -%></strong><br><br>
 		Rank : <span class="tag_rank"><%= tagsidebar.rank -%></span> / 1000<br>
 	</div>
 </div>
@@ -13,9 +13,7 @@
 	<% if !tagsidebar.last_tweets(5).nil? %>
 		<% tagsidebar.last_tweets(5).each{|t| %>
 		
-			<div class="author">
-			
-			<%= t.user.screen_name -%></div>
+			via <a href="http://www.twitter.com/<%= t.user.screen_name -%>"><span class="author">@<%= t.user.screen_name -%></span></a>
 			<div class="text"><%= t.text -%></div>
 			<div class="date">on <%= t.t_date -%></div>
 			
