@@ -3,8 +3,7 @@ class Tag < ActiveRecord::Base
   validates_uniqueness_of :word
 	has_many :relations
 	before_create :find_flickr_photo
-	
-	require 'flickr_fu'
+	#require 'flickr_fu'
 	
 	require File.dirname(__FILE__) + '/moduleRecommandations'
 	include Recommandation
