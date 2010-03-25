@@ -62,10 +62,13 @@
 	height:300px;
 	width:100%;
 	border-top:solid; border-top-width:1px; padding-top:20px; border-top-color: rgb(191, 191, 191);
+  margin-top:20px;
 }
 
 #last_links {
+
 	height:180px;
+
 	border-top:solid; border-top-width:1px; padding-top:20px; border-top-color: rgb(191, 191, 191);
 }
 
@@ -129,4 +132,39 @@ a:hover {
 	font-size: 3em;
 	font-family:Georgia;
 	font-weight: bold;
+}
+#last_links .description{
+width:50%;
+float:left;
+overflow:hidden;
+border-right:1px solid #BFBFBF;
+float:left;
+margin-right:30px;
+text-align:center;
+}
+#last_links .url{
+overflow:hidden;
+width:40%;
+}
+#last_links .no-ref{
+color:grey;
+text-align:center;
+}
+#last_links .url a{
+color:blue;
+float:left;
+}
+#last_links .description a{
+color:blue;
+}
+#last_links .h_line{
+width:100%;
+border-top : 1px solid #BFBFBF;
+margin-bottom:5px;
+}
+#last_links .title{
+text-align:center;
+font-weight:bold;
+margin-top:5px;
+margin-bottom:2px;
 }

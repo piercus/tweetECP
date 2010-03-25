@@ -22,7 +22,21 @@ class Link < ActiveRecord::Base
 			  l.get_reference
 			}
 		end
-	
+		
+		#recommend the last links in the database
+	  def self.reco(n)
+		 recos = []
+		 self.all{|l|
+		   if !l.original.nil? && !l.description.nil?
+			   recos.push([l.original,l.description])
+			 end
+			 recos = recos.uniq
+			 if recos.size > n
+			   return recos
+			 end
+		 }
+		 return recos
+		end
 		
     def self.get_delicious_tags
 		  puts "[info]Try to get Delicious Tags of all the links in database"
@@ -225,5 +239,6 @@ class Link < ActiveRecord::Base
       puts text
 		end
 				
+
 				
 	end
