@@ -1,6 +1,6 @@
 <div class="section_title">Last links tweeted</div><br>
 
-<% if !lastlinks.nil? %>
+<% if !(lastlinks.size == 0) %>
       
       <div class="description title">Description</div>
       <div class="url title">URL</div>
@@ -12,6 +12,6 @@
 		</div>
   <% } %>
 <%else%>
-Pas de liens dans la base de données
+<div class="no-ref">Pas de liens dans la base de données</div>
 <%end %>
 
